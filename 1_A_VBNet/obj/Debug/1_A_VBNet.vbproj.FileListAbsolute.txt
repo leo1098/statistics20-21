@@ -1,0 +1,12 @@
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\bin\Debug\1_A_VBNet.exe.config
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\bin\Debug\1_A_VBNet.exe
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\bin\Debug\1_A_VBNet.pdb
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\bin\Debug\1_A_VBNet.xml
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.vbprojAssemblyReference.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\_1_A_VBNet.Form1.resources
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\_1_A_VBNet.Resources.resources
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.vbproj.GenerateResource.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.vbproj.CoreCompileInputs.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.exe
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.xml
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_VBNet\obj\Debug\1_A_VBNet.pdb

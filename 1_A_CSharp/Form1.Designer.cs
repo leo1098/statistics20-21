@@ -32,6 +32,7 @@
             this.textBox = new System.Windows.Forms.RichTextBox();
             this.putTextButton = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // clearTextButton
@@ -77,11 +78,23 @@
     "xt.\nMove the mouse in and out of the Textbox to\n change the background color eve" +
     "ry time :).\n";
             // 
+            // listBox1
+            // 
+            this.listBox1.AllowDrop = true;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 20;
+            this.listBox1.Location = new System.Drawing.Point(62, 198);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(120, 84);
+            this.listBox1.TabIndex = 4;
+            // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(757, 364);
+            this.ClientSize = new System.Drawing.Size(804, 379);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.putTextButton);
             this.Controls.Add(this.textBox);
@@ -98,6 +111,7 @@
         private System.Windows.Forms.RichTextBox textBox;
         private System.Windows.Forms.Button putTextButton;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
