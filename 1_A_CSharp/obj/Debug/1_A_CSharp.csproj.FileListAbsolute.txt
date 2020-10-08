@@ -1,0 +1,10 @@
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\bin\Debug\1_A_CSharp.exe.config
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\bin\Debug\1_A_CSharp.exe
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\bin\Debug\1_A_CSharp.pdb
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\1_A_CSharp.csprojAssemblyReference.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\_1_A_CSharp.Form1.resources
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\_1_A_CSharp.Properties.Resources.resources
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\1_A_CSharp.csproj.GenerateResource.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\1_A_CSharp.csproj.CoreCompileInputs.cache
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\1_A_CSharp.exe
+C:\Users\guest 2\source\repos\leo1098\statistics20-21\1_A_CSharp\obj\Debug\1_A_CSharp.pdb
