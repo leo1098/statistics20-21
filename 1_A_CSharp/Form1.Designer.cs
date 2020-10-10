@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.clearTextButton = new System.Windows.Forms.Button();
             this.textBox = new System.Windows.Forms.RichTextBox();
             this.putTextButton = new System.Windows.Forms.Button();
@@ -37,9 +38,10 @@
             // 
             // clearTextButton
             // 
-            this.clearTextButton.Location = new System.Drawing.Point(51, 131);
+            this.clearTextButton.Location = new System.Drawing.Point(45, 105);
+            this.clearTextButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clearTextButton.Name = "clearTextButton";
-            this.clearTextButton.Size = new System.Drawing.Size(114, 41);
+            this.clearTextButton.Size = new System.Drawing.Size(101, 33);
             this.clearTextButton.TabIndex = 0;
             this.clearTextButton.Text = "Clear Text";
             this.clearTextButton.UseVisualStyleBackColor = true;
@@ -48,9 +50,10 @@
             // textBox
             // 
             this.textBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox.Location = new System.Drawing.Point(277, 40);
+            this.textBox.Location = new System.Drawing.Point(246, 32);
+            this.textBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(365, 132);
+            this.textBox.Size = new System.Drawing.Size(407, 106);
             this.textBox.TabIndex = 1;
             this.textBox.Text = "";
             this.textBox.MouseEnter += new System.EventHandler(this.textBox_MouseEnter);
@@ -58,9 +61,10 @@
             // 
             // putTextButton
             // 
-            this.putTextButton.Location = new System.Drawing.Point(51, 40);
+            this.putTextButton.Location = new System.Drawing.Point(45, 32);
+            this.putTextButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.putTextButton.Name = "putTextButton";
-            this.putTextButton.Size = new System.Drawing.Size(114, 43);
+            this.putTextButton.Size = new System.Drawing.Size(101, 34);
             this.putTextButton.TabIndex = 2;
             this.putTextButton.Text = "Put Text";
             this.putTextButton.UseVisualStyleBackColor = true;
@@ -69,36 +73,41 @@
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Location = new System.Drawing.Point(277, 198);
+            this.richTextBox1.Location = new System.Drawing.Point(246, 158);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(365, 109);
+            this.richTextBox1.Size = new System.Drawing.Size(407, 88);
             this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "Press on the \'Put Text\' and \'Clear Text\' buttons to\n add or remove some sample te" +
-    "xt.\nMove the mouse in and out of the Textbox to\n change the background color eve" +
-    "ry time :).\n";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // listBox1
             // 
             this.listBox1.AllowDrop = true;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Location = new System.Drawing.Point(62, 198);
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Items.AddRange(new object[] {
+            "Drag and Drop a file here..."});
+            this.listBox1.Location = new System.Drawing.Point(246, 260);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 84);
+            this.listBox1.Size = new System.Drawing.Size(407, 84);
             this.listBox1.TabIndex = 4;
+            this.listBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox1_DragDrop);
+            this.listBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox1_DragEnter);
             // 
             // Form1
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 379);
+            this.ClientSize = new System.Drawing.Size(715, 395);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.putTextButton);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.clearTextButton);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "1_A C#";
             this.ResumeLayout(false);

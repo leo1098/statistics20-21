@@ -43,5 +43,22 @@ namespace _1_A_CSharp
             // Reset original color when mouse leaves
             this.textBox.BackColor = Color.White;
         }
+
+        private void listBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void listBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            int i;
+            for (i = 0; i < s.Length; i++)
+                listBox1.Items.Add(s[i]);
+            
+        }
     }
 }
