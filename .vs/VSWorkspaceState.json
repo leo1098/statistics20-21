@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\2_A_CSharp"
+    "\\1_A_VBNet",
+    "\\1_A_VBNet\\My Project",
+    "\\2_A_CSharp",
+    "\\2_A_VBNet",
+    "\\2_A_VBNet\\My Project"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\2_A_CSharp\\MyInt.cs",
   "PreviewInSolutionExplorer": false
 }
