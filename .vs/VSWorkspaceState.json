@@ -1,12 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\1_A_VBNet",
-    "\\1_A_VBNet\\My Project",
-    "\\2_A_CSharp",
-    "\\2_A_VBNet",
-    "\\2_A_VBNet\\My Project"
+    "\\4_A_CSharp",
+    "\\5_A"
   ],
-  "SelectedNode": "\\2_A_CSharp\\MyInt.cs",
+  "SelectedNode": "\\5_A\\Form1.cs",
   "PreviewInSolutionExplorer": false
 }

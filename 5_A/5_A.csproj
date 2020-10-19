@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{023B631C-1940-4476-A549-C20BE8B0148B}</ProjectGuid>
+    <ProjectGuid>{308F9F35-FD8E-4937-A9E5-66E0ED341627}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>_4_A_CSharp</RootNamespace>
-    <AssemblyName>4_A_CSharp</AssemblyName>
+    <RootNamespace>_5_A</RootNamespace>
+    <AssemblyName>5_A</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -53,7 +53,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrequencyItem.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

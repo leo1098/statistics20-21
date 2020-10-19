@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace _4_A_CSharp
+namespace _5_A
 {
     public partial class Form1 : Form
     {
@@ -36,7 +36,7 @@ namespace _4_A_CSharp
         {
             // computation of online arithmetic mean
             this.richTextBox2.Clear();
-            double OnlineMean = computeOnlineMean(ListOfAthletes.Select((Athlete a) => (double)a.Age).ToList()); // Passing a list of ages as doubles
+            double OnlineMean = computeOnlineMean(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList()); // Passing a list of ages as doubles
             this.richTextBox2.AppendText("________________________" + nl);
             this.richTextBox2.AppendText("Arithmetic Mean: " + OnlineMean.ToString(".##") + nl);
         }
@@ -46,17 +46,11 @@ namespace _4_A_CSharp
 
             this.richTextBox3.Clear();
             // computing and printing frequency distribution
-            SortedDictionary<int, FrequencyItem> FrequencyDistribution;
-            FrequencyDistribution = computeDiscreteFrequencyDistribution(ListOfAthletes.Select((Athlete a) => a.Age).ToList()); // Passing a list of ages as integers
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = computeDiscreteFrequencyInterval(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList());
 
-            // computing with intervals
-            List<Interval> FrequencyDistribution2 = new List<Interval>();
-            FrequencyDistribution2 = computeDiscreteFrequencyInterval(ListOfAthletes.Select((Athlete a) => a.Age).ToList());
+            printFrequencyDistributionInterval(FrequencyDistribution);
 
-            printFrequencyDistributionInterval(FrequencyDistribution2);
-            
-
-            //printFrequencyDistribution(FrequencyDistribution);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -72,11 +66,11 @@ namespace _4_A_CSharp
         }
 
         // ------------ FUNCTIONS -----------
-        private List<Interval> computeDiscreteFrequencyInterval(List<int> L)
+        private List<Interval> computeDiscreteFrequencyInterval(List<double> L)
         {
             // define starting point and step
-            int StartingPoint = 50;
-            int Step = 5;
+            double StartingPoint = 3.0;
+            double Step = 1.0;
             List<Interval> ListOfIntervals = new List<Interval>();
 
             // Crate and insert first interval
@@ -161,40 +155,21 @@ namespace _4_A_CSharp
             int MinAge = 20;
             int MaxAge = 65;
 
-            // Instantiate Age
+            // finishing time in hours
+            double MinFinishingTime = 2.0;
+            double MaxFinishingTime = 8.0;
+
+            // Instantiate Athlete
             Athlete a = new Athlete();
             a.Age = r.Next(MinAge, MaxAge);
+            a.FinishingTime = MinFinishingTime + (MaxFinishingTime - MinFinishingTime) * r.NextDouble();
 
             // Add item to list
             L.Add(a);
 
             // Print into the TextBox
-            this.richTextBox1.AppendText(($"Athlete {L.Count}").PadRight(20) + ("Age " + a.Age).PadRight(20) + nl);
+            this.richTextBox1.AppendText(($"Athlete {L.Count}").PadRight(20) + ("Time: " + a.FinishingTime.ToString("#.##")).PadRight(20) + nl);
 
-        }
-
-        private List<Athlete> generateDatasetAthletes(int numOfAthletes)
-        {
-            // List to be returned
-            List<Athlete> L = new List<Athlete>();
-            int MinAge = 18;
-            int MaxAge = 65;
-
-            // Populate the List
-            for (int i = 0; i < numOfAthletes; i++)
-            {
-                // Instantiate Age
-                Athlete a = new Athlete();
-                a.Age = r.Next(MinAge, MaxAge);
-
-                // Add item to list
-                L.Add(a);
-
-                // Print into the TextBox
-                this.richTextBox1.AppendText(("Athlete " + (i + 1)).PadRight(20) + ("Age " + a.Age).PadRight(20) + nl);
-            }
-
-            return L;
         }
 
         private double computeOnlineMean(List<double> L)
@@ -213,45 +188,23 @@ namespace _4_A_CSharp
             return avg;
         }
 
-        private SortedDictionary<int, FrequencyItem> computeDiscreteFrequencyDistribution(List<int> ListOfUnits)
-        {
-            // Frequency Distribution to be returned
-            SortedDictionary<int, FrequencyItem> FreqDistr = new SortedDictionary<int, FrequencyItem>();
-
-            foreach (var d in ListOfUnits)
-            {
-                // if the element in the list is already being counted, i increment the counter
-                if (FreqDistr.ContainsKey(d))
-                {
-                    FreqDistr[d].Count += 1;
-                }
-                // otherwise i create the element in the dictionary
-                else
-                {
-                    FreqDistr.Add(d, new FrequencyItem());
-                }
-            }
-
-            // updating relative frequencies and percentages
-            foreach (var Item in FreqDistr.Values)
-            {
-                Item.RelativeFrequency = Item.Count / (double)ListOfUnits.Count;
-                Item.Percentage = Item.RelativeFrequency * 100;
-            }
-
-            return FreqDistr;
-        }
 
         private void printFrequencyDistributionInterval(List<Interval> L)
         {
-            this.richTextBox3.AppendText("Age Range".PadRight(16) + "Num".PadRight(16) + "Rel Freq".PadRight(16) + "Perc".PadRight(16));
             double tot = 0;
             int count = 0;
+
+            this.richTextBox3.AppendText("Finishing time".PadRight(16) +
+                                            "Num of Ath".PadRight(16) +
+                                            "Rel Freq".PadRight(16) +
+                                            "Perc".PadRight(16) + nl);
+            this.richTextBox3.AppendText("_______________________" + nl);
+
             foreach (var I in L)
             {
-                this.richTextBox3.AppendText($"[{I.LowerInclusiveBound} - " +
-                    $"{I.LowerInclusiveBound + I.Step}]".PadRight(16) +
-                    $"{I.Count}".PadRight(16) + 
+                this.richTextBox3.AppendText($"[{I.LowerInclusiveBound}h - " +
+                    $"{I.LowerInclusiveBound + I.Step}h]  --> ".PadRight(16) +
+                    $"{I.Count}".PadRight(16) +
                     $"{I.RelativeFrequency:0.##}".PadRight(16) +
                     $"{I.Percentage:##.##} %".PadRight(16) + nl);
                 tot += I.RelativeFrequency;
@@ -261,23 +214,5 @@ namespace _4_A_CSharp
             this.richTextBox3.AppendText($"Total units: {count}");
         }
 
-        private void printFrequencyDistribution(SortedDictionary<int, FrequencyItem> F)
-        {
-            this.richTextBox3.Clear();
-            this.richTextBox3.AppendText("________________________" + nl);
-            this.richTextBox3.AppendText("Age  Count  Rel  Per" + nl);
-
-            double tot = 0;
-            foreach (var Item in F)
-            {
-                this.richTextBox3.AppendText($"{Item.Key} -- " +
-                    $"{Item.Value.Count} -- " +
-                    $"{Item.Value.RelativeFrequency:0.###} -- " +
-                    $"{Item.Value.Percentage:.##} %" + nl);
-
-                tot += Item.Value.RelativeFrequency;
-            }
-            this.richTextBox3.AppendText($"Sum of relative frequencies: {tot}" + nl);
-        }
     }
 }
