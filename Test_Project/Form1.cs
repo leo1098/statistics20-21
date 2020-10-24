@@ -20,15 +20,7 @@ namespace Test_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double N1 = 1E100;
-            this.richTextBox1.AppendText($"N1 before adding : {N1}" + nl);
-
-            for (int i = 0; i < 1E9; i++)
-            {
-                N1 += 1;
-                // this.richTextBox1.AppendText($"N1 after adding : {N1}" + nl);
-            }
-            this.richTextBox1.AppendText($"N1 after adding : {N1}" + nl);
+            
         }
     }
 }

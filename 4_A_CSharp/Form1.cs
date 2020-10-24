@@ -120,7 +120,7 @@ namespace _4_A_CSharp
                             ListOfIntervals.Insert(0, I);
                         }
                     }
-                    else if (d >= ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound)
+                    else if (d >= ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step)
                     {
                         // we keep inserting intervals until one can accept the value
                         while (ValueInserted != true)

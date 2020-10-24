@@ -43,11 +43,14 @@ namespace _5_A
 
         private void button3_Click(object sender, EventArgs e)
         {
+            // define starting point and step
+            double StartingPoint = 3.0;
+            double Step = 1.0;
 
             this.richTextBox3.Clear();
             // computing and printing frequency distribution
             List<Interval> FrequencyDistribution = new List<Interval>();
-            FrequencyDistribution = computeDiscreteFrequencyInterval(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList());
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList(), StartingPoint, Step);
 
             printFrequencyDistributionInterval(FrequencyDistribution);
 
@@ -66,11 +69,9 @@ namespace _5_A
         }
 
         // ------------ FUNCTIONS -----------
-        private List<Interval> computeDiscreteFrequencyInterval(List<double> L)
+        private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
         {
-            // define starting point and step
-            double StartingPoint = 3.0;
-            double Step = 1.0;
+            
             List<Interval> ListOfIntervals = new List<Interval>();
 
             // Crate and insert first interval
@@ -119,9 +120,11 @@ namespace _5_A
                         // we keep inserting intervals until one can accept the value
                         while (ValueInserted != true)
                         {
-                            Interval I = new Interval();
-                            I.LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step;
-                            I.Step = Step;
+                            Interval I = new Interval
+                            {
+                                LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step,
+                                Step = Step
+                            };
 
                             if (I.containsValue(d))
                             {
