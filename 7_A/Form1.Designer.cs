@@ -33,7 +33,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.filenameBox = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.typesTreeView = new System.Windows.Forms.TreeView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // readFileButton
@@ -85,19 +90,65 @@
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             // 
-            // treeView1
+            // typesTreeView
             // 
-            this.treeView1.Location = new System.Drawing.Point(30, 113);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(170, 261);
-            this.treeView1.TabIndex = 6;
+            this.typesTreeView.Location = new System.Drawing.Point(15, 48);
+            this.typesTreeView.Name = "typesTreeView";
+            this.typesTreeView.Size = new System.Drawing.Size(182, 261);
+            this.typesTreeView.TabIndex = 6;
+            this.typesTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.typesTreeView_NodeMouseDoubleClick);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.typesTreeView);
+            this.panel1.Location = new System.Drawing.Point(30, 106);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(294, 396);
+            this.panel1.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(181, 17);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Double Click on Field Name";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Boolean",
+            "Int_32",
+            "Int_64",
+            "Double",
+            "String"});
+            this.comboBox1.Location = new System.Drawing.Point(18, 328);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(179, 24);
+            this.comboBox1.TabIndex = 9;
+            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(120, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "to change its type";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.treeView1);
+            this.ClientSize = new System.Drawing.Size(800, 514);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.filenameBox);
             this.Controls.Add(this.label1);
@@ -105,6 +156,8 @@
             this.Controls.Add(this.readFileButton);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,7 +169,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox filenameBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView typesTreeView;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

@@ -99,7 +99,7 @@ namespace _7_A
                     }
                     // determine data types
 
-
+                    printTypesInTree(ListOfTypes);
 
 
                     // will contains unit of observation
@@ -210,6 +210,39 @@ namespace _7_A
                 }
                 throw new Exception("The File doesn't contain any row with all valid values");
             }
+        }
+
+        private void printTypesInTree(List<TypeInfo> ListOfTypes)
+        {
+            int i = 0;
+            foreach (TypeInfo T in ListOfTypes)
+            {
+                typesTreeView.Nodes.Add(T.Name);
+                typesTreeView.Nodes[i].Nodes.Add("Inferred: " + T.InferredType);
+                typesTreeView.Nodes[i].Nodes.Add("Actual: " + T.ActualType);
+                i++;
+            }
+        }
+
+        private void typesTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            int index;
+            // if a child node is clicked, we retrieve its parent index
+            if (e.Node.Level > 0)
+                index = e.Node.Parent.Index;
+            else
+                index = e.Node.Index;
+
+            this.comboBox1.Enabled = true;
+
+            MessageBox.Show("Select the preferred data type from the combo box");
+            
+        }
+
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
