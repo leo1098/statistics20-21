@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -8,6 +9,17 @@ namespace _7_A
 {
     public partial class Form1 : Form
     {
+        enum dataType
+        {
+            System_EmptyString = -1,
+            System_Boolean = 0,
+            System_Int32 = 1,
+            System_Int64 = 2,
+            System_Double = 3,
+            System_DateTime = 4,
+            System_String = 5
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -64,38 +76,59 @@ namespace _7_A
                     reader.CommentTokens = new string[] { "#" };
                     reader.HasFieldsEnclosedInQuotes = true;
 
-                    // first line contains the column names
+                    bool NamesSuggested = false;
+                    // Types Detected by the program
+                    List < TypeInfo > ListOfTypes = new List<TypeInfo>();
+
+                    // first line could contains the column names
                     string[] ColumnNames = reader.ReadLine().Split(',');
+                    // if they're all strings, they could actually be the names
+                    if (rowIsAllStrings(ColumnNames))
+                    {
+                        string[] FirstFullRow = firstFullRow(FilePath);
+                        // if the second row is NOT all strings, the first row represents the Column Names
+                        if (!rowIsAllStrings(FirstFullRow))
+                        {
+                            // suggest the names read in ColumnNames
+                            NamesSuggested = true;
+                            foreach (string ColumnName in ColumnNames)
+                            {
+                                ListOfTypes.Add(new TypeInfo() { Name = ColumnName });
+                            }
+                        }
+                    }
+                    // determine data types
+
+
+
 
                     // will contains unit of observation
                     List<UnitOfObservation> Units = new List<UnitOfObservation>();
-                    
-                    do
-                    {
-                        string[] Values = reader.ReadFields();
-                        richTextBox1.AppendText(Values.ToString() + nl);
 
-                        // UnitOfObservation U = new UnitOfObservation(Fields[0], Int32.Parse(Fields[1]));
-                        UnitOfObservation U = new UnitOfObservation();
+                    //while (!reader.EndOfData)
+                    //{
+                    //    string[] Values = reader.ReadFields();
+                    //    richTextBox1.AppendText(Values.ToString() + nl);
 
-                        Type UnitType = U.GetType();
-                        FieldInfo[] UnitFields = UnitType.GetFields();
-                        int i = 0;
+                    //    //UnitOfObservation U = new UnitOfObservation(Values[0], Int32.Parse(Values[1]));
+                    //    UnitOfObservation U = new UnitOfObservation();
 
-                        foreach (FieldInfo F in UnitFields)
-                        {
-                            if (!string.IsNullOrWhiteSpace(Values[i]))
-                            {
-                                Object V = Convert.ChangeType(Values[i], F.FieldType);
-                                F.SetValue(U, V);
-                                i += 1;
-                            }
-                        }
-                        Units.Add(U);
+                    //    Type UnitType = U.GetType();
+                    //    FieldInfo[] UnitFields = UnitType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+                    //    int i = 0;
 
-                    } while (!reader.EndOfData);
+                    //    foreach (FieldInfo F in UnitFields)
+                    //    {
+                    //        if (!string.IsNullOrWhiteSpace(Values[i]))
+                    //        {
+                    //            Object V = Convert.ChangeType(Values[i], F.FieldType);
+                    //            F.SetValue(U, V);
+                    //            i += 1;
+                    //        }
+                    //    }
 
-
+                    //    Units.Add(U);
+                    //}
                 }
             }
         }
@@ -118,6 +151,64 @@ namespace _7_A
                     this.filenameBox.Items.Clear();
                     this.filenameBox.Items.Add(filePath);
                 }
+            }
+        }
+
+        private bool rowIsAllStrings(string[] row)
+        {
+            foreach (string value in row)
+                if (ParseString(value) != dataType.System_String) return false;
+
+            return true;
+        }
+
+        private dataType ParseString(string str)
+        {
+
+            bool boolValue;
+            Int32 intValue;
+            Int64 bigintValue;
+            double doubleValue;
+            DateTime dateValue;
+
+            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+                return dataType.System_EmptyString;
+            else if (bool.TryParse(str, out boolValue))
+                return dataType.System_Boolean;
+            else if (Int32.TryParse(str, out intValue))
+                return dataType.System_Int32;
+            else if (Int64.TryParse(str, out bigintValue))
+                return dataType.System_Int64;
+            else if (double.TryParse(str, out doubleValue))
+                return dataType.System_Double;
+            else if (DateTime.TryParse(str, out dateValue))
+                return dataType.System_DateTime;
+            else return dataType.System_String;
+
+        }
+
+        private string[] firstFullRow(string FilePath)
+        {
+            using (TextFieldParser reader = new TextFieldParser(FilePath))
+            {
+                reader.SetDelimiters(new string[] { "," });
+                reader.CommentTokens = new string[] { "#" };
+                reader.HasFieldsEnclosedInQuotes = true;
+
+                //first line
+                string[] ColumnNames = reader.ReadLine().Split(',');
+
+                while (!reader.EndOfData)
+                {
+                    string[] values = reader.ReadFields();
+                    bool Empty = values.Any(v => (string.IsNullOrEmpty(v) || string.IsNullOrWhiteSpace(v)) );
+
+                    if (Empty)
+                        continue;
+                    else
+                        return values;
+                }
+                throw new Exception("The File doesn't contain any row with all valid values");
             }
         }
     }

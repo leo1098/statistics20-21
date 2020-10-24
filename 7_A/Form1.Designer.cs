@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.filenameBox = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // readFileButton
@@ -78,17 +79,25 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(212, 113);
+            this.richTextBox1.Location = new System.Drawing.Point(391, 113);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(457, 261);
+            this.richTextBox1.Size = new System.Drawing.Size(278, 261);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(30, 113);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(170, 261);
+            this.treeView1.TabIndex = 6;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.filenameBox);
             this.Controls.Add(this.label1);
@@ -107,6 +116,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox filenameBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
 
