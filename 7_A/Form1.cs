@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,14 @@ namespace _7_A
         }
 
         string nl = Environment.NewLine;
+        // first line could contains the column names
+        string[] FirstRow;
+        // first row without null values
+        string[] FirstFullRow;
+        // List with types for each column
+        List<TypeInfo> ListOfTypes;
+        // actual dataset
+        List<UnitOfObservation> Units;
 
         private void filenameBox_DragEnter(object sender, DragEventArgs e)
         {
@@ -78,12 +87,12 @@ namespace _7_A
                     bool NamesSuggested = false;
 
                     // Types Detected by the program
-                    List<TypeInfo> ListOfTypes = new List<TypeInfo>();
+                    ListOfTypes = new List<TypeInfo>();
 
                     // first line could contains the column names
-                    string[] FirstRow = reader.ReadLine().Split(',');
+                    FirstRow = reader.ReadLine().Split(',');
                     // first row without null values
-                    string[] FirstFullRow = firstFullRow(FilePath);
+                    FirstFullRow = firstFullRow(FilePath);
 
                     // if first row is all strings and first full row is NOT all strings,
                     // the first line could be the header of the CSV file. I add those strings
@@ -95,21 +104,12 @@ namespace _7_A
                             ListOfTypes.Add(new TypeInfo() { Name = ColumnName });
                     }
 
-                    // the first column was not the header one, i should suggest names based on types
 
                     // determine data types
                     determineDataTypes(FirstFullRow, ListOfTypes, NamesSuggested);
 
 
                     printTypesInTree(ListOfTypes);
-
-                    // determine data types
-                    // determineDataTypes(FirstFullRow, ListOfTypes);
-
-
-
-
-
 
                     // will contains unit of observation
                     // List<UnitOfObservation> Units = new List<UnitOfObservation>();
@@ -154,11 +154,11 @@ namespace _7_A
             for (int i = 0; i < firstFullRow.Length; i++)
             {
                 t = ParseString(firstFullRow[i]);
-                listOfTypes[i].InferredType = t.ToString();
-                // if the name hasn't been suggested, i out a sample name
+                listOfTypes[i].InferredType = listOfTypes[i].ActualType = t.ToString();
+                // if the name hasn't been suggested, put a sample name
                 if (string.IsNullOrEmpty(listOfTypes[i].Name))
                 {
-                    listOfTypes[i].Name = t.ToString() +"_"+ indexes[(int)t];
+                    listOfTypes[i].Name = t.ToString() + "_" + indexes[(int)t];
                     indexes[(int)t]++;
                 }
             }
@@ -246,6 +246,9 @@ namespace _7_A
         private void printTypesInTree(List<TypeInfo> ListOfTypes)
         {
             int i = 0;
+
+            this.typesTreeView.Nodes.Clear();
+
             foreach (TypeInfo T in ListOfTypes)
             {
                 typesTreeView.Nodes.Add(T.Name);
@@ -258,20 +261,98 @@ namespace _7_A
         private void typesTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             this.comboBox1.Enabled = true;
+            int NodeIndex;
+            if (e.Node.Level > 0)
+                NodeIndex = e.Node.Parent.Index;
+            else
+                NodeIndex = e.Node.Index;
 
-            MessageBox.Show("Select the preferred data type from the combo box");
+            this.textBox1.Text = NodeIndex.ToString();
+
+           // MessageBox.Show("Select the preferred data type from the combo box");
         }
 
         private void changeTypeButton_Click(object sender, EventArgs e)
         {
-            int index;
-            // if a child node is clicked, we retrieve its parent index
-            if (this.typesTreeView.SelectedNode.Index > 0)
-                index = this.typesTreeView.SelectedNode.Parent.Index;
-            else
-                index = this.typesTreeView.SelectedNode.Index;
+            bool boolValue;
+            Int32 intValue;
+            Int64 bigintValue;
+            double doubleValue;
+            DateTime dateValue;
+            
+            // cast to integer
+            int.TryParse(textBox1.Text, out int SelectedNodeIndex);
 
-            string SelectedType = this.comboBox1.SelectedItem.ToString();
+            int SelectedType = this.comboBox1.SelectedIndex;
+            string Value = FirstFullRow[SelectedNodeIndex];  // nodes and types are in the same order
+            
+            switch (SelectedType)
+            {
+                case 0:
+                    if (bool.TryParse(Value, out boolValue))
+                    changeType(SelectedNodeIndex, "System_Boolean");
+                    else
+                        MessageBox.Show("Cannot convert to Boolean!", "Error", MessageBoxButtons.OK);
+                    break;
+                case 1:
+                    if (Int32.TryParse(Value, out intValue))
+                        changeType(SelectedNodeIndex, "System_Int32");
+                    else
+                        MessageBox.Show("Cannot convert to Int32!", "Error", MessageBoxButtons.OK);
+                    break;
+                case 2:
+                    if (Int64.TryParse(Value, out bigintValue))
+                        changeType(SelectedNodeIndex, "System_Int64");
+                    else
+                        MessageBox.Show("Cannot convert to Int64!", "Error", MessageBoxButtons.OK);
+                    break;
+                case 3:
+                    if (double.TryParse(Value, out doubleValue))
+                        changeType(SelectedNodeIndex, "System_Double");
+                    else
+                        MessageBox.Show("Cannot convert to Double!", "Error", MessageBoxButtons.OK);
+                    break;
+                case 4:
+                    if (DateTime.TryParse(Value, out dateValue))
+                        changeType(SelectedNodeIndex, "System_DateTime");
+                    else
+                        MessageBox.Show("Cannot convert to DateTime!", "Error", MessageBoxButtons.OK);
+                    break;
+                case 5:
+                    changeType(SelectedNodeIndex, "System_String");
+                    break;
+                default:
+                    throw new Exception("Index not listed!");
+                    break;
+            }
+        }
+
+        private void changeType(int Index, string t)
+        {
+            ListOfTypes[Index].ActualType = t;
+            printTypesInTree(ListOfTypes);
+            MessageBox.Show("Type Changed Successfully");
+        }
+
+        // change name on double click
+        private void typesTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            this.comboBox1.Enabled = true;
+            int NodeIndex;
+            if (e.Node.Level > 0)
+                NodeIndex = e.Node.Parent.Index;
+            else
+                NodeIndex = e.Node.Index;
+
+            this.textBox1.Text = NodeIndex.ToString();
+
+            string NewColumnName = Interaction.InputBox("Insert new name for variable", "New Name");
+            if (!string.IsNullOrEmpty(NewColumnName))
+            {
+                ListOfTypes[NodeIndex].Name = NewColumnName;
+                printTypesInTree(ListOfTypes);
+                MessageBox.Show("Name changed successfully");
+            }
         }
     }
 }
