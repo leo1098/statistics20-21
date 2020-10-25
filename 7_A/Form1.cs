@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace _7_A
@@ -77,33 +76,43 @@ namespace _7_A
                     reader.HasFieldsEnclosedInQuotes = true;
 
                     bool NamesSuggested = false;
+
                     // Types Detected by the program
-                    List < TypeInfo > ListOfTypes = new List<TypeInfo>();
+                    List<TypeInfo> ListOfTypes = new List<TypeInfo>();
 
                     // first line could contains the column names
-                    string[] ColumnNames = reader.ReadLine().Split(',');
-                    // if they're all strings, they could actually be the names
-                    if (rowIsAllStrings(ColumnNames))
+                    string[] FirstRow = reader.ReadLine().Split(',');
+                    // first row without null values
+                    string[] FirstFullRow = firstFullRow(FilePath);
+
+                    // if first row is all strings and first full row is NOT all strings,
+                    // the first line could be the header of the CSV file. I add those strings
+                    // as column names
+                    if (rowIsAllStrings(FirstRow) && !rowIsAllStrings(FirstFullRow))
                     {
-                        string[] FirstFullRow = firstFullRow(FilePath);
-                        // if the second row is NOT all strings, the first row represents the Column Names
-                        if (!rowIsAllStrings(FirstFullRow))
-                        {
-                            // suggest the names read in ColumnNames
-                            NamesSuggested = true;
-                            foreach (string ColumnName in ColumnNames)
-                            {
-                                ListOfTypes.Add(new TypeInfo() { Name = ColumnName });
-                            }
-                        }
+                        NamesSuggested = true;
+                        foreach (string ColumnName in FirstRow)
+                            ListOfTypes.Add(new TypeInfo() { Name = ColumnName });
                     }
+
+                    // the first column was not the header one, i should suggest names based on types
+
                     // determine data types
+                    determineDataTypes(FirstFullRow, ListOfTypes, NamesSuggested);
+
 
                     printTypesInTree(ListOfTypes);
 
+                    // determine data types
+                    // determineDataTypes(FirstFullRow, ListOfTypes);
+
+
+
+
+
 
                     // will contains unit of observation
-                    List<UnitOfObservation> Units = new List<UnitOfObservation>();
+                    // List<UnitOfObservation> Units = new List<UnitOfObservation>();
 
                     //while (!reader.EndOfData)
                     //{
@@ -129,6 +138,28 @@ namespace _7_A
 
                     //    Units.Add(U);
                     //}
+                }
+            }
+        }
+
+        private void determineDataTypes(string[] firstFullRow, List<TypeInfo> listOfTypes, bool namesSuggested)
+        {
+            dataType t;
+            int[] indexes = new int[6]; // holds index for each data type
+
+            if (!namesSuggested)
+                for (int i = 0; i < firstFullRow.Length; i++)
+                    listOfTypes.Add(new TypeInfo() { });
+
+            for (int i = 0; i < firstFullRow.Length; i++)
+            {
+                t = ParseString(firstFullRow[i]);
+                listOfTypes[i].InferredType = t.ToString();
+                // if the name hasn't been suggested, i out a sample name
+                if (string.IsNullOrEmpty(listOfTypes[i].Name))
+                {
+                    listOfTypes[i].Name = t.ToString() +"_"+ indexes[(int)t];
+                    indexes[(int)t]++;
                 }
             }
         }
@@ -201,7 +232,7 @@ namespace _7_A
                 while (!reader.EndOfData)
                 {
                     string[] values = reader.ReadFields();
-                    bool Empty = values.Any(v => (string.IsNullOrEmpty(v) || string.IsNullOrWhiteSpace(v)) );
+                    bool Empty = values.Any(v => (string.IsNullOrEmpty(v) || string.IsNullOrWhiteSpace(v)));
 
                     if (Empty)
                         continue;
@@ -224,25 +255,23 @@ namespace _7_A
             }
         }
 
-        private void typesTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void typesTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            int index;
-            // if a child node is clicked, we retrieve its parent index
-            if (e.Node.Level > 0)
-                index = e.Node.Parent.Index;
-            else
-                index = e.Node.Index;
-
             this.comboBox1.Enabled = true;
 
             MessageBox.Show("Select the preferred data type from the combo box");
-            
         }
 
-
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        private void changeTypeButton_Click(object sender, EventArgs e)
         {
+            int index;
+            // if a child node is clicked, we retrieve its parent index
+            if (this.typesTreeView.SelectedNode.Index > 0)
+                index = this.typesTreeView.SelectedNode.Parent.Index;
+            else
+                index = this.typesTreeView.SelectedNode.Index;
 
+            string SelectedType = this.comboBox1.SelectedItem.ToString();
         }
     }
 }

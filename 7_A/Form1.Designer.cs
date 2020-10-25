@@ -34,11 +34,12 @@
             this.filenameBox = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.typesTreeView = new System.Windows.Forms.TreeView();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.changeTypeButton = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // readFileButton
@@ -92,31 +93,20 @@
             // 
             // typesTreeView
             // 
-            this.typesTreeView.Location = new System.Drawing.Point(15, 48);
+            this.typesTreeView.Location = new System.Drawing.Point(6, 62);
             this.typesTreeView.Name = "typesTreeView";
-            this.typesTreeView.Size = new System.Drawing.Size(182, 261);
+            this.typesTreeView.Size = new System.Drawing.Size(232, 261);
             this.typesTreeView.TabIndex = 6;
-            this.typesTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.typesTreeView_NodeMouseDoubleClick);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.typesTreeView);
-            this.panel1.Location = new System.Drawing.Point(30, 106);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 396);
-            this.panel1.TabIndex = 8;
+            this.typesTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.typesTreeView_NodeMouseClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 4);
+            this.label2.Location = new System.Drawing.Point(6, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(181, 17);
+            this.label2.Size = new System.Drawing.Size(132, 17);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Double Click on Field Name";
+            this.label2.Text = "Click on Field Name";
             // 
             // comboBox1
             // 
@@ -127,28 +117,52 @@
             "Int_32",
             "Int_64",
             "Double",
+            "DateTime",
             "String"});
-            this.comboBox1.Location = new System.Drawing.Point(18, 328);
+            this.comboBox1.Location = new System.Drawing.Point(6, 346);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(179, 24);
+            this.comboBox1.Size = new System.Drawing.Size(232, 24);
             this.comboBox1.TabIndex = 9;
-            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 25);
+            this.label3.Location = new System.Drawing.Point(9, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 17);
             this.label3.TabIndex = 10;
             this.label3.Text = "to change its type";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.changeTypeButton);
+            this.groupBox1.Controls.Add(this.typesTreeView);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(30, 89);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(260, 413);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Column";
+            // 
+            // changeTypeButton
+            // 
+            this.changeTypeButton.Location = new System.Drawing.Point(6, 376);
+            this.changeTypeButton.Name = "changeTypeButton";
+            this.changeTypeButton.Size = new System.Drawing.Size(232, 31);
+            this.changeTypeButton.TabIndex = 11;
+            this.changeTypeButton.Text = "Change Type";
+            this.changeTypeButton.UseVisualStyleBackColor = true;
+            this.changeTypeButton.Click += new System.EventHandler(this.changeTypeButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 514);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.filenameBox);
             this.Controls.Add(this.label1);
@@ -156,8 +170,8 @@
             this.Controls.Add(this.readFileButton);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,10 +184,11 @@
         private System.Windows.Forms.ListBox filenameBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TreeView typesTreeView;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button changeTypeButton;
     }
 }
 
