@@ -10,20 +10,16 @@ using System.Windows.Forms;
 
 namespace Test_Project
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
-        string nl = Environment.NewLine;
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.IsMdiContainer = true;
-            Form Form2 = new Form();
-            Form2.MdiParent = this;
-            Form2.Show();
+            Form1.
         }
     }
 }

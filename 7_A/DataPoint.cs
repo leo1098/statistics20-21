@@ -8,6 +8,7 @@ namespace _7_A
 {
     class DataPoint
     {
-        Dictionary<string, Object> Values;
+        // since i don't know in advance the name and/or types, i use a dictionary
+        Dictionary<string, dynamic> Values;
     }
 }

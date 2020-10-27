@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace _7_A
 {
-    class TypeInfo
+    class ColumnInfo
     {
         public string Name;
-        public string InferredType;
-        public string ActualType;
+        public Type InferredType;
+        public Type ActualType;
     }
 }
