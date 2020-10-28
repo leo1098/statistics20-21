@@ -173,7 +173,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1050, 30);
+            this.textBox1.Location = new System.Drawing.Point(1032, 53);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 26);
             this.textBox1.TabIndex = 12;
@@ -218,7 +218,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(616, 181);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(401, 410);
+            this.dataGridView1.Size = new System.Drawing.Size(653, 410);
             this.dataGridView1.TabIndex = 15;
             // 
             // richTextBox1
@@ -249,7 +249,7 @@
             // 
             // computeMeanButton
             // 
-            this.computeMeanButton.Location = new System.Drawing.Point(19, 59);
+            this.computeMeanButton.Location = new System.Drawing.Point(226, 25);
             this.computeMeanButton.Name = "computeMeanButton";
             this.computeMeanButton.Size = new System.Drawing.Size(201, 37);
             this.computeMeanButton.TabIndex = 19;
@@ -264,16 +264,16 @@
             this.groupBox3.Controls.Add(this.columnsForMeanCombobox);
             this.groupBox3.Location = new System.Drawing.Point(14, 626);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(275, 151);
+            this.groupBox3.Size = new System.Drawing.Size(648, 84);
             this.groupBox3.TabIndex = 20;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Select a field to compute mean";
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(19, 102);
+            this.richTextBox2.Location = new System.Drawing.Point(433, 26);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(201, 33);
+            this.richTextBox2.Size = new System.Drawing.Size(172, 36);
             this.richTextBox2.TabIndex = 20;
             this.richTextBox2.Text = "";
             // 
@@ -281,7 +281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1472, 826);
+            this.ClientSize = new System.Drawing.Size(1472, 719);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.readCSVButton);

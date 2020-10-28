@@ -19,10 +19,12 @@ namespace _7_A
 
         //------------------ USEFUL STUFF-----------------------------------------------
         string nl = Environment.NewLine;
+
         // first line could contains the column names
         string[] FirstRow;
         // first row without null values
         string[] FirstFullRow;
+
         // List with types for each column
         List<ColumnInfo> ListOfColumns;
         // actual dataset
