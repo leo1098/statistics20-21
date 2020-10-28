@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,12 @@ namespace Test_Project
         public Form1()
         {
             InitializeComponent();
+            Graphics dc = this.CreateGraphics();
+            this.Show();
+            Rectangle rect = new Rectangle(50, 30, 100, 100);
+            LinearGradientBrush lBrush = new LinearGradientBrush(rect, Color.Red,
+             Color.Yellow, LinearGradientMode.BackwardDiagonal);
+            dc.FillRectangle(lBrush, rect);
         }
 
         private void button1_Click(object sender, EventArgs e)

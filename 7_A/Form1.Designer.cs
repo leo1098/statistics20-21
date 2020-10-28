@@ -45,9 +45,14 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.columnsForMeanCombobox = new System.Windows.Forms.ComboBox();
+            this.computeMeanButton = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // loadFileButton
@@ -77,7 +82,7 @@
             this.filenameBox.AllowDrop = true;
             this.filenameBox.FormattingEnabled = true;
             this.filenameBox.ItemHeight = 20;
-            this.filenameBox.Location = new System.Drawing.Point(14, 31);
+            this.filenameBox.Location = new System.Drawing.Point(14, 32);
             this.filenameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.filenameBox.Name = "filenameBox";
             this.filenameBox.Size = new System.Drawing.Size(514, 44);
@@ -137,11 +142,11 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(28, 111);
+            this.groupBox1.Location = new System.Drawing.Point(22, 120);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(298, 516);
+            this.groupBox1.Size = new System.Drawing.Size(566, 502);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Column";
@@ -160,7 +165,7 @@
             this.changeTypeButton.Location = new System.Drawing.Point(7, 446);
             this.changeTypeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.changeTypeButton.Name = "changeTypeButton";
-            this.changeTypeButton.Size = new System.Drawing.Size(261, 41);
+            this.changeTypeButton.Size = new System.Drawing.Size(261, 43);
             this.changeTypeButton.TabIndex = 11;
             this.changeTypeButton.Text = "Change Type";
             this.changeTypeButton.UseVisualStyleBackColor = true;
@@ -168,7 +173,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1056, 61);
+            this.textBox1.Location = new System.Drawing.Point(1050, 30);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 26);
             this.textBox1.TabIndex = 12;
@@ -180,7 +185,7 @@
             this.groupBox2.Controls.Add(this.browseFolderButton);
             this.groupBox2.Controls.Add(this.filenameBox);
             this.groupBox2.Controls.Add(this.loadFileButton);
-            this.groupBox2.Location = new System.Drawing.Point(28, 12);
+            this.groupBox2.Location = new System.Drawing.Point(22, 21);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(943, 92);
             this.groupBox2.TabIndex = 13;
@@ -199,7 +204,7 @@
             // 
             // readCSVButton
             // 
-            this.readCSVButton.Location = new System.Drawing.Point(1004, 125);
+            this.readCSVButton.Location = new System.Drawing.Point(651, 122);
             this.readCSVButton.Name = "readCSVButton";
             this.readCSVButton.Size = new System.Drawing.Size(115, 53);
             this.readCSVButton.TabIndex = 14;
@@ -210,38 +215,78 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(622, 189);
+            this.dataGridView1.Location = new System.Drawing.Point(616, 181);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(814, 438);
+            this.dataGridView1.Size = new System.Drawing.Size(401, 410);
             this.dataGridView1.TabIndex = 15;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(365, 141);
+            this.richTextBox1.Location = new System.Drawing.Point(349, 150);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(201, 438);
+            this.richTextBox1.Size = new System.Drawing.Size(201, 441);
             this.richTextBox1.TabIndex = 16;
             this.richTextBox1.Text = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(365, 115);
+            this.label1.Location = new System.Drawing.Point(349, 121);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(162, 20);
             this.label1.TabIndex = 17;
             this.label1.Text = "A full line (for preview)";
             // 
+            // columnsForMeanCombobox
+            // 
+            this.columnsForMeanCombobox.Enabled = false;
+            this.columnsForMeanCombobox.FormattingEnabled = true;
+            this.columnsForMeanCombobox.Location = new System.Drawing.Point(19, 25);
+            this.columnsForMeanCombobox.Name = "columnsForMeanCombobox";
+            this.columnsForMeanCombobox.Size = new System.Drawing.Size(201, 28);
+            this.columnsForMeanCombobox.TabIndex = 18;
+            // 
+            // computeMeanButton
+            // 
+            this.computeMeanButton.Location = new System.Drawing.Point(19, 59);
+            this.computeMeanButton.Name = "computeMeanButton";
+            this.computeMeanButton.Size = new System.Drawing.Size(201, 37);
+            this.computeMeanButton.TabIndex = 19;
+            this.computeMeanButton.Text = "Compute Mean";
+            this.computeMeanButton.UseVisualStyleBackColor = true;
+            this.computeMeanButton.Click += new System.EventHandler(this.computeMeanButton_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.richTextBox2);
+            this.groupBox3.Controls.Add(this.computeMeanButton);
+            this.groupBox3.Controls.Add(this.columnsForMeanCombobox);
+            this.groupBox3.Location = new System.Drawing.Point(14, 626);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(275, 151);
+            this.groupBox3.TabIndex = 20;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Select a field to compute mean";
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(19, 102);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(201, 33);
+            this.richTextBox2.TabIndex = 20;
+            this.richTextBox2.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1472, 642);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(1472, 826);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.readCSVButton);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox1);
@@ -253,6 +298,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,6 +322,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox columnsForMeanCombobox;
+        private System.Windows.Forms.Button computeMeanButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RichTextBox richTextBox2;
     }
 }
 

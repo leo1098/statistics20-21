@@ -17,7 +17,7 @@ namespace _7_A
             InitializeComponent();
         }
 
-        // Useful Stuff --------------------------------------------------------
+        //------------------ USEFUL STUFF-----------------------------------------------
         string nl = Environment.NewLine;
         // first line could contains the column names
         string[] FirstRow;
@@ -31,8 +31,6 @@ namespace _7_A
         string FilePath;
         
         bool HasHeader = false;
-
-
         // ------------------ HANDLERS -------------------------------
         private void filenameBox_DragEnter(object sender, DragEventArgs e)
         {
@@ -155,7 +153,11 @@ namespace _7_A
                     break;
                 case 2:
                     if (double.TryParse(Value, out doubleValue))
+                    {
+                        //if (Value.Contains("."))
+                        //    Value.Replace(".", ",");
                         changeType(SelectedNodeIndex, typeof(double));
+                    }
                     else
                         NewType = typeof(double).ToString();
                     break;
@@ -243,30 +245,32 @@ namespace _7_A
                         }
 
                         DataSet.Add(DataPoint);
-
-                        //Type UnitType = U.GetType();
-                        //FieldInfo[] UnitFields = UnitType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
-                        //int i = 0;
-
-                        //foreach (FieldInfo F in UnitFields)
-                        //{
-                        //    if (!string.IsNullOrWhiteSpace(Values[i]))
-                        //    {
-                        //        Object V = Convert.ChangeType(Values[i], F.FieldType);
-                        //        F.SetValue(U, V);
-                        //        i += 1;
-                        //    }
-                        //}
-
-                        //Units.Add(U);
                     }
                 }
             }
             printDataTable();
+
+            // adds double or integer columns in combobox
+            addColumnsForMean();
         }
 
 
+
+
         // ------------------------ FUNCTIONS ----------------------------
+        private void addColumnsForMean()
+        {
+            this.columnsForMeanCombobox.Enabled = true;
+
+            foreach (ColumnInfo C in ListOfColumns)
+            {
+                if (C.ActualType == typeof(int) || C.ActualType == typeof(double))
+                {
+                    this.columnsForMeanCombobox.Items.Add(C.Name);
+                }
+            }
+        }
+
         private void setColumnNames()
         {
             // if first row is all strings and first full row is NOT all strings,
@@ -401,6 +405,11 @@ namespace _7_A
 
         private dynamic myTryParse(string s, Type t)
         {
+            if (s.Contains("."))
+            {
+                s = s.Replace(".", ",");
+            }
+
             if (t.Equals(typeof(bool)) && bool.TryParse(s, out bool b)) return b;
             if (t.Equals(typeof(int)) && int.TryParse(s, out int i)) return i;
             if (t.Equals(typeof(double)) && double.TryParse(s, out double d)) return d;
@@ -408,5 +417,174 @@ namespace _7_A
 
             return s;
         }
+
+        private void computeMeanButton_Click(object sender, EventArgs e)
+        {
+            // get column index
+            string ColumnName = this.columnsForMeanCombobox.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(ColumnName))
+            {
+                DialogResult result = MessageBox.Show("No columm selected", "Select a column", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (result == DialogResult.OK) { }
+                else throw new Exception("Error!");
+            }
+            else
+            {
+                // get values
+                List<double> Values = new List<double>();
+
+                foreach (Dictionary<string, dynamic> DataPoint in DataSet)
+                {
+                    Values.Add((double)DataPoint[ColumnName]);
+                }
+
+                // compute mean
+                double Mean = computeOnlineMean(Values);
+
+                // print mean
+                this.richTextBox2.Text = Mean.ToString();
+            }
+        }
+
+        // --------------- STAT FUNCTIONS ---------------
+
+        //private void button3_Click(object sender, EventArgs e)
+        //{
+        //    // define starting point and step
+        //    double StartingPoint = 3.0;
+        //    double Step = 1.0;
+
+        //    this.richTextBox3.Clear();
+        //    // computing and printing frequency distribution
+        //    List<Interval> FrequencyDistribution = new List<Interval>();
+        //    FrequencyDistribution = UnivariateDistribution_CountinuousVariable(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList(), StartingPoint, Step);
+
+        //    printFrequencyDistributionInterval(FrequencyDistribution);
+        //}
+
+        //private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
+        //{
+
+        //    List<Interval> ListOfIntervals = new List<Interval>();
+
+        //    // Crate and insert first interval
+        //    Interval Interval0 = new Interval();
+        //    Interval0.LowerInclusiveBound = StartingPoint;
+        //    Interval0.Step = Step;
+        //    ListOfIntervals.Add(Interval0);
+
+        //    // insertion of values
+        //    foreach (var d in L)
+        //    {
+        //        bool ValueInserted = false;
+        //        // if it's in one of the existing intervals, insert it there
+        //        foreach (var I in ListOfIntervals)
+        //        {
+        //            if (I.containsValue(d))
+        //            {
+        //                I.Count += 1;
+        //                ValueInserted = true;
+        //                break;
+        //            }
+        //        }
+        //        if (ValueInserted != true)
+        //        {
+        //            // if it's less than the lower bound of the first, add new suitable interval in the beginning
+        //            if (d < ListOfIntervals[0].LowerInclusiveBound)
+        //            {
+        //                // we keep inserting intervals until one can accept the value
+        //                while (ValueInserted != true)
+        //                {
+        //                    Interval I = new Interval();
+        //                    I.LowerInclusiveBound = ListOfIntervals[0].LowerInclusiveBound - Step;
+        //                    I.Step = Step;
+
+        //                    if (I.containsValue(d))
+        //                    {
+        //                        ValueInserted = true;
+        //                        I.Count += 1;
+        //                    }
+
+        //                    ListOfIntervals.Insert(0, I);
+        //                }
+        //            }
+        //            else if (d >= (ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step))
+        //            {
+        //                // we keep inserting intervals until one can accept the value
+        //                while (ValueInserted != true)
+        //                {
+        //                    Interval I = new Interval
+        //                    {
+        //                        LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step,
+        //                        Step = Step
+        //                    };
+
+        //                    if (I.containsValue(d))
+        //                    {
+        //                        ValueInserted = true;
+        //                        I.Count += 1;
+        //                    }
+
+        //                    ListOfIntervals.Add(I);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                throw new Exception("Not Accepted value");
+        //            }
+        //        }
+        //    }
+
+        //    // set relative frequencies and percentages
+        //    foreach (var I in ListOfIntervals)
+        //    {
+        //        I.RelativeFrequency = (double)I.Count / L.Count();
+        //        I.Percentage = I.RelativeFrequency * 100;
+
+        //    }
+
+        //    return ListOfIntervals;
+        //}
+
+        private double computeOnlineMean(List<double> L)
+        {
+            // Computation of arithmetic meanusing the Knuth Formula
+
+            double avg = 0;
+            int i = 0;
+            foreach (var d in L)
+            {
+                // update avg value
+                i += 1;
+                avg += (d - avg) / i;
+            }
+
+            return avg;
+        }
+
+        //private void printFrequencyDistributionInterval(List<Interval> L)
+        //{
+        //    double tot = 0;
+        //    int count = 0;
+
+        //    this.richTextBox3.AppendText("Finishing time".PadRight(16) +
+        //                                    "Num of Ath".PadRight(16) +
+        //                                    "Rel Freq".PadRight(16) +
+        //                                    "Perc".PadRight(16) + nl);
+        //    this.richTextBox3.AppendText("_______________________" + nl);
+
+        //    foreach (var I in L)
+        //    {
+        //        this.richTextBox3.AppendText($"[{I.LowerInclusiveBound}h - " +
+        //            $"{I.LowerInclusiveBound + I.Step}h]  --> ".PadRight(16) +
+        //            $"{I.Count}".PadRight(16) +
+        //            $"{I.RelativeFrequency:0.##}".PadRight(16) +
+        //            $"{I.Percentage:##.##} %".PadRight(16) + nl);
+        //        tot += I.RelativeFrequency;
+        //        count += I.Count;
+        //    }
+        //    this.richTextBox3.AppendText($"Sum of relative frequencies: {tot}" + nl);
+        //    this.richTextBox3.AppendText($"Total units: {count}");
+        //}
     }
 }
