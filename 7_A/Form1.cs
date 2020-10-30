@@ -80,7 +80,7 @@ namespace _7_A
                     ListOfColumns = new List<ColumnInfo>();
                     for (int i = 0; i < FirstFullRow.Length; i++)
                         ListOfColumns.Add(new ColumnInfo() { });
-                    FirstRow = reader.ReadLine().Split(',');
+                    FirstRow = reader.ReadFields();
 
 
                     // if first row is all strings and first full row is NOT all strings,
@@ -149,7 +149,7 @@ namespace _7_A
                     break;
                 case 1:
                     if (Int32.TryParse(Value, out intValue))
-                        changeType(SelectedNodeIndex, typeof(int));
+                        changeType(SelectedNodeIndex, typeof(int?));
                     else
                         NewType = typeof(int).ToString();
                     break;
@@ -223,6 +223,10 @@ namespace _7_A
             {
                 using (TextFieldParser reader = new TextFieldParser(FilePath))
                 {
+                    reader.SetDelimiters(new string[] { "," });
+                    reader.CommentTokens = new string[] { "#" };
+                    reader.HasFieldsEnclosedInQuotes = true;
+
                     DataSet = new List<Dictionary<string, dynamic>>();
 
                     // skip firs row if needed
@@ -230,19 +234,28 @@ namespace _7_A
 
                     while (!reader.EndOfData)
                     {
-                        reader.SetDelimiters(new string[] { "," });
-                        reader.CommentTokens = new string[] { "#" };
-                        reader.HasFieldsEnclosedInQuotes = true;
-
                         string[] Values = reader.ReadFields();
-
-                        // UnitOfObservation U = new UnitOfObservation();
 
                         Dictionary<string, dynamic> DataPoint = new Dictionary<string, dynamic>();
 
                         for (int i = 0; i < FirstFullRow.Length; i++)
                         {
-                            dynamic Value = myTryParse(Values[i], ListOfColumns[i].ActualType);
+                            dynamic Value = 0;
+
+                            if (string.IsNullOrEmpty(Values[i])) 
+                            {
+                                if (ListOfColumns[i].ActualType == typeof(double))
+                                    Value = 0.0;
+                                else if (ListOfColumns[i].ActualType == typeof(int))
+                                    Value = 0;
+                                else if (ListOfColumns[i].ActualType == typeof(string))
+                                    Value = "";
+                            }
+                            else
+                            {
+                                Value = myTryParse(Values[i], ListOfColumns[i].ActualType);
+                            }
+                            
                             DataPoint.Add(ListOfColumns[i].Name, Value);
                         }
 
@@ -308,22 +321,15 @@ namespace _7_A
 
         private Type ParseString(string str)
         {
-
-            bool boolValue;
-            Int32 intValue;
-            double doubleValue;
-            DateTime dateValue;
-
-            if (bool.TryParse(str, out boolValue))
+            if (bool.TryParse(str, out bool boolValue))
                 return boolValue.GetType();
-            else if (Int32.TryParse(str, out intValue))
-                return intValue.GetType();
-            else if (double.TryParse(str, out doubleValue))
+            else if (int.TryParse(str, out int intValue))
+                return typeof(int?);
+            else if (double.TryParse(str, out double doubleValue))
                 return doubleValue.GetType();
-            else if (DateTime.TryParse(str, out dateValue))
+            else if (DateTime.TryParse(str, out DateTime dateValue))
                 return dateValue.GetType();
             else return str.GetType();
-
         }
 
         private string[] firstFullRow(string FilePath)
@@ -407,14 +413,28 @@ namespace _7_A
 
         private dynamic myTryParse(string s, Type t)
         {
-            if (s.Contains("."))
-            {
-                s = s.Replace(".", ",");
-            }
 
             if (t.Equals(typeof(bool)) && bool.TryParse(s, out bool b)) return b;
-            if (t.Equals(typeof(int)) && int.TryParse(s, out int i)) return i;
-            if (t.Equals(typeof(double)) && double.TryParse(s, out double d)) return d;
+            if (t.Equals(typeof(int)))
+            {
+                if (s.Contains("."))
+                    s = s.Replace(".", ",");
+
+                if (int.TryParse(s, out int n))
+                    return n;
+                else
+                    return null;
+            }
+            if (t.Equals(typeof(double))) 
+            {
+                if (s.Contains("."))
+                    s = s.Replace(".", ",");
+
+                if (double.TryParse(s, out double d))
+                    return d;
+                else
+                    return double.NaN;
+            }
             if (t.Equals(typeof(DateTime)) && DateTime.TryParse(s, out DateTime dt)) return dt;
 
             return s;
