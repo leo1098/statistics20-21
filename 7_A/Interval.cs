@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _5_A
-{
+namespace _7_A{
     class Interval
     {
         public double LowerInclusiveBound;

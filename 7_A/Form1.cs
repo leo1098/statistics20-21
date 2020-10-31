@@ -3,7 +3,8 @@ using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace _7_A
         public Form1()
         {
             InitializeComponent();
+            initGraphics();
         }
 
         //------------------ USEFUL STUFF-----------------------------------------------
@@ -31,8 +33,21 @@ namespace _7_A
         List<Dictionary<string, dynamic>> DataSet;
         // will contain filepath of csv
         string FilePath;
-        
+
         bool HasHeader = false;
+
+        // RealWorld Window
+        public double MinX_Win;
+        public double MinY_Win;
+        public double MaxX_Win;
+        public double MaxY_Win;
+        public double Range_X;
+        public double Range_Y;
+
+        Rectangle ViewPort;
+        Bitmap b;
+        Graphics g;
+
         // ------------------ HANDLERS -------------------------------
         private void filenameBox_DragEnter(object sender, DragEventArgs e)
         {
@@ -102,7 +117,7 @@ namespace _7_A
                 }
             }
         }
-        
+
         private void browseFolderButton_Click(object sender, EventArgs e)
         {
             var filePath = string.Empty;
@@ -149,7 +164,7 @@ namespace _7_A
                     break;
                 case 1:
                     if (Int32.TryParse(Value, out intValue))
-                        changeType(SelectedNodeIndex, typeof(int?));
+                        changeType(SelectedNodeIndex, typeof(int));
                     else
                         NewType = typeof(int).ToString();
                     break;
@@ -179,7 +194,7 @@ namespace _7_A
             if (!string.IsNullOrEmpty(NewType))
                 MessageBox.Show($"Cannot convert {NodeName} from {PreviousType} to {NewType}!", "Error", MessageBoxButtons.OK);
         }
-       
+
         private void columnsTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             int NodeIndex;
@@ -242,20 +257,20 @@ namespace _7_A
                         {
                             dynamic Value = 0;
 
-                            if (string.IsNullOrEmpty(Values[i])) 
+                            if (string.IsNullOrEmpty(Values[i]))
                             {
                                 if (ListOfColumns[i].ActualType == typeof(double))
-                                    Value = 0.0;
+                                    Value = DBNull.Value;
                                 else if (ListOfColumns[i].ActualType == typeof(int))
-                                    Value = 0;
+                                    Value = DBNull.Value;
                                 else if (ListOfColumns[i].ActualType == typeof(string))
-                                    Value = "";
+                                    Value = DBNull.Value;
                             }
                             else
                             {
                                 Value = myTryParse(Values[i], ListOfColumns[i].ActualType);
                             }
-                            
+
                             DataPoint.Add(ListOfColumns[i].Name, Value);
                         }
 
@@ -275,6 +290,10 @@ namespace _7_A
         // ------------------------ FUNCTIONS ----------------------------
         private void addColumnsForMean()
         {
+            this.columnsForMeanCombobox.Items.Clear();
+            this.columnsForFrequencyDistribution.Items.Clear();
+            this.columnsForChart1.Items.Clear();
+            this.columnsForChart2.Items.Clear();
             this.columnsForMeanCombobox.Enabled = true;
 
             foreach (ColumnInfo C in ListOfColumns)
@@ -282,6 +301,9 @@ namespace _7_A
                 if (C.ActualType == typeof(int) || C.ActualType == typeof(double))
                 {
                     this.columnsForMeanCombobox.Items.Add(C.Name);
+                    this.columnsForFrequencyDistribution.Items.Add(C.Name);
+                    this.columnsForChart1.Items.Add(C.Name);
+                    this.columnsForChart2.Items.Add(C.Name);
                 }
             }
         }
@@ -324,7 +346,7 @@ namespace _7_A
             if (bool.TryParse(str, out bool boolValue))
                 return boolValue.GetType();
             else if (int.TryParse(str, out int intValue))
-                return typeof(int?);
+                return typeof(int);
             else if (double.TryParse(str, out double doubleValue))
                 return doubleValue.GetType();
             else if (DateTime.TryParse(str, out DateTime dateValue))
@@ -409,6 +431,7 @@ namespace _7_A
             DataView View = new DataView(dt);
 
             this.dataGridView1.DataSource = View;
+            this.dataGridView2.DataSource = View;
         }
 
         private dynamic myTryParse(string s, Type t)
@@ -423,9 +446,9 @@ namespace _7_A
                 if (int.TryParse(s, out int n))
                     return n;
                 else
-                    return null;
+                    return DBNull.Value;
             }
-            if (t.Equals(typeof(double))) 
+            if (t.Equals(typeof(double)))
             {
                 if (s.Contains("."))
                     s = s.Replace(".", ",");
@@ -457,7 +480,10 @@ namespace _7_A
 
                 foreach (Dictionary<string, dynamic> DataPoint in DataSet)
                 {
-                    Values.Add((double)DataPoint[ColumnName]);
+                    if (DataPoint[ColumnName].GetType() == typeof(System.DBNull))
+                        Values.Add(0.0);
+                    else
+                        Values.Add((double)DataPoint[ColumnName]);
                 }
 
                 // compute mean
@@ -470,103 +496,105 @@ namespace _7_A
 
         // --------------- STAT FUNCTIONS ---------------
 
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    // define starting point and step
-        //    double StartingPoint = 3.0;
-        //    double Step = 1.0;
+        private void computeFrequencyDistribution_Click(object sender, EventArgs e)
+        {
+            // define starting point and step
+            double StartingPoint = (double)this.numericUpDownStartingPoint.Value;
+            double Step = (double)this.numericUpDownStep.Value;
 
-        //    this.richTextBox3.Clear();
-        //    // computing and printing frequency distribution
-        //    List<Interval> FrequencyDistribution = new List<Interval>();
-        //    FrequencyDistribution = UnivariateDistribution_CountinuousVariable(ListOfAthletes.Select((Athlete a) => a.FinishingTime).ToList(), StartingPoint, Step);
+            string ColumnName = this.columnsForFrequencyDistribution.Text;
 
-        //    printFrequencyDistributionInterval(FrequencyDistribution);
-        //}
+            this.richTextBox4.Clear();
+            // computing and printing frequency distribution
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSet.Select(D => (D[ColumnName].GetType() != DBNull.Value.GetType() ? (double)D[ColumnName] : 0.0)).ToList(), StartingPoint, Step);
 
-        //private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
-        //{
+            printFrequencyDistributionInterval(FrequencyDistribution);
+        }
 
-        //    List<Interval> ListOfIntervals = new List<Interval>();
+        private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
+        {
 
-        //    // Crate and insert first interval
-        //    Interval Interval0 = new Interval();
-        //    Interval0.LowerInclusiveBound = StartingPoint;
-        //    Interval0.Step = Step;
-        //    ListOfIntervals.Add(Interval0);
+            List<Interval> ListOfIntervals = new List<Interval>();
 
-        //    // insertion of values
-        //    foreach (var d in L)
-        //    {
-        //        bool ValueInserted = false;
-        //        // if it's in one of the existing intervals, insert it there
-        //        foreach (var I in ListOfIntervals)
-        //        {
-        //            if (I.containsValue(d))
-        //            {
-        //                I.Count += 1;
-        //                ValueInserted = true;
-        //                break;
-        //            }
-        //        }
-        //        if (ValueInserted != true)
-        //        {
-        //            // if it's less than the lower bound of the first, add new suitable interval in the beginning
-        //            if (d < ListOfIntervals[0].LowerInclusiveBound)
-        //            {
-        //                // we keep inserting intervals until one can accept the value
-        //                while (ValueInserted != true)
-        //                {
-        //                    Interval I = new Interval();
-        //                    I.LowerInclusiveBound = ListOfIntervals[0].LowerInclusiveBound - Step;
-        //                    I.Step = Step;
+            // Crate and insert first interval
+            Interval Interval0 = new Interval();
+            Interval0.LowerInclusiveBound = StartingPoint;
+            Interval0.Step = Step;
+            ListOfIntervals.Add(Interval0);
 
-        //                    if (I.containsValue(d))
-        //                    {
-        //                        ValueInserted = true;
-        //                        I.Count += 1;
-        //                    }
+            // insertion of values
+            foreach (var d in L)
+            {
+                bool ValueInserted = false;
+                // if it's in one of the existing intervals, insert it there
+                foreach (var I in ListOfIntervals)
+                {
+                    if (I.containsValue(d))
+                    {
+                        I.Count += 1;
+                        ValueInserted = true;
+                        break;
+                    }
+                }
+                if (ValueInserted != true)
+                {
+                    // if it's less than the lower bound of the first, add new suitable interval in the beginning
+                    if (d < ListOfIntervals[0].LowerInclusiveBound)
+                    {
+                        // we keep inserting intervals until one can accept the value
+                        while (ValueInserted != true)
+                        {
+                            Interval I = new Interval();
+                            I.LowerInclusiveBound = ListOfIntervals[0].LowerInclusiveBound - Step;
+                            I.Step = Step;
 
-        //                    ListOfIntervals.Insert(0, I);
-        //                }
-        //            }
-        //            else if (d >= (ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step))
-        //            {
-        //                // we keep inserting intervals until one can accept the value
-        //                while (ValueInserted != true)
-        //                {
-        //                    Interval I = new Interval
-        //                    {
-        //                        LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step,
-        //                        Step = Step
-        //                    };
+                            if (I.containsValue(d))
+                            {
+                                ValueInserted = true;
+                                I.Count += 1;
+                            }
 
-        //                    if (I.containsValue(d))
-        //                    {
-        //                        ValueInserted = true;
-        //                        I.Count += 1;
-        //                    }
+                            ListOfIntervals.Insert(0, I);
+                        }
+                    }
+                    else if (d >= (ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step))
+                    {
+                        // we keep inserting intervals until one can accept the value
+                        while (ValueInserted != true)
+                        {
+                            Interval I = new Interval
+                            {
+                                LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step,
+                                Step = Step
+                            };
 
-        //                    ListOfIntervals.Add(I);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                throw new Exception("Not Accepted value");
-        //            }
-        //        }
-        //    }
+                            if (I.containsValue(d))
+                            {
+                                ValueInserted = true;
+                                I.Count += 1;
+                            }
 
-        //    // set relative frequencies and percentages
-        //    foreach (var I in ListOfIntervals)
-        //    {
-        //        I.RelativeFrequency = (double)I.Count / L.Count();
-        //        I.Percentage = I.RelativeFrequency * 100;
+                            ListOfIntervals.Add(I);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Not Accepted value");
+                    }
+                }
+            }
 
-        //    }
+            // set relative frequencies and percentages
+            foreach (var I in ListOfIntervals)
+            {
+                I.RelativeFrequency = (double)I.Count / L.Count();
+                I.Percentage = I.RelativeFrequency * 100;
 
-        //    return ListOfIntervals;
-        //}
+            }
+
+            return ListOfIntervals;
+        }
 
         private double computeOnlineMean(List<double> L)
         {
@@ -584,29 +612,214 @@ namespace _7_A
             return avg;
         }
 
-        //private void printFrequencyDistributionInterval(List<Interval> L)
-        //{
-        //    double tot = 0;
-        //    int count = 0;
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
 
-        //    this.richTextBox3.AppendText("Finishing time".PadRight(16) +
-        //                                    "Num of Ath".PadRight(16) +
-        //                                    "Rel Freq".PadRight(16) +
-        //                                    "Perc".PadRight(16) + nl);
-        //    this.richTextBox3.AppendText("_______________________" + nl);
+        }
 
-        //    foreach (var I in L)
-        //    {
-        //        this.richTextBox3.AppendText($"[{I.LowerInclusiveBound}h - " +
-        //            $"{I.LowerInclusiveBound + I.Step}h]  --> ".PadRight(16) +
-        //            $"{I.Count}".PadRight(16) +
-        //            $"{I.RelativeFrequency:0.##}".PadRight(16) +
-        //            $"{I.Percentage:##.##} %".PadRight(16) + nl);
-        //        tot += I.RelativeFrequency;
-        //        count += I.Count;
-        //    }
-        //    this.richTextBox3.AppendText($"Sum of relative frequencies: {tot}" + nl);
-        //    this.richTextBox3.AppendText($"Total units: {count}");
-        //}
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void printFrequencyDistributionInterval(List<Interval> L)
+        {
+            double tot = 0;
+            int count = 0;
+
+            this.richTextBox4.AppendText("Value".PadRight(16) +
+                                            "Num".PadRight(16) +
+                                            "Rel Freq".PadRight(16) +
+                                            "Perc".PadRight(16) + nl);
+            this.richTextBox4.AppendText("_______________________" + nl);
+
+            foreach (var I in L)
+            {
+                this.richTextBox4.AppendText($"[{I.LowerInclusiveBound}h - " +
+                    $"{I.LowerInclusiveBound + I.Step})     ".PadRight(16) +
+                    $"{I.Count}".PadRight(16) +
+                    $"{I.RelativeFrequency:0.##}".PadRight(16) +
+                    $"{I.Percentage:##.##} %".PadRight(16) + nl);
+                tot += I.RelativeFrequency;
+                count += I.Count;
+            }
+            this.richTextBox4.AppendText($"Sum of relative frequencies: {tot}" + nl);
+            this.richTextBox4.AppendText($"Total units: {count}");
+        }
+
+
+
+        // -------------- GRAPHIC FUNCTIONS -----------------------
+        List<DataPointForChart> DataSetForChart;
+
+        Rectangle ViewPort_MouseDown;
+        Point Click_Point_Drag;
+        bool Dragging;
+        bool Resizing;
+
+        string Name_X;
+        string Name_Y;
+
+        private List<DataPointForChart> generateDataSetForChart()
+        {
+            string ColumnName1 = this.columnsForChart1.SelectedItem.ToString();
+            string ColumnName2 = this.columnsForChart2.SelectedItem.ToString();
+            List<DataPointForChart> DS = new List<DataPointForChart>();
+
+            foreach (Dictionary<string, dynamic> D in DataSet)
+            {
+                DataPointForChart DP = new DataPointForChart()
+                {
+                    X = (double)D[ColumnName1],
+                    Y = (double)D[ColumnName2],
+                };
+
+                DS.Add(DP);
+            }
+
+            return DS;
+        }
+
+        private void drawViewport()
+        {
+            g.Clear(Color.Gainsboro);
+            g.DrawRectangle(Pens.Red, ViewPort);
+
+            foreach (DataPointForChart D in DataSetForChart)
+            {
+                int X_View = viewport_X(D.X);
+                int Y_View = viewport_Y(D.Y);
+
+                g.FillEllipse(Brushes.Black, new Rectangle(new Point(X_View - 2, Y_View - 2), new Size(4, 4)));
+                //g.DrawString(D.X.ToString() +","+D.Y.ToString(), DefaultFont, Brushes.Black, new Point((int)D.X, (int)D.Y));
+            }
+            
+            // print two lines representing averages
+
+            // X Axis
+            List<double> Values_X = new List<double>();
+            foreach (Dictionary<string, dynamic> DataPoint in DataSet)
+            {
+                if (DataPoint[Name_X].GetType() == typeof(System.DBNull))
+                    Values_X.Add(0.0);
+                else
+                    Values_X.Add((double)DataPoint[Name_X]);
+            }
+            // compute mean
+            double Avg_X = viewport_X(computeOnlineMean(Values_X));
+            
+            // Y Axis
+            List<double> Values_Y = new List<double>();
+            foreach (Dictionary<string, dynamic> DataPoint in DataSet)
+            {
+                if (DataPoint[Name_Y].GetType() == typeof(System.DBNull))
+                    Values_Y.Add(0.0);
+                else
+                    Values_Y.Add((double)DataPoint[Name_Y]);
+            }
+            // compute mean
+            double Avg_Y = viewport_Y(computeOnlineMean(Values_Y));
+
+            Point Avg_X_Point_Start = new Point((int)Avg_X, viewport_Y(MinY_Win));
+            Point Avg_X_Point_End = new Point((int)Avg_X, viewport_Y(MaxY_Win));
+            Point Avg_Y_Point_Start = new Point(viewport_X(MinX_Win), (int)Avg_Y);
+            Point Avg_Y_Point_End = new Point(viewport_X(MaxX_Win), (int)Avg_Y);
+
+            g.DrawLine(Pens.Blue, Avg_Y_Point_Start, Avg_Y_Point_End);
+            g.DrawLine(Pens.Blue, Avg_X_Point_Start, Avg_X_Point_End);
+
+            chartPictureBox.Image = b;
+        }
+
+        private void initGraphics()
+        {
+            b = new Bitmap(this.chartPictureBox.Width, this.chartPictureBox.Height);
+            g = Graphics.FromImage(b);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+        }
+
+        private int viewport_X(double World_X)
+        {
+            return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
+        }
+
+        private int viewport_Y(double World_Y)
+        {
+            return (int)(ViewPort.Top + ViewPort.Height - (World_Y - MinY_Win) * (ViewPort.Height / Range_Y));
+        }
+
+
+        private void chartPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            Click_Point_Drag = new Point(e.X, e.Y);
+
+            if (ViewPort.Contains(Click_Point_Drag))
+            {
+                ViewPort_MouseDown = this.ViewPort;
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    Dragging = true;
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    Resizing = true;
+                }
+            }
+        }
+
+        private void chartPictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Dragging)
+            {
+                int Delta_X = e.X - Click_Point_Drag.X;
+                int Delta_Y = e.Y - Click_Point_Drag.Y;
+
+                ViewPort.X = ViewPort_MouseDown.X + Delta_X;
+                ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
+            }
+            else if (Resizing)
+            {
+                int Delta_X = e.X - Click_Point_Drag.X;
+                int Delta_Y = e.Y - Click_Point_Drag.Y;
+
+                ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
+                ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
+            }
+            drawViewport();
+
+        }
+
+        private void chartPictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            Dragging = false;
+            Resizing = false;
+        }
+
+        private void printChartButton_Click(object sender, EventArgs e)
+        {
+            DataSetForChart = generateDataSetForChart();
+            MinX_Win = DataSetForChart.Min(D => D.X);
+            MinY_Win = DataSetForChart.Min(D => D.Y);
+            MaxX_Win = DataSetForChart.Max(D => D.X);
+            MaxY_Win = DataSetForChart.Max(D => D.Y);
+
+            Range_X = MaxX_Win - MinX_Win;
+            Range_Y = MaxY_Win - MinY_Win;
+
+            Name_X = this.columnsForChart1.SelectedItem.ToString();
+            Name_Y = this.columnsForChart2.SelectedItem.ToString();
+
+            // ViewPort
+            ViewPort = new Rectangle(100, 50, 200, 200);
+            
+
+            drawViewport();
+        }
     }
 }
