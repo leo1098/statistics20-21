@@ -109,11 +109,16 @@ namespace _7_A
 
                     printColumnsInTree();
 
+                    // print a line for preview
                     this.richTextBox1.Clear();
                     for (int i = 0; i < FirstFullRow.Length; i++)
                     {
                         this.richTextBox1.AppendText(ListOfColumns[i].Name + " : " + FirstFullRow[i] + nl);
                     }
+
+                    // enable buttons
+                    this.readCSVButton.Enabled = true;
+                    this.changeTypeButton.Enabled = true;
                 }
             }
         }
@@ -149,7 +154,7 @@ namespace _7_A
             // index of the selected node
             int.TryParse(textBox1.Text, out int SelectedNodeIndex);
 
-            int SelectedType = this.comboBox1.SelectedIndex;
+            int SelectedType = this.typesComboBox.SelectedIndex;
             string Value = FirstFullRow[SelectedNodeIndex];  // nodes and types are in the same order
             string NodeName = ListOfColumns[SelectedNodeIndex].Name;
             string PreviousType = ListOfColumns[SelectedNodeIndex].ActualType.ToString();
@@ -189,7 +194,6 @@ namespace _7_A
                     break;
                 default:
                     throw new Exception("Index not listed!");
-                    break;
             }
             if (!string.IsNullOrEmpty(NewType))
                 MessageBox.Show($"Cannot convert {NodeName} from {PreviousType} to {NewType}!", "Error", MessageBoxButtons.OK);
@@ -223,7 +227,7 @@ namespace _7_A
 
             this.textBox1.Text = NodeIndex.ToString();
 
-            this.comboBox1.Enabled = true;
+            this.typesComboBox.Enabled = true;
         }
 
         private void readCSVButton_Click(object sender, EventArgs e)
@@ -244,7 +248,7 @@ namespace _7_A
 
                     DataSet = new List<Dictionary<string, dynamic>>();
 
-                    // skip firs row if needed
+                    // skip first row if needed
                     if (HasHeader) reader.ReadLine();
 
                     while (!reader.EndOfData)
@@ -294,7 +298,10 @@ namespace _7_A
             this.columnsForFrequencyDistribution.Items.Clear();
             this.columnsForChart1.Items.Clear();
             this.columnsForChart2.Items.Clear();
-            this.columnsForMeanCombobox.Enabled = true;
+            // enable buttons
+            this.computeMeanButton.Enabled = true;
+            this.computeFrequencyDistribution.Enabled = true;
+            this.printChartButton.Enabled = true;
 
             foreach (ColumnInfo C in ListOfColumns)
             {
@@ -481,7 +488,7 @@ namespace _7_A
                 foreach (Dictionary<string, dynamic> DataPoint in DataSet)
                 {
                     if (DataPoint[ColumnName].GetType() == typeof(System.DBNull))
-                        Values.Add(0.0);
+                        Values.Add(double.NaN);
                     else
                         Values.Add((double)DataPoint[ColumnName]);
                 }
@@ -503,11 +510,15 @@ namespace _7_A
             double Step = (double)this.numericUpDownStep.Value;
 
             string ColumnName = this.columnsForFrequencyDistribution.Text;
+            if (string.IsNullOrEmpty(ColumnName))
+            {
+                return;
+            }
 
             this.richTextBox4.Clear();
             // computing and printing frequency distribution
             List<Interval> FrequencyDistribution = new List<Interval>();
-            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSet.Select(D => (D[ColumnName].GetType() != DBNull.Value.GetType() ? (double)D[ColumnName] : 0.0)).ToList(), StartingPoint, Step);
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSet.Select(D => (Convert.IsDBNull(D[ColumnName]) ? double.NaN : (double)D[ColumnName])).ToList(), StartingPoint, Step);
 
             printFrequencyDistributionInterval(FrequencyDistribution);
         }
@@ -526,6 +537,9 @@ namespace _7_A
             // insertion of values
             foreach (var d in L)
             {
+                if (double.IsNaN(d))
+                    continue;
+
                 bool ValueInserted = false;
                 // if it's in one of the existing intervals, insert it there
                 foreach (var I in ListOfIntervals)
@@ -604,6 +618,8 @@ namespace _7_A
             int i = 0;
             foreach (var d in L)
             {
+                if (double.IsNaN(d))
+                    continue;
                 // update avg value
                 i += 1;
                 avg += (d - avg) / i;
@@ -632,19 +648,19 @@ namespace _7_A
             double tot = 0;
             int count = 0;
 
-            this.richTextBox4.AppendText("Value".PadRight(16) +
-                                            "Num".PadRight(16) +
-                                            "Rel Freq".PadRight(16) +
-                                            "Perc".PadRight(16) + nl);
+            this.richTextBox4.AppendText("Value".PadLeft(16) +
+                                            "Num".PadLeft(16) +
+                                            "Rel Freq".PadLeft(16) +
+                                            "Perc".PadLeft(16) + nl);
             this.richTextBox4.AppendText("_______________________" + nl);
 
             foreach (var I in L)
             {
-                this.richTextBox4.AppendText($"[{I.LowerInclusiveBound}h - " +
-                    $"{I.LowerInclusiveBound + I.Step})     ".PadRight(16) +
-                    $"{I.Count}".PadRight(16) +
-                    $"{I.RelativeFrequency:0.##}".PadRight(16) +
-                    $"{I.Percentage:##.##} %".PadRight(16) + nl);
+                this.richTextBox4.AppendText($"[{I.LowerInclusiveBound} - " +
+                    $"{I.LowerInclusiveBound + I.Step})     ".PadLeft(16) +
+                    $"{I.Count}".PadLeft(16) +
+                    $"{I.RelativeFrequency:0.##}".PadLeft(16) +
+                    $"{I.Percentage:##.##} %".PadLeft(16) + nl);
                 tot += I.RelativeFrequency;
                 count += I.Count;
             }
@@ -673,13 +689,18 @@ namespace _7_A
 
             foreach (Dictionary<string, dynamic> D in DataSet)
             {
-                DataPointForChart DP = new DataPointForChart()
+                if (Convert.IsDBNull(D[ColumnName1]) || Convert.IsDBNull(D[ColumnName2]))
+                    continue;
+                else
                 {
-                    X = (double)D[ColumnName1],
-                    Y = (double)D[ColumnName2],
-                };
+                    DataPointForChart DP = new DataPointForChart()
+                    {
+                        X = (double)D[ColumnName1],
+                        Y = (double)D[ColumnName2],
+                    };
 
-                DS.Add(DP);
+                    DS.Add(DP);
+                }
             }
 
             return DS;
@@ -688,7 +709,17 @@ namespace _7_A
         private void drawViewport()
         {
             g.Clear(Color.Gainsboro);
-            g.DrawRectangle(Pens.Red, ViewPort);
+            // g.DrawRectangle(Pens.Red, ViewPort);
+
+            drawAxis();
+
+            drawRugPlot();
+
+            // print two lines representing averages
+            // printLinesForMean();
+
+            drawHistogramOnAxis("X");
+            drawHistogramOnAxis("Y");
 
             foreach (DataPointForChart D in DataSetForChart)
             {
@@ -698,9 +729,149 @@ namespace _7_A
                 g.FillEllipse(Brushes.Black, new Rectangle(new Point(X_View - 2, Y_View - 2), new Size(4, 4)));
                 //g.DrawString(D.X.ToString() +","+D.Y.ToString(), DefaultFont, Brushes.Black, new Point((int)D.X, (int)D.Y));
             }
-            
-            // print two lines representing averages
 
+            chartPictureBox.Image = b;
+        }
+
+        private void drawAxis()
+        {
+            g.DrawLine(
+                Pens.Black,
+                ViewPort.X,
+                ViewPort.Y + ViewPort.Height,
+                ViewPort.X + ViewPort.Width,
+                ViewPort.Y + ViewPort.Height);
+
+            g.DrawLine(
+                Pens.Black,
+                ViewPort.X,
+                ViewPort.Y,
+                ViewPort.X,
+                ViewPort.Y + ViewPort.Height);
+        }
+
+        private void drawHistogramOnAxis(string Axis)
+        {
+            double StepX = (double)this.stepX.Value;
+            double StepY = (double)this.stepY.Value;
+
+            if (Axis.Equals("X"))
+            {
+                double StartingPointX = MinX_Win;
+                List<Interval> FrequencyDistribution = new List<Interval>();
+                FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
+
+                // draw proportionate rectangles 
+                double BarWidth = (double)ViewPort.Width / FrequencyDistribution.Count;
+                double BarMaxHeight = ViewPort.Height * 0.7;
+                int BarNum = 0;
+                foreach (Interval I in FrequencyDistribution)
+                {
+                    float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
+                    RectangleF R = new RectangleF(
+                        (float)(ViewPort.X + (BarNum * BarWidth)),
+                        (float)(ViewPort.Y + ViewPort.Height - (BarMaxHeight * I.RelativeFrequency)),
+                        (float)BarWidth,
+                        BarHeight
+                        );
+
+                    // drawing a line for each interval represening the average
+                    // datapoints in each interval
+                    IEnumerable<double> DataPointsInInterval =
+                        from D in DataSetForChart
+                        where D.X >= I.LowerInclusiveBound && D.X < (I.LowerInclusiveBound + StepX)
+                        select D.X;
+
+                    double BarMean = computeOnlineMean(DataPointsInInterval.ToList());
+
+                    PointF StartingPointForMean = new PointF(
+                        (float)viewport_X(BarMean),
+                        ViewPort.Y + ViewPort.Height);
+
+                    PointF EndingPointForMean = new PointF(
+                        (float)viewport_X(BarMean),
+                        ViewPort.Y + ViewPort.Height - BarHeight);
+
+                    SolidBrush B = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
+                    g.FillRectangle(B, R);
+                    g.DrawLine(Pens.Brown, StartingPointForMean, EndingPointForMean);
+
+                    BarNum++;
+                }
+            }
+            else if (Axis.Equals("Y"))
+            {
+                double StartingPointY = MinY_Win;
+                List<Interval> FrequencyDistribution = new List<Interval>();
+                FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
+
+                // invert list so the biggest comes before the smallest
+                FrequencyDistribution.Reverse();
+
+                // draw proportionate rectangles 
+                double BarWidth = (double)ViewPort.Height / FrequencyDistribution.Count;
+                double BarMaxHeight = ViewPort.Width * 0.7;
+                int BarNum = 0;
+                foreach (Interval I in FrequencyDistribution)
+                {
+                    float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
+                    RectangleF R = new RectangleF(
+                        ViewPort.X,
+                        (float)(ViewPort.Y + (BarNum * BarWidth)),
+                        (float)BarHeight,
+                        (float)BarWidth
+                        );
+
+                    // drawing a line for each interval represening the average
+                    // datapoints in each interval
+                    IEnumerable<double> DataPointsInInterval =
+                        from D in DataSetForChart
+                        where D.Y >= I.LowerInclusiveBound && D.Y < (I.LowerInclusiveBound + StepY)
+                        select D.Y;
+
+                    double BarMean = computeOnlineMean(DataPointsInInterval.ToList());
+
+                    PointF StartingPointForMean = new PointF(
+                        ViewPort.X,
+                        (float)viewport_Y(BarMean)
+                        );
+
+                    PointF EndingPointForMean = new PointF(
+                        ViewPort.X + BarHeight,
+                        (float)viewport_Y(BarMean)
+                        );
+
+                    SolidBrush B = new SolidBrush(Color.FromArgb(128, 0, 200, 0));
+                    g.FillRectangle(B, R);
+                    g.DrawLine(Pens.Brown, StartingPointForMean, EndingPointForMean);
+                    BarNum++;
+                }
+            }
+        }
+
+        private void initGraphics()
+        {
+            b = new Bitmap(this.chartPictureBox.Width, this.chartPictureBox.Height);
+            g = Graphics.FromImage(b);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+        }
+
+        private int viewport_X(double World_X)
+        {
+            return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
+        }
+
+        private int viewport_Y(double World_Y)
+        {
+            double diff1 = (World_Y - MinY_Win);
+            double ratio1 = (ViewPort.Height / Range_Y);
+            double ret = (ViewPort.Top + ViewPort.Height - diff1 * ratio1);
+            int castedret = (int)ret;
+            return castedret;
+        }
+
+        private void drawLinesForMean()
+        {
             // X Axis
             List<double> Values_X = new List<double>();
             foreach (Dictionary<string, dynamic> DataPoint in DataSet)
@@ -712,7 +883,7 @@ namespace _7_A
             }
             // compute mean
             double Avg_X = viewport_X(computeOnlineMean(Values_X));
-            
+
             // Y Axis
             List<double> Values_Y = new List<double>();
             foreach (Dictionary<string, dynamic> DataPoint in DataSet)
@@ -732,25 +903,37 @@ namespace _7_A
 
             g.DrawLine(Pens.Blue, Avg_Y_Point_Start, Avg_Y_Point_End);
             g.DrawLine(Pens.Blue, Avg_X_Point_Start, Avg_X_Point_End);
-
-            chartPictureBox.Image = b;
         }
 
-        private void initGraphics()
+        private void drawRugPlot()
         {
-            b = new Bitmap(this.chartPictureBox.Width, this.chartPictureBox.Height);
-            g = Graphics.FromImage(b);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-        }
+            int h = 1;
+            foreach (DataPointForChart D in DataSetForChart)
+            {
+                // X axis
+                PointF StartingPointX = new PointF(
+                    viewport_X(D.X),
+                    viewport_Y(MinY_Win-h)
+                    );
+                PointF EndingPointX = new PointF(
+                    viewport_X(D.X),
+                    viewport_Y(MinY_Win + h)
+                    );
 
-        private int viewport_X(double World_X)
-        {
-            return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
-        }
+                g.DrawLine(Pens.Purple, StartingPointX, EndingPointX);
 
-        private int viewport_Y(double World_Y)
-        {
-            return (int)(ViewPort.Top + ViewPort.Height - (World_Y - MinY_Win) * (ViewPort.Height / Range_Y));
+                // Y axis
+                PointF StartingPointY = new PointF(
+                    viewport_X(MinX_Win -h),
+                    viewport_Y(D.Y)
+                    );
+                PointF EndingPointY = new PointF(
+                    viewport_X(MinX_Win + h),
+                    viewport_Y(D.Y)
+                    );
+
+                g.DrawLine(Pens.DarkSeaGreen, StartingPointY, EndingPointY);
+            }
         }
 
 
@@ -801,7 +984,7 @@ namespace _7_A
             Resizing = false;
         }
 
-        private void printChartButton_Click(object sender, EventArgs e)
+        private void drawChartButton_Click(object sender, EventArgs e)
         {
             DataSetForChart = generateDataSetForChart();
             MinX_Win = DataSetForChart.Min(D => D.X);
@@ -815,9 +998,11 @@ namespace _7_A
             Name_X = this.columnsForChart1.SelectedItem.ToString();
             Name_Y = this.columnsForChart2.SelectedItem.ToString();
 
+            if (string.IsNullOrEmpty(Name_X) || string.IsNullOrEmpty(Name_X))
+                return;
+
             // ViewPort
-            ViewPort = new Rectangle(100, 50, 200, 200);
-            
+            ViewPort = new Rectangle(100, 50, 400, 400);
 
             drawViewport();
         }
