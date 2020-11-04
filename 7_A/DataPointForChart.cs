@@ -1,4 +1,4 @@
-﻿namespace _7_A
+﻿namespace CSVReaderPersiani
 {
     public class DataPointForChart
     {

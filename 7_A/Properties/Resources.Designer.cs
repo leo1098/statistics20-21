@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _7_A.Properties
+namespace CSVReaderPersiani.Properties
 {
 
 

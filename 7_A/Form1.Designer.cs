@@ -1,4 +1,4 @@
-﻿namespace _7_A
+﻿namespace CSVReaderPersiani
 {
     partial class Form1
     {
@@ -545,7 +545,7 @@
             this.tabControl2.Location = new System.Drawing.Point(29, 12);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1427, 857);
+            this.tabControl2.Size = new System.Drawing.Size(1427, 865);
             this.tabControl2.TabIndex = 21;
             // 
             // tabPage1
@@ -556,17 +556,20 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1419, 828);
+            this.tabPage1.Size = new System.Drawing.Size(1419, 836);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Charts";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Gainsboro;
             this.pictureBox1.Location = new System.Drawing.Point(312, 509);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(981, 313);
+            this.pictureBox1.Size = new System.Drawing.Size(981, 308);
             this.pictureBox1.TabIndex = 37;
             this.pictureBox1.TabStop = false;
             // 
@@ -719,6 +722,8 @@
             // 
             // chartPictureBox
             // 
+            this.chartPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chartPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.chartPictureBox.Location = new System.Drawing.Point(312, 6);
             this.chartPictureBox.Name = "chartPictureBox";
@@ -730,7 +735,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1482, 881);
+            this.ClientSize = new System.Drawing.Size(1550, 941);
             this.Controls.Add(this.tabControl2);
             this.Name = "Form1";
             this.Text = "Form1";

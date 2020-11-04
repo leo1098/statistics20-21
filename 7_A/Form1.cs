@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace _7_A
+namespace CSVReaderPersiani
 {
     public partial class Form1 : Form
     {
@@ -163,6 +163,8 @@ namespace _7_A
             string NewType = "";
             switch (SelectedType)
             {
+                case -1:
+                    break;
                 case 0:
                     if (bool.TryParse(Value, out boolValue))
                         changeType(SelectedNodeIndex, typeof(bool));
@@ -682,6 +684,10 @@ namespace _7_A
         List<Interval> FrequencyDistributionY;
         private void drawChartButton_Click(object sender, EventArgs e)
         {
+
+            if (this.columnsForChart1.SelectedIndex <= -1 || this.columnsForChart2.SelectedIndex <= -1)
+                return;
+
             DataSetForChart = generateDataSetForChart();
             MinX_Win = DataSetForChart.Min(D => D.X);
             MinY_Win = DataSetForChart.Min(D => D.Y);
