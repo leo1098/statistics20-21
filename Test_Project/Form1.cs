@@ -9,8 +9,10 @@ namespace Test_Project
     public partial class Form1 : Form
     {
         string nl = Environment.NewLine;
-        Bitmap b;
+        Bitmap blocal;
         Graphics g;
+        RettangoloRidimensionabile R;
+        
 
         List<DataPoint> DataSet;
         Rectangle ViewPort;
@@ -36,9 +38,12 @@ namespace Test_Project
             Range_Y = MaxY_Win - MinY_Win;
 
             // ViewPort
-            ViewPort = new Rectangle(100, 50, 200, 200);
+            ViewPort = new Rectangle(100, 100, 500, 500);
 
-            // creation of dataset
+            R = new RettangoloRidimensionabile(pictureBox1, blocal, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, ViewPort);
+            R.RettangoloModificato += drawViewport;
+
+            //creation of dataset
             for (int i = -5; i <= 5; i++)
             {
                 for (int j = -5; j <= 5; j++)
@@ -53,39 +58,45 @@ namespace Test_Project
             }
 
             drawViewport();
+
+            // R.drawViewport();
         }
 
         private void drawViewport()
         {
-            g.Clear(Color.White);
-            g.DrawRectangle(Pens.Red, ViewPort);
+            R.g.Clear(Color.White);
+            R.g.DrawRectangle(Pens.Red, R.Rettangolo);
 
             foreach (DataPoint D in DataSet)
             {
-                int X_View = viewport_X(D.X, MinX_Win, Range_X);
-                int Y_View = viewport_Y(D.Y, MinY_Win, Range_Y);
+                int X_View = R.viewport_X(D.X);
+                int Y_View = R.viewport_Y(D.Y);
 
-                g.FillEllipse(Brushes.Black, new Rectangle(new Point(X_View - 2, Y_View - 2), new Size(4, 4)));
+                R.g.FillEllipse(Brushes.Black, new Rectangle(new Point(X_View - 2, Y_View - 2), new Size(4, 4)));
             }
 
-            pictureBox1.Image = b;
+            // R.b = this.blocal;
+            // R._PictureBox1.Image = b; // both same result
+
+
+            this.pictureBox1.Image = blocal;
         }
 
         private void initGraphics()
         {
-            b = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
-            g = Graphics.FromImage(b);
+            blocal = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            g = Graphics.FromImage(blocal);
             g.SmoothingMode = SmoothingMode.AntiAlias;
         }
 
         private int viewport_X(double World_X, double MinX, double Range_X)
         {
-            return (int)(ViewPort.Left + (World_X - MinX) * (ViewPort.Width / Range_X));
+            return (int)(R.Rettangolo.Left + (World_X - MinX) * (R.Rettangolo.Width / Range_X));
         }
 
         private int viewport_Y(double World_Y, double MinY, double Range_Y)
         {
-            return (int)(ViewPort.Top + ViewPort.Height - (World_Y - MinY) * (ViewPort.Height / Range_Y));
+            return (int)(R.Rettangolo.Top + R.Rettangolo.Height - (World_Y - MinY) * (R.Rettangolo.Height / Range_Y));
         }
 
         Rectangle ViewPort_MouseDown;
@@ -93,51 +104,51 @@ namespace Test_Project
         bool Dragging;
         bool Resizing;
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            Click_Point_Drag = new Point(e.X, e.Y);
+        //    private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        //    {
+        //        Click_Point_Drag = new Point(e.X, e.Y);
 
-            if (ViewPort.Contains(Click_Point_Drag))
-            {
-                ViewPort_MouseDown = this.ViewPort;
+        //        if (ViewPort.Contains(Click_Point_Drag))
+        //        {
+        //            ViewPort_MouseDown = this.ViewPort;
 
-                if (e.Button == MouseButtons.Left)
-                {
-                    Dragging = true;
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    Resizing = true;
-                }
-            }
-        }
+        //            if (e.Button == MouseButtons.Left)
+        //            {
+        //                Dragging = true;
+        //            }
+        //            else if (e.Button == MouseButtons.Right)
+        //            {
+        //                Resizing = true;
+        //            }
+        //        }
+        //    }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Dragging)
-            {
-                int Delta_X = e.X - Click_Point_Drag.X;
-                int Delta_Y = e.Y - Click_Point_Drag.Y;
+        //    private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        //    {
+        //        if (Dragging)
+        //        {
+        //            int Delta_X = e.X - Click_Point_Drag.X;
+        //            int Delta_Y = e.Y - Click_Point_Drag.Y;
 
-                ViewPort.X = ViewPort_MouseDown.X + Delta_X;
-                ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
-            }
-            else if (Resizing)
-            {
-                int Delta_X = e.X - Click_Point_Drag.X;
-                int Delta_Y = e.Y - Click_Point_Drag.Y;
+        //            ViewPort.X = ViewPort_MouseDown.X + Delta_X;
+        //            ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
+        //        }
+        //        else if (Resizing)
+        //        {
+        //            int Delta_X = e.X - Click_Point_Drag.X;
+        //            int Delta_Y = e.Y - Click_Point_Drag.Y;
 
-                ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
-                ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
-            }
-            drawViewport();
+        //            ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
+        //            ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
+        //        }
+        //        drawViewport();
 
-        }
+        //    }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-            Dragging = false;
-            Resizing = false;
-        }
+        //    private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        //    {
+        //        Dragging = false;
+        //        Resizing = false;
+        //    }
     }
 }

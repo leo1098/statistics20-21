@@ -6,51 +6,64 @@ using System.Windows.Forms;
 
 public partial class RettangoloRidimensionabile
 {
-    private PictureBox _PictureBox1;
 
     public PictureBox PictureBox1
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
         get
         {
-            return _PictureBox1;
+            return PictureBox;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         set
         {
-            if (_PictureBox1 != null)
+            if (PictureBox != null)
             {
-                _PictureBox1.MouseDown -= PictureBox1_MouseDown;
-                _PictureBox1.MouseEnter -= PictureBox1_MouseEnter;
-                _PictureBox1.MouseMove -= PictureBox1_MouseMove;
-                _PictureBox1.MouseUp -= PictureBox1_MouseUp;
-                _PictureBox1.MouseWheel -= PictureBox1_MouseWheel;
+                PictureBox.MouseDown -= PictureBox1_MouseDown;
+                PictureBox.MouseEnter -= PictureBox1_MouseEnter;
+                PictureBox.MouseMove -= PictureBox1_MouseMove;
+                PictureBox.MouseUp -= PictureBox1_MouseUp;
+                PictureBox.MouseWheel -= PictureBox1_MouseWheel;
             }
 
-            _PictureBox1 = value;
-            if (_PictureBox1 != null)
+            PictureBox = value;
+            if (PictureBox != null)
             {
-                _PictureBox1.MouseDown += PictureBox1_MouseDown;
-                _PictureBox1.MouseEnter += PictureBox1_MouseEnter;
-                _PictureBox1.MouseMove += PictureBox1_MouseMove;
-                _PictureBox1.MouseUp += PictureBox1_MouseUp;
-                _PictureBox1.MouseWheel += PictureBox1_MouseWheel;
+                PictureBox.MouseDown += PictureBox1_MouseDown;
+                PictureBox.MouseEnter += PictureBox1_MouseEnter;
+                PictureBox.MouseMove += PictureBox1_MouseMove;
+                PictureBox.MouseUp += PictureBox1_MouseUp;
+                PictureBox.MouseWheel += PictureBox1_MouseWheel;
             }
         }
     }
 
+    public PictureBox PictureBox;
     public Bitmap b;
+    public Graphics g;
+    public double MinX_Win;
+    public double MinY_Win;
+    public double MaxX_Win;
+    public double MaxY_Win;
+    public double Range_X;
+    public double Range_Y;
 
-    public RettangoloRidimensionabile(PictureBox PictureBox1, Bitmap b, Rectangle RettangoloIniziale)
+    public RettangoloRidimensionabile(PictureBox pictureBox1, Bitmap b, Graphics g, double minX_Win, double minY_Win, double maxX_Win, double maxY_Win, Rectangle rettangolo)
     {
-        this.PictureBox1 = PictureBox1;
+        PictureBox1 = pictureBox1;
         this.b = b;
-        Rettangolo = RettangoloIniziale;
+        this.g = g;
+        MinX_Win = minX_Win;
+        MinY_Win = minY_Win;
+        MaxX_Win = maxX_Win;
+        MaxY_Win = maxY_Win;
+        Range_X = maxX_Win - minX_Win;
+        Range_Y = maxY_Win - minY_Win;
+        Rettangolo = rettangolo;
     }
 
     public event RettangoloModificatoEventHandler RettangoloModificato;
-
     public delegate void RettangoloModificatoEventHandler();
 
     public Rectangle Rettangolo;
@@ -131,7 +144,7 @@ public partial class RettangoloRidimensionabile
 
     private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
     {
-        RettangoloModificato?.Invoke();
+        //drawViewport();
         DraggingIncorso = false;
         ResizingIncorso = false;
     }
@@ -160,5 +173,15 @@ public partial class RettangoloRidimensionabile
         if (Rettangolo.Height < 20)
             Rettangolo.Height = 20;
         RettangoloModificato?.Invoke();
+    }
+
+    public int viewport_X(double World_X)
+    {
+        return (int)(Rettangolo.Left + (World_X - MinX_Win) * (Rettangolo.Width / Range_X));
+    }
+
+    public int viewport_Y(double World_Y)
+    {
+        return (int)(Rettangolo.Top + Rettangolo.Height - (World_Y - MinY_Win) * (Rettangolo.Height / Range_Y));
     }
 }

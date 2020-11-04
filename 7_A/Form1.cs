@@ -46,7 +46,9 @@ namespace _7_A
 
         Rectangle ViewPort;
         Bitmap b;
+        Bitmap b2;
         Graphics g;
+        Graphics g2;
 
         // ------------------ HANDLERS -------------------------------
         private void filenameBox_DragEnter(object sender, DragEventArgs e)
@@ -628,21 +630,6 @@ namespace _7_A
             return avg;
         }
 
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void printFrequencyDistributionInterval(List<Interval> L)
         {
             double tot = 0;
@@ -681,6 +668,9 @@ namespace _7_A
         string Name_X;
         string Name_Y;
 
+        List<Interval> FrequencyDistributionX;
+        List<Interval> FrequencyDistributionY;
+
         private List<DataPointForChart> generateDataSetForChart()
         {
             string ColumnName1 = this.columnsForChart1.SelectedItem.ToString();
@@ -713,7 +703,7 @@ namespace _7_A
 
             drawAxis();
 
-            drawRugPlot();
+            // drawRugPlot();
 
             // print two lines representing averages
             // printLinesForMean();
@@ -735,19 +725,33 @@ namespace _7_A
 
         private void drawAxis()
         {
+            Pen p = new Pen(Color.Black);
+            p.EndCap = LineCap.ArrowAnchor;
+            //g.DrawLine(
+            //    p,
+            //    ViewPort.X,
+            //    ViewPort.Y + ViewPort.Height,
+            //    ViewPort.X + ViewPort.Width,
+            //    ViewPort.Y + ViewPort.Height);
             g.DrawLine(
-                Pens.Black,
-                ViewPort.X,
-                ViewPort.Y + ViewPort.Height,
-                ViewPort.X + ViewPort.Width,
-                ViewPort.Y + ViewPort.Height);
+                p,
+                viewport_X(MinX_Win),
+                viewport_Y(MinY_Win),
+                viewport_X(MaxX_Win),
+                viewport_Y(MinY_Win));
+
+            g.DrawString(Name_X, DefaultFont, Brushes.Black, ViewPort.X + ViewPort.Width + 5,
+                ViewPort.Y + ViewPort.Height + 5);
 
             g.DrawLine(
-                Pens.Black,
+                p,
                 ViewPort.X,
                 ViewPort.Y,
                 ViewPort.X,
                 ViewPort.Y + ViewPort.Height);
+
+            g.DrawString(Name_Y, DefaultFont, Brushes.Black, ViewPort.X + 5,
+                ViewPort.Y + ViewPort.Height + 5);
         }
 
         private void drawHistogramOnAxis(string Axis)
@@ -758,14 +762,14 @@ namespace _7_A
             if (Axis.Equals("X"))
             {
                 double StartingPointX = MinX_Win;
-                List<Interval> FrequencyDistribution = new List<Interval>();
-                FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
+                FrequencyDistributionX = new List<Interval>();
+                FrequencyDistributionX = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
 
                 // draw proportionate rectangles 
-                double BarWidth = (double)ViewPort.Width / FrequencyDistribution.Count;
+                double BarWidth = (double)ViewPort.Width / FrequencyDistributionX.Count;
                 double BarMaxHeight = ViewPort.Height * 0.7;
                 int BarNum = 0;
-                foreach (Interval I in FrequencyDistribution)
+                foreach (Interval I in FrequencyDistributionX)
                 {
                     float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
                     RectangleF R = new RectangleF(
@@ -802,17 +806,17 @@ namespace _7_A
             else if (Axis.Equals("Y"))
             {
                 double StartingPointY = MinY_Win;
-                List<Interval> FrequencyDistribution = new List<Interval>();
-                FrequencyDistribution = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
+                FrequencyDistributionY = new List<Interval>();
+                FrequencyDistributionY = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
 
                 // invert list so the biggest comes before the smallest
-                FrequencyDistribution.Reverse();
+                List<Interval> ReversedFrequencyDistributionY = Enumerable.Reverse(FrequencyDistributionY).ToList();
 
                 // draw proportionate rectangles 
-                double BarWidth = (double)ViewPort.Height / FrequencyDistribution.Count;
+                double BarWidth = (double)ViewPort.Height / ReversedFrequencyDistributionY.Count;
                 double BarMaxHeight = ViewPort.Width * 0.7;
                 int BarNum = 0;
-                foreach (Interval I in FrequencyDistribution)
+                foreach (Interval I in ReversedFrequencyDistributionY)
                 {
                     float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
                     RectangleF R = new RectangleF(
@@ -854,6 +858,10 @@ namespace _7_A
             b = new Bitmap(this.chartPictureBox.Width, this.chartPictureBox.Height);
             g = Graphics.FromImage(b);
             g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            b2 = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            g2 = Graphics.FromImage(b2);
+            g2.SmoothingMode = SmoothingMode.AntiAlias;
         }
 
         private int viewport_X(double World_X)
@@ -907,7 +915,7 @@ namespace _7_A
 
         private void drawRugPlot()
         {
-            int h = 1;
+            int h = 3;
             foreach (DataPointForChart D in DataSetForChart)
             {
                 // X axis
@@ -958,6 +966,9 @@ namespace _7_A
 
         private void chartPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            if (chartPictureBox == null || chartPictureBox.Image == null)
+                return;
+
             if (Dragging)
             {
                 int Delta_X = e.X - Click_Point_Drag.X;
@@ -984,6 +995,12 @@ namespace _7_A
             Resizing = false;
         }
 
+
+        SizeF MaxSizeX;
+        SizeF MaxSizeY;
+        SizeF MaxSize;
+        ResizableRectangle R;
+
         private void drawChartButton_Click(object sender, EventArgs e)
         {
             DataSetForChart = generateDataSetForChart();
@@ -1005,6 +1022,102 @@ namespace _7_A
             ViewPort = new Rectangle(100, 50, 400, 400);
 
             drawViewport();
+
+
+            // contingency
+            g2.Clear(Color.White);
+
+            MaxSizeX = g2.MeasureString(FrequencyDistributionX.Last().printInterval(), DefaultFont);
+            MaxSizeY = g2.MeasureString(FrequencyDistributionY.Last().printInterval(), DefaultFont);
+            MaxSize = MaxSizeX.Width >= MaxSizeY.Width ? MaxSizeX : MaxSizeY;
+
+            //R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count, MaxSize.Height * FrequencyDistributionY.Count, new Rectangle(0, 0, 400, 400));
+            R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count,
+                MaxSize.Height * FrequencyDistributionY.Count,
+                new Rectangle(0, 0, (int)MaxSize.Width * FrequencyDistributionX.Count,(int) MaxSize.Height * FrequencyDistributionY.Count));
+            pictureBox1.Image = b2;
+            R.ModifiedRect += drawContingencyTable;
+            drawContingencyTable();
+        }
+
+        private void drawContingencyTable()
+        {
+            g2.Clear(Color.Gainsboro);
+            // g2.DrawRectangle(Pens.Red, R.R);
+            // g2.FillRectangle(Brushes.Red, R.R);
+            int x;
+            int y;
+            List<List<int>> Matrix = generateDatasetMatrix();
+
+            // draw header for X
+            for (x = 1; x <= FrequencyDistributionX.Count; x++)
+            {
+                g2.DrawString(FrequencyDistributionX[x - 1].printInterval(), DefaultFont , Brushes.Indigo, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win));
+                // vertical lines for each column
+                g2.DrawLine(Pens.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win), R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win));
+            }
+            g2.DrawString("Mar Y", DefaultFont, Brushes.Indigo, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win));
+            g2.DrawLine(Pens.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win), R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win));
+
+
+            for (y = 1; y <= FrequencyDistributionY.Count; y++)
+            {
+                // draw header for Y
+                g2.DrawString(FrequencyDistributionY[y - 1].printInterval(), DefaultFont, Brushes.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y*MaxSize.Height));
+                // horizontal lines for each row
+                g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.R.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+
+                for (x = 1; x <= FrequencyDistributionX.Count; x++)
+                {
+                    // joint frequency
+                    g2.DrawString(Matrix[y - 1][x - 1].ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                }
+
+                // Marginal for Y (rightmost column)
+                g2.DrawString(FrequencyDistributionY[y - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+            }
+            g2.DrawString("Mar X", DefaultFont, Brushes.Indigo, R.viewport_X(0), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+                g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.MaxX_Win), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+            //g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(-y * MaxSize.Height), R.viewport_X(300), R.viewport_Y(-y * MaxSize.Height));
+
+            for (x = 1; x <= FrequencyDistributionX.Count; x++)
+            {
+                // Marginal for X (lowermost row)
+                g2.DrawString(FrequencyDistributionX[x - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+            }
+
+
+            g2.DrawString(DataSetForChart.Count().ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+
+            pictureBox1.Image = b2;
+        }
+
+        private List<List<int>> generateDatasetMatrix ()
+        {
+            List<List<int>> M = new List<List<int>>();
+            // matrix instantiation
+            int LengthOfRows = FrequencyDistributionX.Count();
+            for (int i = 0; i < FrequencyDistributionY.Count(); i++)
+            {
+                M.Add(new List<int>(new int[LengthOfRows]));
+            }
+
+            // matrix population
+            foreach (DataPointForChart DP in DataSetForChart)
+            {            
+                for (int i = 0; i < FrequencyDistributionX.Count(); i++)
+                {
+                    if (FrequencyDistributionX[i].containsValue(DP.X))
+                    {
+                        for (int j = 0; j < FrequencyDistributionY.Count(); j++)
+                        {
+                            if (FrequencyDistributionY[j].containsValue(DP.Y))
+                                M[j][i] += 1;
+                        }
+                    }
+                }
+            }
+            return M;
         }
     }
 }

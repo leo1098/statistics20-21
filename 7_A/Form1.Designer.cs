@@ -68,19 +68,20 @@
             this.readCSVButton = new System.Windows.Forms.Button();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.stepY = new System.Windows.Forms.NumericUpDown();
-            this.stepX = new System.Windows.Forms.NumericUpDown();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.columnsForChart2 = new System.Windows.Forms.ComboBox();
+            this.stepY = new System.Windows.Forms.NumericUpDown();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.columnsForChart1 = new System.Windows.Forms.ComboBox();
+            this.stepX = new System.Windows.Forms.NumericUpDown();
             this.printChartButton = new System.Windows.Forms.Button();
             this.chartPictureBox = new System.Windows.Forms.PictureBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStep)).BeginInit();
@@ -94,12 +95,13 @@
             this.groupBox5.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox6.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepY)).BeginInit();
+            this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartPictureBox)).BeginInit();
-            this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage4
@@ -110,7 +112,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1306, 700);
+            this.tabPage4.Size = new System.Drawing.Size(1419, 700);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Mean and Distribution";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -286,7 +288,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1306, 700);
+            this.tabPage3.Size = new System.Drawing.Size(1419, 700);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Load CSV";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -539,40 +541,89 @@
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.tabPage1);
-            this.tabControl2.Location = new System.Drawing.Point(62, 28);
+            this.tabControl2.Location = new System.Drawing.Point(29, 12);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1314, 729);
+            this.tabControl2.Size = new System.Drawing.Size(1427, 857);
             this.tabControl2.TabIndex = 21;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Controls.Add(this.chartPictureBox);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1306, 700);
+            this.tabPage1.Size = new System.Drawing.Size(1419, 828);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Charts";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.pictureBox1.Location = new System.Drawing.Point(312, 509);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(981, 313);
+            this.pictureBox1.TabIndex = 37;
+            this.pictureBox1.TabStop = false;
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.groupBox7);
             this.groupBox6.Controls.Add(this.printChartButton);
-            this.groupBox6.Location = new System.Drawing.Point(17, 6);
+            this.groupBox6.Location = new System.Drawing.Point(24, 67);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(325, 334);
+            this.groupBox6.Size = new System.Drawing.Size(217, 438);
             this.groupBox6.TabIndex = 36;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Select two fields and print chart";
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.label12);
+            this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Controls.Add(this.columnsForChart2);
+            this.groupBox8.Controls.Add(this.stepY);
+            this.groupBox8.Location = new System.Drawing.Point(9, 217);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(146, 143);
+            this.groupBox8.TabIndex = 41;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Y Axis";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 83);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(37, 17);
+            this.label12.TabIndex = 41;
+            this.label12.Text = "Step";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 24);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 17);
+            this.label10.TabIndex = 40;
+            this.label10.Text = "Column";
+            // 
+            // columnsForChart2
+            // 
+            this.columnsForChart2.FormattingEnabled = true;
+            this.columnsForChart2.Location = new System.Drawing.Point(5, 44);
+            this.columnsForChart2.Name = "columnsForChart2";
+            this.columnsForChart2.Size = new System.Drawing.Size(121, 24);
+            this.columnsForChart2.TabIndex = 35;
+            // 
             // stepY
             // 
             this.stepY.DecimalPlaces = 2;
-            this.stepY.Location = new System.Drawing.Point(157, 44);
+            this.stepY.Location = new System.Drawing.Point(5, 103);
             this.stepY.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -592,10 +643,49 @@
             0,
             0});
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.label8);
+            this.groupBox7.Controls.Add(this.columnsForChart1);
+            this.groupBox7.Controls.Add(this.stepX);
+            this.groupBox7.Location = new System.Drawing.Point(9, 35);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(151, 154);
+            this.groupBox7.TabIndex = 40;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "X Axis";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(3, 82);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(37, 17);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "Step";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 22);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 17);
+            this.label8.TabIndex = 39;
+            this.label8.Text = "Column";
+            // 
+            // columnsForChart1
+            // 
+            this.columnsForChart1.FormattingEnabled = true;
+            this.columnsForChart1.Location = new System.Drawing.Point(5, 42);
+            this.columnsForChart1.Name = "columnsForChart1";
+            this.columnsForChart1.Size = new System.Drawing.Size(121, 24);
+            this.columnsForChart1.TabIndex = 34;
+            // 
             // stepX
             // 
             this.stepX.DecimalPlaces = 2;
-            this.stepX.Location = new System.Drawing.Point(157, 42);
+            this.stepX.Location = new System.Drawing.Point(6, 102);
             this.stepX.Maximum = new decimal(new int[] {
             999999999,
             0,
@@ -615,28 +705,12 @@
             0,
             0});
             // 
-            // columnsForChart2
-            // 
-            this.columnsForChart2.FormattingEnabled = true;
-            this.columnsForChart2.Location = new System.Drawing.Point(5, 44);
-            this.columnsForChart2.Name = "columnsForChart2";
-            this.columnsForChart2.Size = new System.Drawing.Size(121, 24);
-            this.columnsForChart2.TabIndex = 35;
-            // 
-            // columnsForChart1
-            // 
-            this.columnsForChart1.FormattingEnabled = true;
-            this.columnsForChart1.Location = new System.Drawing.Point(5, 42);
-            this.columnsForChart1.Name = "columnsForChart1";
-            this.columnsForChart1.Size = new System.Drawing.Size(121, 24);
-            this.columnsForChart1.TabIndex = 34;
-            // 
             // printChartButton
             // 
             this.printChartButton.Enabled = false;
-            this.printChartButton.Location = new System.Drawing.Point(9, 279);
+            this.printChartButton.Location = new System.Drawing.Point(9, 382);
             this.printChartButton.Name = "printChartButton";
-            this.printChartButton.Size = new System.Drawing.Size(286, 33);
+            this.printChartButton.Size = new System.Drawing.Size(140, 33);
             this.printChartButton.TabIndex = 33;
             this.printChartButton.Text = "Print Scatterplot";
             this.printChartButton.UseVisualStyleBackColor = true;
@@ -645,82 +719,20 @@
             // chartPictureBox
             // 
             this.chartPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.chartPictureBox.Location = new System.Drawing.Point(385, 22);
+            this.chartPictureBox.Location = new System.Drawing.Point(312, 6);
             this.chartPictureBox.Name = "chartPictureBox";
-            this.chartPictureBox.Size = new System.Drawing.Size(892, 613);
+            this.chartPictureBox.Size = new System.Drawing.Size(981, 476);
             this.chartPictureBox.TabIndex = 32;
             this.chartPictureBox.TabStop = false;
             this.chartPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseDown);
             this.chartPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseMove);
             this.chartPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseUp);
             // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.label11);
-            this.groupBox7.Controls.Add(this.label8);
-            this.groupBox7.Controls.Add(this.columnsForChart1);
-            this.groupBox7.Controls.Add(this.stepX);
-            this.groupBox7.Location = new System.Drawing.Point(9, 35);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(310, 83);
-            this.groupBox7.TabIndex = 40;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "X Axis";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 22);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 17);
-            this.label8.TabIndex = 39;
-            this.label8.Text = "Column";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(154, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(37, 17);
-            this.label11.TabIndex = 40;
-            this.label11.Text = "Step";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.label12);
-            this.groupBox8.Controls.Add(this.label10);
-            this.groupBox8.Controls.Add(this.columnsForChart2);
-            this.groupBox8.Controls.Add(this.stepY);
-            this.groupBox8.Location = new System.Drawing.Point(9, 142);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(310, 84);
-            this.groupBox8.TabIndex = 41;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Y Axis";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 24);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(55, 17);
-            this.label10.TabIndex = 40;
-            this.label10.Text = "Column";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(154, 18);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 17);
-            this.label12.TabIndex = 41;
-            this.label12.Text = "Step";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1414, 801);
+            this.ClientSize = new System.Drawing.Size(1482, 881);
             this.Controls.Add(this.tabControl2);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -742,14 +754,15 @@
             this.groupBox5.PerformLayout();
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.stepY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stepX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartPictureBox)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stepY)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stepX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -809,6 +822,7 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

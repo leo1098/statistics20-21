@@ -15,5 +15,10 @@ namespace _7_A{
         public double Percentage;
 
         public bool containsValue(double v) => (v >= LowerInclusiveBound && v < (LowerInclusiveBound + Step));
+
+        public string printInterval()
+        {
+            return $"[{LowerInclusiveBound} - {LowerInclusiveBound + Step})";
+        }
     }
 }
