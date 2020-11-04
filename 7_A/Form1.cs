@@ -286,6 +286,12 @@ namespace _7_A
             }
             printDataTable();
 
+            this.computeMeanButton.Enabled = true;
+            this.computeFrequencyDistribution.Enabled = true;
+            this.printChartButton.Enabled = true;
+            this.columnsForChart1.SelectedItem = "";
+            this.columnsForChart2.SelectedItem = "";
+
             // adds double or integer columns in combobox
             addColumnsForMean();
         }
@@ -304,6 +310,8 @@ namespace _7_A
             this.computeMeanButton.Enabled = true;
             this.computeFrequencyDistribution.Enabled = true;
             this.printChartButton.Enabled = true;
+            this.columnsForChart1.SelectedItem = "";
+            this.columnsForChart2.SelectedItem = "";
 
             foreach (ColumnInfo C in ListOfColumns)
             {
@@ -475,8 +483,7 @@ namespace _7_A
         private void computeMeanButton_Click(object sender, EventArgs e)
         {
             // get column index
-            string ColumnName = this.columnsForMeanCombobox.SelectedItem.ToString();
-            if (string.IsNullOrEmpty(ColumnName))
+            if (this.columnsForMeanCombobox.SelectedIndex <= -1)
             {
                 DialogResult result = MessageBox.Show("No columm selected", "Select a column", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK) { }
@@ -484,6 +491,7 @@ namespace _7_A
             }
             else
             {
+                string ColumnName = this.columnsForMeanCombobox.SelectedItem.ToString();
                 // get values
                 List<double> Values = new List<double>();
 
@@ -660,6 +668,8 @@ namespace _7_A
         // -------------- GRAPHIC FUNCTIONS -----------------------
         List<DataPointForChart> DataSetForChart;
 
+        ResizableRectangle R2;
+
         Rectangle ViewPort_MouseDown;
         Point Click_Point_Drag;
         bool Dragging;
@@ -670,6 +680,59 @@ namespace _7_A
 
         List<Interval> FrequencyDistributionX;
         List<Interval> FrequencyDistributionY;
+        private void drawChartButton_Click(object sender, EventArgs e)
+        {
+            DataSetForChart = generateDataSetForChart();
+            MinX_Win = DataSetForChart.Min(D => D.X);
+            MinY_Win = DataSetForChart.Min(D => D.Y);
+            MaxX_Win = DataSetForChart.Max(D => D.X);
+            MaxY_Win = DataSetForChart.Max(D => D.Y);
+
+            Range_X = MaxX_Win - MinX_Win;
+            Range_Y = MaxY_Win - MinY_Win;
+
+            Name_X = this.columnsForChart1.SelectedItem.ToString();
+            Name_Y = this.columnsForChart2.SelectedItem.ToString();
+
+            // frequency distributions
+            double StepX = (double)this.stepX.Value;
+            double StepY = (double)this.stepY.Value;
+            double StartingPointX = MinX_Win;
+            FrequencyDistributionX = new List<Interval>();
+            FrequencyDistributionX = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
+
+            double StartingPointY = MinY_Win;
+            FrequencyDistributionY = new List<Interval>();
+            FrequencyDistributionY = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
+
+            if (string.IsNullOrEmpty(Name_X) || string.IsNullOrEmpty(Name_X))
+                return;
+
+            // -------------- scatterplot --------------
+            //ViewPort = new Rectangle(0, 0, 400, 400);
+            R2 = new ResizableRectangle(chartPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new Rectangle(20, 20, 400, 400));
+            R2.ModifiedRect += drawCharts;
+            drawCharts();
+
+
+            // -----------contingency table-----------
+            g2.Clear(Color.White);
+
+            MaxSizeX = g2.MeasureString(FrequencyDistributionX.Last().printInterval(), DefaultFont);
+            MaxSizeY = g2.MeasureString(FrequencyDistributionY.Last().printInterval(), DefaultFont);
+            MaxSize = MaxSizeX.Width >= MaxSizeY.Width ? MaxSizeX : MaxSizeY;
+
+            //R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count, MaxSize.Height * FrequencyDistributionY.Count, new Rectangle(0, 0, 400, 400));
+            R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count,
+                MaxSize.Height * FrequencyDistributionY.Count,
+                new Rectangle(0, 0,
+                    (int)MaxSize.Width * FrequencyDistributionX.Count,
+                    (int)MaxSize.Height * FrequencyDistributionY.Count)
+                );
+            pictureBox1.Image = b2;
+            R.ModifiedRect += drawContingencyTable;
+            drawContingencyTable();
+        }
 
         private List<DataPointForChart> generateDataSetForChart()
         {
@@ -696,14 +759,14 @@ namespace _7_A
             return DS;
         }
 
-        private void drawViewport()
+        private void drawCharts()
         {
             g.Clear(Color.Gainsboro);
-            // g.DrawRectangle(Pens.Red, ViewPort);
+            //g.DrawRectangle(Pens.Red, ViewPort);
 
             drawAxis();
 
-            // drawRugPlot();
+            drawRugPlot();
 
             // print two lines representing averages
             // printLinesForMean();
@@ -711,16 +774,21 @@ namespace _7_A
             drawHistogramOnAxis("X");
             drawHistogramOnAxis("Y");
 
+            drawScatterplot();
+
+            chartPictureBox.Image = b;
+        }
+
+        private void drawScatterplot()
+        {
             foreach (DataPointForChart D in DataSetForChart)
             {
-                int X_View = viewport_X(D.X);
-                int Y_View = viewport_Y(D.Y);
+                int X_View = R2.viewport_X(D.X);
+                int Y_View = R2.viewport_Y(D.Y);
 
                 g.FillEllipse(Brushes.Black, new Rectangle(new Point(X_View - 2, Y_View - 2), new Size(4, 4)));
                 //g.DrawString(D.X.ToString() +","+D.Y.ToString(), DefaultFont, Brushes.Black, new Point((int)D.X, (int)D.Y));
             }
-
-            chartPictureBox.Image = b;
         }
 
         private void drawAxis()
@@ -733,25 +801,31 @@ namespace _7_A
             //    ViewPort.Y + ViewPort.Height,
             //    ViewPort.X + ViewPort.Width,
             //    ViewPort.Y + ViewPort.Height);
+
+            // X axis
             g.DrawLine(
                 p,
-                viewport_X(MinX_Win),
-                viewport_Y(MinY_Win),
-                viewport_X(MaxX_Win),
-                viewport_Y(MinY_Win));
+                R2.viewport_X(MinX_Win),
+                R2.viewport_Y(MinY_Win),
+                R2.viewport_X(MaxX_Win),
+                R2.viewport_Y(MinY_Win));
 
-            g.DrawString(Name_X, DefaultFont, Brushes.Black, ViewPort.X + ViewPort.Width + 5,
-                ViewPort.Y + ViewPort.Height + 5);
+            g.DrawString(Name_X, DefaultFont, Brushes.Black,
+                R2.viewport_X(MaxX_Win),
+                (float)(R2.viewport_Y(MinY_Win) + 0.05*MaxY_Win));
 
+            // Y axis
             g.DrawLine(
                 p,
-                ViewPort.X,
-                ViewPort.Y,
-                ViewPort.X,
-                ViewPort.Y + ViewPort.Height);
+                R2.viewport_X(MinX_Win),
+                R2.viewport_Y(MinY_Win),
+                R2.viewport_X(MinX_Win),
+                R2.viewport_Y(MaxY_Win)
+                );
 
-            g.DrawString(Name_Y, DefaultFont, Brushes.Black, ViewPort.X + 5,
-                ViewPort.Y + ViewPort.Height + 5);
+            g.DrawString(Name_Y, DefaultFont, Brushes.Black,
+                R2.viewport_X(MinX_Win) - g2.MeasureString(Name_Y, DefaultFont).Width,
+                (float)(R2.viewport_Y(MaxY_Win) + 0.05 * MaxX_Win));
         }
 
         private void drawHistogramOnAxis(string Axis)
@@ -761,20 +835,20 @@ namespace _7_A
 
             if (Axis.Equals("X"))
             {
-                double StartingPointX = MinX_Win;
-                FrequencyDistributionX = new List<Interval>();
-                FrequencyDistributionX = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
+                //double StartingPointX = MinX_Win;
+                //FrequencyDistributionX = new List<Interval>();
+                //FrequencyDistributionX = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
 
                 // draw proportionate rectangles 
-                double BarWidth = (double)ViewPort.Width / FrequencyDistributionX.Count;
-                double BarMaxHeight = ViewPort.Height * 0.7;
+                double BarWidth = (double)R2.R.Width / FrequencyDistributionX.Count;
+                double BarMaxHeight = R2.R.Height * 0.7;
                 int BarNum = 0;
                 foreach (Interval I in FrequencyDistributionX)
                 {
                     float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
                     RectangleF R = new RectangleF(
-                        (float)(ViewPort.X + (BarNum * BarWidth)),
-                        (float)(ViewPort.Y + ViewPort.Height - (BarMaxHeight * I.RelativeFrequency)),
+                        (float)(R2.R.X + (BarNum * BarWidth)),
+                        (float)(R2.R.Y + R2.R.Height - (BarMaxHeight * I.RelativeFrequency)),
                         (float)BarWidth,
                         BarHeight
                         );
@@ -789,12 +863,12 @@ namespace _7_A
                     double BarMean = computeOnlineMean(DataPointsInInterval.ToList());
 
                     PointF StartingPointForMean = new PointF(
-                        (float)viewport_X(BarMean),
-                        ViewPort.Y + ViewPort.Height);
+                        (float)R2.viewport_X(BarMean),
+                        R2.R.Y + R2.R.Height);
 
                     PointF EndingPointForMean = new PointF(
-                        (float)viewport_X(BarMean),
-                        ViewPort.Y + ViewPort.Height - BarHeight);
+                        (float)R2.viewport_X(BarMean),
+                        R2.R.Y + R2.R.Height - BarHeight);
 
                     SolidBrush B = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
                     g.FillRectangle(B, R);
@@ -805,23 +879,23 @@ namespace _7_A
             }
             else if (Axis.Equals("Y"))
             {
-                double StartingPointY = MinY_Win;
-                FrequencyDistributionY = new List<Interval>();
-                FrequencyDistributionY = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
+                //double StartingPointY = MinY_Win;
+                //FrequencyDistributionY = new List<Interval>();
+                //FrequencyDistributionY = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.Y).ToList(), StartingPointY, StepY);
 
                 // invert list so the biggest comes before the smallest
                 List<Interval> ReversedFrequencyDistributionY = Enumerable.Reverse(FrequencyDistributionY).ToList();
 
                 // draw proportionate rectangles 
-                double BarWidth = (double)ViewPort.Height / ReversedFrequencyDistributionY.Count;
-                double BarMaxHeight = ViewPort.Width * 0.7;
+                double BarWidth = (double)R2.R.Height / ReversedFrequencyDistributionY.Count;
+                double BarMaxHeight = R2.R.Width * 0.7;
                 int BarNum = 0;
                 foreach (Interval I in ReversedFrequencyDistributionY)
                 {
                     float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
                     RectangleF R = new RectangleF(
-                        ViewPort.X,
-                        (float)(ViewPort.Y + (BarNum * BarWidth)),
+                        R2.R.X,
+                        (float)(R2.R.Y + (BarNum * BarWidth)),
                         (float)BarHeight,
                         (float)BarWidth
                         );
@@ -836,13 +910,13 @@ namespace _7_A
                     double BarMean = computeOnlineMean(DataPointsInInterval.ToList());
 
                     PointF StartingPointForMean = new PointF(
-                        ViewPort.X,
-                        (float)viewport_Y(BarMean)
+                        R2.R.X,
+                        (float)R2.viewport_Y(BarMean)
                         );
 
                     PointF EndingPointForMean = new PointF(
-                        ViewPort.X + BarHeight,
-                        (float)viewport_Y(BarMean)
+                        R2.R.X + BarHeight,
+                        (float)R2.viewport_Y(BarMean)
                         );
 
                     SolidBrush B = new SolidBrush(Color.FromArgb(128, 0, 200, 0));
@@ -864,80 +938,80 @@ namespace _7_A
             g2.SmoothingMode = SmoothingMode.AntiAlias;
         }
 
-        private int viewport_X(double World_X)
-        {
-            return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
-        }
+        //private int viewport_X(double World_X)
+        //{
+        //    return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
+        //}
 
-        private int viewport_Y(double World_Y)
-        {
-            double diff1 = (World_Y - MinY_Win);
-            double ratio1 = (ViewPort.Height / Range_Y);
-            double ret = (ViewPort.Top + ViewPort.Height - diff1 * ratio1);
-            int castedret = (int)ret;
-            return castedret;
-        }
+        //private int viewport_Y(double World_Y)
+        //{
+        //    double diff1 = (World_Y - MinY_Win);
+        //    double ratio1 = (ViewPort.Height / Range_Y);
+        //    double ret = (ViewPort.Top + ViewPort.Height - diff1 * ratio1);
+        //    int castedret = (int)ret;
+        //    return castedret;
+        //}
 
-        private void drawLinesForMean()
-        {
-            // X Axis
-            List<double> Values_X = new List<double>();
-            foreach (Dictionary<string, dynamic> DataPoint in DataSet)
-            {
-                if (DataPoint[Name_X].GetType() == typeof(System.DBNull))
-                    Values_X.Add(0.0);
-                else
-                    Values_X.Add((double)DataPoint[Name_X]);
-            }
-            // compute mean
-            double Avg_X = viewport_X(computeOnlineMean(Values_X));
+        //private void drawLinesForMean()
+        //{
+        //    // X Axis
+        //    List<double> Values_X = new List<double>();
+        //    foreach (Dictionary<string, dynamic> DataPoint in DataSet)
+        //    {
+        //        if (DataPoint[Name_X].GetType() == typeof(System.DBNull))
+        //            Values_X.Add(0.0);
+        //        else
+        //            Values_X.Add((double)DataPoint[Name_X]);
+        //    }
+        //    // compute mean
+        //    double Avg_X = viewport_X(computeOnlineMean(Values_X));
 
-            // Y Axis
-            List<double> Values_Y = new List<double>();
-            foreach (Dictionary<string, dynamic> DataPoint in DataSet)
-            {
-                if (DataPoint[Name_Y].GetType() == typeof(System.DBNull))
-                    Values_Y.Add(0.0);
-                else
-                    Values_Y.Add((double)DataPoint[Name_Y]);
-            }
-            // compute mean
-            double Avg_Y = viewport_Y(computeOnlineMean(Values_Y));
+        //    // Y Axis
+        //    List<double> Values_Y = new List<double>();
+        //    foreach (Dictionary<string, dynamic> DataPoint in DataSet)
+        //    {
+        //        if (DataPoint[Name_Y].GetType() == typeof(System.DBNull))
+        //            Values_Y.Add(0.0);
+        //        else
+        //            Values_Y.Add((double)DataPoint[Name_Y]);
+        //    }
+        //    // compute mean
+        //    double Avg_Y = viewport_Y(computeOnlineMean(Values_Y));
 
-            Point Avg_X_Point_Start = new Point((int)Avg_X, viewport_Y(MinY_Win));
-            Point Avg_X_Point_End = new Point((int)Avg_X, viewport_Y(MaxY_Win));
-            Point Avg_Y_Point_Start = new Point(viewport_X(MinX_Win), (int)Avg_Y);
-            Point Avg_Y_Point_End = new Point(viewport_X(MaxX_Win), (int)Avg_Y);
+        //    Point Avg_X_Point_Start = new Point((int)Avg_X, viewport_Y(MinY_Win));
+        //    Point Avg_X_Point_End = new Point((int)Avg_X, viewport_Y(MaxY_Win));
+        //    Point Avg_Y_Point_Start = new Point(viewport_X(MinX_Win), (int)Avg_Y);
+        //    Point Avg_Y_Point_End = new Point(viewport_X(MaxX_Win), (int)Avg_Y);
 
-            g.DrawLine(Pens.Blue, Avg_Y_Point_Start, Avg_Y_Point_End);
-            g.DrawLine(Pens.Blue, Avg_X_Point_Start, Avg_X_Point_End);
-        }
+        //    g.DrawLine(Pens.Blue, Avg_Y_Point_Start, Avg_Y_Point_End);
+        //    g.DrawLine(Pens.Blue, Avg_X_Point_Start, Avg_X_Point_End);
+        //}
 
         private void drawRugPlot()
         {
-            int h = 3;
+            float h = (float)(0.01 * Math.Min(MaxY_Win, MaxY_Win));
             foreach (DataPointForChart D in DataSetForChart)
             {
                 // X axis
                 PointF StartingPointX = new PointF(
-                    viewport_X(D.X),
-                    viewport_Y(MinY_Win-h)
+                    R2.viewport_X(D.X),
+                    R2.viewport_Y(MinY_Win ) - h
                     );
                 PointF EndingPointX = new PointF(
-                    viewport_X(D.X),
-                    viewport_Y(MinY_Win + h)
+                    R2.viewport_X(D.X),
+                    R2.viewport_Y(MinY_Win) + h
                     );
 
                 g.DrawLine(Pens.Purple, StartingPointX, EndingPointX);
 
                 // Y axis
                 PointF StartingPointY = new PointF(
-                    viewport_X(MinX_Win -h),
-                    viewport_Y(D.Y)
+                    R2.viewport_X(MinX_Win - h),
+                    R2.viewport_Y(D.Y)
                     );
                 PointF EndingPointY = new PointF(
-                    viewport_X(MinX_Win + h),
-                    viewport_Y(D.Y)
+                    R2.viewport_X(MinX_Win + h),
+                    R2.viewport_Y(D.Y)
                     );
 
                 g.DrawLine(Pens.DarkSeaGreen, StartingPointY, EndingPointY);
@@ -945,55 +1019,55 @@ namespace _7_A
         }
 
 
-        private void chartPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            Click_Point_Drag = new Point(e.X, e.Y);
+        //private void chartPictureBox_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    Click_Point_Drag = new Point(e.X, e.Y);
 
-            if (ViewPort.Contains(Click_Point_Drag))
-            {
-                ViewPort_MouseDown = this.ViewPort;
+        //    if (ViewPort.Contains(Click_Point_Drag))
+        //    {
+        //        ViewPort_MouseDown = this.ViewPort;
 
-                if (e.Button == MouseButtons.Left)
-                {
-                    Dragging = true;
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    Resizing = true;
-                }
-            }
-        }
+        //        if (e.Button == MouseButtons.Left)
+        //        {
+        //            Dragging = true;
+        //        }
+        //        else if (e.Button == MouseButtons.Right)
+        //        {
+        //            Resizing = true;
+        //        }
+        //    }
+        //}
 
-        private void chartPictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (chartPictureBox == null || chartPictureBox.Image == null)
-                return;
+        //private void chartPictureBox_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (chartPictureBox == null || chartPictureBox.Image == null)
+        //        return;
 
-            if (Dragging)
-            {
-                int Delta_X = e.X - Click_Point_Drag.X;
-                int Delta_Y = e.Y - Click_Point_Drag.Y;
+        //    if (Dragging)
+        //    {
+        //        int Delta_X = e.X - Click_Point_Drag.X;
+        //        int Delta_Y = e.Y - Click_Point_Drag.Y;
 
-                ViewPort.X = ViewPort_MouseDown.X + Delta_X;
-                ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
-            }
-            else if (Resizing)
-            {
-                int Delta_X = e.X - Click_Point_Drag.X;
-                int Delta_Y = e.Y - Click_Point_Drag.Y;
+        //        ViewPort.X = ViewPort_MouseDown.X + Delta_X;
+        //        ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
+        //    }
+        //    else if (Resizing)
+        //    {
+        //        int Delta_X = e.X - Click_Point_Drag.X;
+        //        int Delta_Y = e.Y - Click_Point_Drag.Y;
 
-                ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
-                ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
-            }
-            drawViewport();
+        //        ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
+        //        ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
+        //    }
+        //    drawCharts();
 
-        }
+        //}
 
-        private void chartPictureBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            Dragging = false;
-            Resizing = false;
-        }
+        //private void chartPictureBox_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    Dragging = false;
+        //    Resizing = false;
+        //}
 
 
         SizeF MaxSizeX;
@@ -1001,44 +1075,6 @@ namespace _7_A
         SizeF MaxSize;
         ResizableRectangle R;
 
-        private void drawChartButton_Click(object sender, EventArgs e)
-        {
-            DataSetForChart = generateDataSetForChart();
-            MinX_Win = DataSetForChart.Min(D => D.X);
-            MinY_Win = DataSetForChart.Min(D => D.Y);
-            MaxX_Win = DataSetForChart.Max(D => D.X);
-            MaxY_Win = DataSetForChart.Max(D => D.Y);
-
-            Range_X = MaxX_Win - MinX_Win;
-            Range_Y = MaxY_Win - MinY_Win;
-
-            Name_X = this.columnsForChart1.SelectedItem.ToString();
-            Name_Y = this.columnsForChart2.SelectedItem.ToString();
-
-            if (string.IsNullOrEmpty(Name_X) || string.IsNullOrEmpty(Name_X))
-                return;
-
-            // ViewPort
-            ViewPort = new Rectangle(100, 50, 400, 400);
-
-            drawViewport();
-
-
-            // contingency
-            g2.Clear(Color.White);
-
-            MaxSizeX = g2.MeasureString(FrequencyDistributionX.Last().printInterval(), DefaultFont);
-            MaxSizeY = g2.MeasureString(FrequencyDistributionY.Last().printInterval(), DefaultFont);
-            MaxSize = MaxSizeX.Width >= MaxSizeY.Width ? MaxSizeX : MaxSizeY;
-
-            //R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count, MaxSize.Height * FrequencyDistributionY.Count, new Rectangle(0, 0, 400, 400));
-            R = new ResizableRectangle(pictureBox1, b2, g2, 0, 0, MaxSize.Width * FrequencyDistributionX.Count,
-                MaxSize.Height * FrequencyDistributionY.Count,
-                new Rectangle(0, 0, (int)MaxSize.Width * FrequencyDistributionX.Count,(int) MaxSize.Height * FrequencyDistributionY.Count));
-            pictureBox1.Image = b2;
-            R.ModifiedRect += drawContingencyTable;
-            drawContingencyTable();
-        }
 
         private void drawContingencyTable()
         {
@@ -1052,7 +1088,7 @@ namespace _7_A
             // draw header for X
             for (x = 1; x <= FrequencyDistributionX.Count; x++)
             {
-                g2.DrawString(FrequencyDistributionX[x - 1].printInterval(), DefaultFont , Brushes.Indigo, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win));
+                g2.DrawString(FrequencyDistributionX[x - 1].printInterval(), DefaultFont, Brushes.Indigo, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win));
                 // vertical lines for each column
                 g2.DrawLine(Pens.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win), R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win));
             }
@@ -1063,7 +1099,7 @@ namespace _7_A
             for (y = 1; y <= FrequencyDistributionY.Count; y++)
             {
                 // draw header for Y
-                g2.DrawString(FrequencyDistributionY[y - 1].printInterval(), DefaultFont, Brushes.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y*MaxSize.Height));
+                g2.DrawString(FrequencyDistributionY[y - 1].printInterval(), DefaultFont, Brushes.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
                 // horizontal lines for each row
                 g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.R.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
 
@@ -1077,7 +1113,7 @@ namespace _7_A
                 g2.DrawString(FrequencyDistributionY[y - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
             }
             g2.DrawString("Mar X", DefaultFont, Brushes.Indigo, R.viewport_X(0), R.viewport_Y(R.MinY_Win - MaxSize.Height));
-                g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.MaxX_Win), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+            g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.MaxX_Win), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
             //g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(-y * MaxSize.Height), R.viewport_X(300), R.viewport_Y(-y * MaxSize.Height));
 
             for (x = 1; x <= FrequencyDistributionX.Count; x++)
@@ -1092,7 +1128,7 @@ namespace _7_A
             pictureBox1.Image = b2;
         }
 
-        private List<List<int>> generateDatasetMatrix ()
+        private List<List<int>> generateDatasetMatrix()
         {
             List<List<int>> M = new List<List<int>>();
             // matrix instantiation
@@ -1104,7 +1140,7 @@ namespace _7_A
 
             // matrix population
             foreach (DataPointForChart DP in DataSetForChart)
-            {            
+            {
                 for (int i = 0; i < FrequencyDistributionX.Count(); i++)
                 {
                     if (FrequencyDistributionX[i].containsValue(DP.X))

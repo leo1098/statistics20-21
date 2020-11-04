@@ -112,7 +112,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1419, 700);
+            this.tabPage4.Size = new System.Drawing.Size(1419, 828);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Mean and Distribution";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -191,9 +191,10 @@
             // 
             // numericUpDownStep
             // 
+            this.numericUpDownStep.DecimalPlaces = 2;
             this.numericUpDownStep.Location = new System.Drawing.Point(23, 123);
             this.numericUpDownStep.Maximum = new decimal(new int[] {
-            999999,
+            99999999,
             0,
             0,
             0});
@@ -288,7 +289,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1419, 700);
+            this.tabPage3.Size = new System.Drawing.Size(1419, 828);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Load CSV";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -430,7 +431,7 @@
             this.browseFolderButton.Name = "browseFolderButton";
             this.browseFolderButton.Size = new System.Drawing.Size(113, 36);
             this.browseFolderButton.TabIndex = 2;
-            this.browseFolderButton.Text = "Select...";
+            this.browseFolderButton.Text = "Browse...";
             this.browseFolderButton.UseVisualStyleBackColor = true;
             this.browseFolderButton.Click += new System.EventHandler(this.browseFolderButton_Click);
             // 
@@ -452,7 +453,7 @@
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(108, 36);
             this.loadFileButton.TabIndex = 1;
-            this.loadFileButton.Text = "Load File";
+            this.loadFileButton.Text = "Load Header";
             this.loadFileButton.UseVisualStyleBackColor = true;
             this.loadFileButton.Click += new System.EventHandler(this.readFileButton_Click);
             // 
@@ -710,9 +711,9 @@
             this.printChartButton.Enabled = false;
             this.printChartButton.Location = new System.Drawing.Point(9, 382);
             this.printChartButton.Name = "printChartButton";
-            this.printChartButton.Size = new System.Drawing.Size(140, 33);
+            this.printChartButton.Size = new System.Drawing.Size(151, 50);
             this.printChartButton.TabIndex = 33;
-            this.printChartButton.Text = "Print Scatterplot";
+            this.printChartButton.Text = "Print Charts and Contingency Table";
             this.printChartButton.UseVisualStyleBackColor = true;
             this.printChartButton.Click += new System.EventHandler(this.drawChartButton_Click);
             // 
@@ -724,9 +725,6 @@
             this.chartPictureBox.Size = new System.Drawing.Size(981, 476);
             this.chartPictureBox.TabIndex = 32;
             this.chartPictureBox.TabStop = false;
-            this.chartPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseDown);
-            this.chartPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseMove);
-            this.chartPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chartPictureBox_MouseUp);
             // 
             // Form1
             // 
