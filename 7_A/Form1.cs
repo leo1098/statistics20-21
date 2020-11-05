@@ -626,7 +626,7 @@ namespace CSVReaderPersiani
         {
             // Computation of arithmetic meanusing the Knuth Formula
 
-            double avg = 0;
+            double avg = 0.0;
             int i = 0;
             foreach (var d in L)
             {
@@ -663,6 +663,23 @@ namespace CSVReaderPersiani
             }
             this.richTextBox4.AppendText($"Sum of relative frequencies: {tot}" + nl);
             this.richTextBox4.AppendText($"Total units: {count}");
+        }
+
+        private double computeOnlineCovariance(List<double> L)
+        {
+            double cov;
+            double SSn, avg_act, avg_prev;
+            SSn = avg_prev = avg_act = 0.0;
+            
+            for (int i = 1; i<=L.Count; i++)
+            {
+                avg_prev = computeOnlineMean(L.Take(i-1).ToList());
+                avg_act = computeOnlineMean(L.Take(i).ToList());
+
+                SSn = SSn + (L[i] - avg_prev) * (L[i] + avg_act);
+            }
+
+            return (SSn / L.Count);
         }
 
 

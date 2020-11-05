@@ -665,6 +665,39 @@ namespace CSVReaderPersiani
             this.richTextBox4.AppendText($"Total units: {count}");
         }
 
+        private double computeOnlineVariance(List<double> L)
+        {
+            double SSn, avg_act, avg_prev;
+            SSn = avg_prev = avg_act = 0.0;
+
+            for (int i = 1; i <= L.Count; i++)
+            {
+                avg_prev = computeOnlineMean(L.Take(i - 1).ToList());
+                avg_act = computeOnlineMean(L.Take(i).ToList());
+
+                SSn = SSn + (L[i-1] - avg_prev) * (L[i-1] - avg_act);
+            }
+
+            return (SSn / L.Count);
+        }
+
+        private double computeOnlineCovariance (List<double> Y, List<double> X)
+        {
+            double SCn, avg_act_x, avg_prev_y;
+            SCn = avg_prev_y = avg_act_x = 0.0;
+            //List<double> XColumn = D.Select(row => row[0]).ToList();
+            //List<double> YColumn = D.Select(row => row[1]).ToList();
+
+            for (int i = 1; i <= Y.Count; i++)
+            {
+                avg_prev_y = computeOnlineMean(Y.Take(i - 1).ToList());
+                avg_act_x = computeOnlineMean(X.Take(i).ToList());
+
+                SCn = SCn + (X[i - 1] - avg_act_x) * (Y[i - 1] - avg_prev_y);
+            }
+
+            return (SCn) / Y.Count;
+        }
 
 
         // -------------- GRAPHIC FUNCTIONS -----------------------
@@ -779,6 +812,8 @@ namespace CSVReaderPersiani
 
             drawHistogramOnAxis("X");
             drawHistogramOnAxis("Y");
+
+            drawRegressionLine();
 
             drawScatterplot();
 
@@ -1022,6 +1057,40 @@ namespace CSVReaderPersiani
 
                 g.DrawLine(Pens.DarkSeaGreen, StartingPointY, EndingPointY);
             }
+        }
+
+        private void drawRegressionLine()
+        {
+            // y = cov(x,y)/var(x) * (x - avg_x) + avg_y
+            List<double> ColX = DataSetForChart.Select(D => D.X).ToList();
+            List<double> ColY = DataSetForChart.Select(D => D.Y).ToList();
+
+            double avg_X = computeOnlineMean(ColX);
+            double avg_Y = computeOnlineMean(ColY);
+
+            double cov_xy = computeOnlineCovariance(ColX, ColY);
+            double var_x = computeOnlineVariance(ColX);
+
+            double coeff = cov_xy / var_x;
+
+            // starting point for the line: (min_X, avg_y)
+            double startingY = coeff * (MinX_Win - avg_X) + avg_Y;
+            PointF StartingPoint = new PointF(
+                R2.viewport_X(MinX_Win),
+                R2.viewport_Y(startingY)
+                );
+
+            // ending point
+            double endingY = coeff * (MaxX_Win - avg_X) + avg_Y;
+            PointF EndingPoint = new PointF(
+                R2.viewport_X(MaxX_Win),
+                R2.viewport_Y(endingY)
+                );
+
+            Pen p = new Pen(Color.Red, 2);
+            p.DashStyle = DashStyle.DashDotDot;
+            g.DrawLine(p, StartingPoint, EndingPoint);
+
         }
 
 
