@@ -771,6 +771,14 @@ namespace CSVReaderPersiani
             pictureBox1.Image = b2;
             R.ModifiedRect += drawContingencyTable;
             drawContingencyTable();
+
+            // ----------- correlation index ------------
+            double cov_xy = computeOnlineCovariance(DataSetForChart.Select(D => D.X).ToList(), DataSetForChart.Select(D => D.Y).ToList());
+            double var_X = computeOnlineVariance(DataSetForChart.Select(D => D.X).ToList());
+            double var_Y = computeOnlineVariance(DataSetForChart.Select(D => D.Y).ToList());
+            double r = cov_xy / Math.Sqrt(var_X * var_Y);
+            this.correlationTextBox.Clear();
+            this.correlationTextBox.AppendText(r.ToString("G2"));
         }
 
         private List<DataPointForChart> generateDataSetForChart()
@@ -1030,7 +1038,7 @@ namespace CSVReaderPersiani
 
         private void drawRugPlot()
         {
-            float h = (float)(0.01 * Math.Min(MaxY_Win, MaxY_Win));
+            float h = (float)(0.01 * Math.Min(MaxY_Win, MaxX_Win));
             foreach (DataPointForChart D in DataSetForChart)
             {
                 // X axis

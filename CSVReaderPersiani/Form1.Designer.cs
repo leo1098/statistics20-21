@@ -82,6 +82,7 @@
             this.stepX = new System.Windows.Forms.NumericUpDown();
             this.printChartButton = new System.Windows.Forms.Button();
             this.chartPictureBox = new System.Windows.Forms.PictureBox();
+            this.correlationTextBox = new System.Windows.Forms.RichTextBox();
             this.tabPage4.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStep)).BeginInit();
@@ -112,7 +113,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1419, 828);
+            this.tabPage4.Size = new System.Drawing.Size(1419, 836);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Mean and Distribution";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -289,7 +290,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1419, 828);
+            this.tabPage3.Size = new System.Drawing.Size(1419, 836);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Load CSV";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -575,12 +576,13 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.correlationTextBox);
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.groupBox7);
             this.groupBox6.Controls.Add(this.printChartButton);
             this.groupBox6.Location = new System.Drawing.Point(24, 67);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(217, 438);
+            this.groupBox6.Size = new System.Drawing.Size(217, 583);
             this.groupBox6.TabIndex = 36;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Select two fields and print chart";
@@ -731,6 +733,14 @@
             this.chartPictureBox.TabIndex = 32;
             this.chartPictureBox.TabStop = false;
             // 
+            // correlationTextBox
+            // 
+            this.correlationTextBox.Location = new System.Drawing.Point(18, 472);
+            this.correlationTextBox.Name = "correlationTextBox";
+            this.correlationTextBox.Size = new System.Drawing.Size(77, 47);
+            this.correlationTextBox.TabIndex = 42;
+            this.correlationTextBox.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -826,6 +836,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.RichTextBox correlationTextBox;
     }
 }
 
