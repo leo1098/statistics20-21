@@ -83,6 +83,7 @@
             this.printChartButton = new System.Windows.Forms.Button();
             this.chartPictureBox = new System.Windows.Forms.PictureBox();
             this.correlationTextBox = new System.Windows.Forms.RichTextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStep)).BeginInit();
@@ -576,6 +577,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.correlationTextBox);
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.groupBox7);
@@ -735,11 +737,21 @@
             // 
             // correlationTextBox
             // 
-            this.correlationTextBox.Location = new System.Drawing.Point(18, 472);
+            this.correlationTextBox.Location = new System.Drawing.Point(18, 484);
             this.correlationTextBox.Name = "correlationTextBox";
+            this.correlationTextBox.ReadOnly = true;
             this.correlationTextBox.Size = new System.Drawing.Size(77, 47);
             this.correlationTextBox.TabIndex = 42;
             this.correlationTextBox.Text = "";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 461);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(161, 17);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "Coefficient of correlation";
             // 
             // Form1
             // 
@@ -769,6 +781,7 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepY)).EndInit();
@@ -837,6 +850,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RichTextBox correlationTextBox;
+        private System.Windows.Forms.Label label9;
     }
 }
 
