@@ -11,18 +11,15 @@ namespace TestProjConsole
         public static void Main(string[] args)
         {
             //Your code goes here
-            Console.WriteLine("Hello, world!");
-            List<double> nums = new List<double>() { 5, 5, 5, 10, 16, 98, 75, 14 };
+            Random r = new Random();
+            List<double> L = new List<double>();
+            double lambda = 4;
 
-            double variance = computeOnlineVariance(nums);
-            Console.WriteLine(variance);
-
-            List<double> col1 = new List<double>() { 1, 2, 3 };
-            List<double> col2 = new List<double>() { 10, 20, 27 };
-            double covariance = computeOnlineCovariance(col1, col2);
-            Console.WriteLine(covariance);
-
-            Console.ReadKey();
+            for (int i = 0; i < 1000; i++)
+            {
+                double n = -(Math.Log(1 - r.NextDouble()) / lambda);
+                L.Add(n);
+            }
         }
         static double computeOnlineVariance(List<double> L)
         {
