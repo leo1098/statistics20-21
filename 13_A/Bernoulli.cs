@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace _13_A
 {
@@ -10,11 +11,13 @@ namespace _13_A
         private int n;
         public List<DataPoint> Distribution;
         public List<DataPoint> MeanDistribution;
+        private Pen pen;
 
-        public Bernoulli(double p, int numberOfsteps)
+        public Bernoulli(double p, int numberOfsteps, int seed)
         {
             this.p = p;
-            this.r = new Random();
+            this.r = new Random(seed);
+            this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
 
             this.n = numberOfsteps;
             this.Distribution = generateDistribution();
@@ -59,6 +62,23 @@ namespace _13_A
 
             if (n <= p) return 1;
             else return 0;
+        }
+
+
+        public void drawPath(ResizableRectangle ViewPort, Graphics g)
+        {
+            List<PointF> Points = new List<PointF>();
+
+            // convert datapoints in points
+            foreach (DataPoint DP in MeanDistribution)
+            {
+                Points.Add(new PointF(
+                    ViewPort.viewport_X(DP.X),
+                    ViewPort.viewport_Y(DP.Y))
+                    );
+            }
+
+            g.DrawLines(pen, Points.ToArray());
         }
     }
 }

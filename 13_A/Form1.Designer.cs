@@ -37,19 +37,25 @@ namespace _13_A
             this.label2 = new System.Windows.Forms.Label();
             this.numericP = new System.Windows.Forms.NumericUpDown();
             this.chartPictureBox = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericEps = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numericJ = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericEps)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJ)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(45, 50);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(81, 34);
+            this.button1.Size = new System.Drawing.Size(81, 43);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Start";
+            this.button1.Text = "Print Chart";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.printSimulationButton_Click);
             // 
@@ -62,7 +68,7 @@ namespace _13_A
             0,
             0});
             this.numericN.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -70,7 +76,7 @@ namespace _13_A
             this.numericN.Size = new System.Drawing.Size(81, 22);
             this.numericN.TabIndex = 3;
             this.numericN.Value = new decimal(new int[] {
-            1,
+            150,
             0,
             0,
             0});
@@ -87,7 +93,7 @@ namespace _13_A
             // label0
             // 
             this.label0.AutoSize = true;
-            this.label0.Location = new System.Drawing.Point(23, 176);
+            this.label0.Location = new System.Drawing.Point(23, 234);
             this.label0.Name = "label0";
             this.label0.Size = new System.Drawing.Size(19, 17);
             this.label0.TabIndex = 6;
@@ -95,7 +101,7 @@ namespace _13_A
             // 
             // numericM
             // 
-            this.numericM.Location = new System.Drawing.Point(45, 176);
+            this.numericM.Location = new System.Drawing.Point(45, 234);
             this.numericM.Maximum = new decimal(new int[] {
             1215752191,
             23,
@@ -110,7 +116,7 @@ namespace _13_A
             this.numericM.Size = new System.Drawing.Size(81, 22);
             this.numericM.TabIndex = 5;
             this.numericM.Value = new decimal(new int[] {
-            1,
+            20,
             0,
             0,
             0});
@@ -118,7 +124,7 @@ namespace _13_A
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 224);
+            this.label2.Location = new System.Drawing.Point(23, 272);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(16, 17);
             this.label2.TabIndex = 8;
@@ -132,7 +138,7 @@ namespace _13_A
             0,
             0,
             131072});
-            this.numericP.Location = new System.Drawing.Point(45, 224);
+            this.numericP.Location = new System.Drawing.Point(45, 272);
             this.numericP.Maximum = new decimal(new int[] {
             1,
             0,
@@ -142,25 +148,95 @@ namespace _13_A
             this.numericP.Size = new System.Drawing.Size(81, 22);
             this.numericP.TabIndex = 7;
             this.numericP.Value = new decimal(new int[] {
+            52,
+            0,
+            0,
+            131072});
+            // 
+            // chartPictureBox
+            // 
+            this.chartPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chartPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.chartPictureBox.Location = new System.Drawing.Point(231, 50);
+            this.chartPictureBox.Name = "chartPictureBox";
+            this.chartPictureBox.Size = new System.Drawing.Size(947, 533);
+            this.chartPictureBox.TabIndex = 9;
+            this.chartPictureBox.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 371);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(31, 17);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "eps";
+            // 
+            // numericEps
+            // 
+            this.numericEps.DecimalPlaces = 2;
+            this.numericEps.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericEps.Location = new System.Drawing.Point(45, 371);
+            this.numericEps.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             65536});
+            this.numericEps.Name = "numericEps";
+            this.numericEps.Size = new System.Drawing.Size(81, 22);
+            this.numericEps.TabIndex = 10;
+            this.numericEps.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             // 
-            // chartPictureBox
+            // label4
             // 
-            this.chartPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.chartPictureBox.Location = new System.Drawing.Point(231, 50);
-            this.chartPictureBox.Name = "chartPictureBox";
-            this.chartPictureBox.Size = new System.Drawing.Size(843, 498);
-            this.chartPictureBox.TabIndex = 9;
-            this.chartPictureBox.TabStop = false;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 160);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(11, 17);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "j";
+            // 
+            // numericJ
+            // 
+            this.numericJ.Location = new System.Drawing.Point(45, 158);
+            this.numericJ.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericJ.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericJ.Name = "numericJ";
+            this.numericJ.Size = new System.Drawing.Size(81, 22);
+            this.numericJ.TabIndex = 12;
+            this.numericJ.Value = new decimal(new int[] {
+            70,
+            0,
+            0,
+            0});
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1086, 569);
+            this.ClientSize = new System.Drawing.Size(1190, 604);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.numericJ);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.numericEps);
             this.Controls.Add(this.chartPictureBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericP);
@@ -175,6 +251,8 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericEps)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJ)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,6 +268,10 @@ namespace _13_A
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericP;
         private System.Windows.Forms.PictureBox chartPictureBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numericEps;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numericJ;
     }
 }
 
