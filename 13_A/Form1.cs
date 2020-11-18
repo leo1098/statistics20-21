@@ -25,6 +25,8 @@ namespace _13_A
         int n, j;
         List<Bernoulli> Bernoullis;
 
+
+        // ------------ HANDLERS ------------------
         private void printSimulationButton_Click(object sender, EventArgs e)
         {
             // get input values
@@ -47,7 +49,7 @@ namespace _13_A
             MinY_Win = 0;
             MaxX_Win = n;
             MaxY_Win = 1;
-            ViewPort = new ResizableRectangle(this.chartPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 500, 300));
+            ViewPort = new ResizableRectangle(this.chartPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
             ViewPort.ModifiedRect += drawCharts;
 
 
@@ -58,6 +60,9 @@ namespace _13_A
             drawCharts();
 
         }
+
+
+        // -------------GRAPHICS FUNCTIONS----------------
 
         private void initGraphics()
         {
@@ -75,7 +80,9 @@ namespace _13_A
 
             drawPaths();
 
-            drawHorizontalLine("p", p, Pens.Brown);
+            Pen pen = new Pen(Color.Red);
+            pen.DashStyle = DashStyle.DashDotDot;
+            drawHorizontalLine("p", p, pen);
             drawHorizontalLine("p+eps", p + eps, Pens.Brown);
             drawHorizontalLine("p-eps", p - eps, Pens.Brown);
 
@@ -236,6 +243,8 @@ namespace _13_A
             }
         }
 
+
+        // -------------STATS FUNCTIONS----------------
         private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
         {
 
