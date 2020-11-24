@@ -194,7 +194,7 @@ namespace _13_A
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(MeanAtStepN, StartingPoint, Step);
 
             // add intervals to cover all the range [0,1]
-            addPaddingIntervals(FrequencyDistribution, Step);
+            addPaddingIntervals(FrequencyDistribution, 1);
 
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
@@ -227,15 +227,15 @@ namespace _13_A
 
         }
 
-        private void addPaddingIntervals(List<Interval> L, double s)
+        private void addPaddingIntervals(List<Interval> L, double MaxValue)
         {
             Interval LastInterval = L[L.Count - 1];
-            while ((LastInterval.LowerInclusiveBound + LastInterval.Step) < 1)
+            while ((LastInterval.LowerInclusiveBound + LastInterval.Step) < MaxValue)
             {
                 Interval I = new Interval
                 {
-                    LowerInclusiveBound = L[L.Count - 1].LowerInclusiveBound + s,
-                    Step = s
+                    LowerInclusiveBound = L[L.Count - 1].LowerInclusiveBound + LastInterval.Step,
+                    Step = LastInterval.Step
                 };
 
                 L.Add(I);
