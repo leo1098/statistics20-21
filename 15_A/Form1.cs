@@ -22,7 +22,7 @@ namespace _15_A
         Graphics g1, g2;
         Bitmap b1, b2;
         ResizableRectangle ViewPort1, ViewPort2;
-        double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
+        //double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
 
         // --------- STAT STUFF --------
         List<DataPoint> DataPointsForCDF;
@@ -41,6 +41,7 @@ namespace _15_A
             U = new UniformDistribution(MinValueUniform, MaxValueUniform, R.Next());
 
             // init viewports
+            double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
             MinX_Win = MinValueUniform;
             MinY_Win = 0;
             MaxX_Win = MaxValueUniform;
@@ -51,14 +52,14 @@ namespace _15_A
             ViewPort1.ModifiedRect += drawCDF;
 
 
-            MinX_Win = 0;
+            MinX_Win = MinValueUniform;
             MinY_Win = 0;
-            MaxX_Win = 10;
+            MaxX_Win = MaxValueUniform;
             MaxY_Win = 50;
             ViewPort2 = new ResizableRectangle(this.histogramPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(10, 10,
                 this.histogramPictureBox.Width - 70, this.histogramPictureBox.Height - 70));
-            //ViewPort2.ModifiedRect += drawHistogram;
+            ViewPort2.ModifiedRect += drawHistogram;
 
             // Start the timer for simulation
             this.timer.Start();
@@ -79,8 +80,9 @@ namespace _15_A
             // doubles ranging from 0 to 1, where each delta is 1/NumOfSampleMeans
             SampleMeans.Sort();
             DataPointsForCDF = createListOfDataPoints(SampleMeans, createListOfEquispacedDoubles(NumOfSampleMeans));
-
             drawCDF();
+
+            drawHistogram();
         }
 
         // ------------------ GRAPHICS FUNCTIONS----------------
@@ -145,50 +147,42 @@ namespace _15_A
             this.cdfPictureBox.Image = b1;
         }
 
-        //private void drawHorizontalHistogram(double y, ResizableRectangle VP, List<Interval> L)
-        //{
-            ////double StartingPointX = MinX_Win;
-            ////FrequencyDistributionX = new List<Interval>();
-            ////FrequencyDistributionX = UnivariateDistribution_CountinuousVariable(DataSetForChart.Select(D => D.X).ToList(), StartingPointX, StepX);
+        private void drawHistogram()
+        {
+            g2.Clear(Color.Gainsboro);
 
-            //// draw proportionate rectangles 
-            //double BarWidth = (double)R2.R.Width / FrequencyDistributionX.Count;
-            //double BarMaxHeight = R2.R.Height * 0.7;
-            //int BarNum = 0;
-            //foreach (Interval I in FrequencyDistributionX)
-            //{
-            //    float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
-            //    RectangleF R = new RectangleF(
-            //        (float)(R2.R.X + (BarNum * BarWidth)),
-            //        (float)(R2.R.Y + R2.R.Height - (BarMaxHeight * I.RelativeFrequency)),
-            //        (float)BarWidth,
-            //        BarHeight
-            //        );
+            double Step = 1;
+            double StartingPoint = 0;
 
-            //    // drawing a line for each interval represening the average
-            //    // datapoints in each interval
-            //    IEnumerable<double> DataPointsInInterval =
-            //        from D in DataSetForChart
-            //        where D.X >= I.LowerInclusiveBound && D.X < (I.LowerInclusiveBound + StepX)
-            //        select D.X;
+            List<Interval> SampleMeanFreqDistr = UnivariateDistribution_CountinuousVariable(SampleMeans, StartingPoint, Step);
 
-            //    double BarMean = computeOnlineMean(DataPointsInInterval.ToList());
+            drawHorizontalHistogram(0, ViewPort2, g2, SampleMeanFreqDistr);
+            this.histogramPictureBox.Image = b2;
 
-            //    PointF StartingPointForMean = new PointF(
-            //        (float)R2.viewport_X(BarMean),
-            //        R2.R.Y + R2.R.Height);
+        }
 
-            //    PointF EndingPointForMean = new PointF(
-            //        (float)R2.viewport_X(BarMean),
-            //        R2.R.Y + R2.R.Height - BarHeight);
+        private void drawHorizontalHistogram(double y, ResizableRectangle VP, Graphics g, List<Interval> FreqDistr)
+        {
+            double Step = 0.2;
+            double StartingPoint = VP.MinY_Win;
 
-            //    SolidBrush B = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
-            //    g.FillRectangle(B, R);
-            //    g.DrawLine(Pens.Brown, StartingPointForMean, EndingPointForMean);
-
-            //    BarNum++;
-            //}
-        //}
+            // draw proportionate rectangles 
+            double BarWidth = (double)VP.R.Width / FreqDistr.Count;
+            double BarMaxHeight = VP.R.Height * 0.7;
+            int BarNum = 0;
+            foreach (Interval I in FreqDistr)
+            {
+                float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
+                RectangleF R = new RectangleF(
+                    (float)(VP.R.X + (BarNum * BarWidth)),
+                    (float)(VP.R.Y + VP.R.Height - (BarMaxHeight * I.RelativeFrequency)),
+                    (float)BarWidth,
+                    BarHeight
+                    );
+                g.DrawRectangles(Pens.Black, new[] { R });
+                BarNum++;
+            }
+        }
 
         //private void drawVerticalHistogram(int n, ResizableRectangle V)
         //{
@@ -238,6 +232,7 @@ namespace _15_A
         //    drawVerticalLine($"n = {n + 1}\npaths in strip = {PathsInsideStrip}", n, Pens.Purple);
 
         //}
+
         private void drawHorizontalLine(string label, double y, Pen pen, ResizableRectangle VP, Graphics g)
         {
             g.DrawLine(
@@ -294,6 +289,94 @@ namespace _15_A
 
             return Points;
         }
+
+        private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
+        {
+
+            List<Interval> ListOfIntervals = new List<Interval>();
+
+            // Crate and insert first interval
+            Interval Interval0 = new Interval();
+            Interval0.LowerInclusiveBound = StartingPoint;
+            Interval0.Step = Step;
+            ListOfIntervals.Add(Interval0);
+
+            // insertion of values
+            foreach (var d in L)
+            {
+                if (double.IsNaN(d))
+                    continue;
+
+                bool ValueInserted = false;
+                // if it's in one of the existing intervals, insert it there
+                foreach (var I in ListOfIntervals)
+                {
+                    if (I.containsValue(d))
+                    {
+                        I.Count += 1;
+                        ValueInserted = true;
+                        break;
+                    }
+                }
+                if (ValueInserted != true)
+                {
+                    // if it's less than the lower bound of the first, add new suitable interval in the beginning
+                    if (d < ListOfIntervals[0].LowerInclusiveBound)
+                    {
+                        // we keep inserting intervals until one can accept the value
+                        while (ValueInserted != true)
+                        {
+                            Interval I = new Interval();
+                            I.LowerInclusiveBound = ListOfIntervals[0].LowerInclusiveBound - Step;
+                            I.Step = Step;
+
+                            if (I.containsValue(d))
+                            {
+                                ValueInserted = true;
+                                I.Count += 1;
+                            }
+
+                            ListOfIntervals.Insert(0, I);
+                        }
+                    }
+                    else if (d >= (ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step))
+                    {
+                        // we keep inserting intervals until one can accept the value
+                        while (ValueInserted != true)
+                        {
+                            Interval I = new Interval
+                            {
+                                LowerInclusiveBound = ListOfIntervals[ListOfIntervals.Count - 1].LowerInclusiveBound + Step,
+                                Step = Step
+                            };
+
+                            if (I.containsValue(d))
+                            {
+                                ValueInserted = true;
+                                I.Count += 1;
+                            }
+
+                            ListOfIntervals.Add(I);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Not Accepted value");
+                    }
+                }
+            }
+
+            // set relative frequencies and percentages
+            foreach (var I in ListOfIntervals)
+            {
+                I.RelativeFrequency = (double)I.Count / L.Count();
+                I.Percentage = I.RelativeFrequency * 100;
+
+            }
+
+            return ListOfIntervals;
+        }
+
 
 
     }
