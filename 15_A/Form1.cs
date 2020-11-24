@@ -26,13 +26,15 @@ namespace _15_A
 
         // --------- STAT STUFF --------
         List<DataPoint> DataPointsForCDF;
-        int NumOfSampleMeans = 0;
-        int IncreaseSampleMean = 10;
-        int NumOfSamples = 5;
+        int NumOfSampleMeans = 100;
+        int IncreaseSampleMean = 100;
+        int IncreaseN = 10;
+        int NumOfUnits = 5;
         int MinValueUniform = 1;
         int MaxValueUniform = 10;
         UniformDistribution U;
         List<double> SampleMeans = new List<double>();
+        double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
 
         // ----------------------- HANDLERS ------------------
         private void button1_Click(object sender, EventArgs e)
@@ -41,10 +43,9 @@ namespace _15_A
             U = new UniformDistribution(MinValueUniform, MaxValueUniform, R.Next());
 
             // init viewports
-            double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
             MinX_Win = MinValueUniform;
             MinY_Win = 0;
-            MaxX_Win = MaxValueUniform;
+            MaxX_Win = 50;
             MaxY_Win = 1;
             ViewPort1 = new ResizableRectangle(this.cdfPictureBox, b1, g1, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(10, 10,
@@ -68,18 +69,28 @@ namespace _15_A
         private void timer_Tick(object sender, EventArgs e)
         {
             NumOfSampleMeans += IncreaseSampleMean;
-            // add more points to the List of Sample Means
-            for (int i = 0; i < IncreaseSampleMean; i++)
+            NumOfUnits += IncreaseN;
+            //add more points to the List of Sample Means
+            SampleMeans.Clear();
+            for (int i = 0; i < NumOfSampleMeans; i++)
             {
-                List<double> Sample = U.sampleFromUniform(NumOfSamples);
-                SampleMeans.Add(Sample.Average());
+                List<double> Sample = U.sampleFromUniform(NumOfUnits);
+                SampleMeans.Add(Math.Sqrt(NumOfUnits) * (Sample.Average() - 5));
             }
+            ViewPort1.MinX_Win = SampleMeans.Min();
+            ViewPort1.MaxX_Win = SampleMeans.Max();
+            //ViewPort1.MaxX_Win = Math.Sqrt(NumOfUnits) * Sample.Average();
+            ViewPort1.Range_X = ViewPort1.MaxX_Win - ViewPort1.MinX_Win;
+
+            //List<double> Sample = U.sampleFromUniform(NumOfSamples);
+
+            //SampleMeans.Add(Sample.Average());
 
             // to draw the CDF, i sort the list of sample means and then use it as
             // X component. The Y, on the other hand, is a list of equispaced
             // doubles ranging from 0 to 1, where each delta is 1/NumOfSampleMeans
             SampleMeans.Sort();
-            DataPointsForCDF = createListOfDataPoints(SampleMeans, createListOfEquispacedDoubles(NumOfSampleMeans));
+            DataPointsForCDF = createListOfDataPoints(SampleMeans, createListOfEquispacedDoubles(SampleMeans.Count()));
             drawCDF();
 
             drawHistogram();
@@ -151,7 +162,7 @@ namespace _15_A
         {
             g2.Clear(Color.Gainsboro);
 
-            double Step = 0.5;
+            double Step = 1;
             double StartingPoint = 0;
 
             List<Interval> SampleMeanFreqDistr = UnivariateDistribution_CountinuousVariable(SampleMeans, MinValueUniform, Step);
@@ -180,7 +191,7 @@ namespace _15_A
                     (float)BarWidth,
                     BarHeight
                     );
-                g.FillRectangles(Brush.Black, new[] { R });
+                g.FillRectangles(Brushes.Purple, new[] { R });
                 BarNum++;
             }
         }
@@ -227,6 +238,11 @@ namespace _15_A
             }
 
             return Points;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
         }
 
         private List<PointF> createListOfPointsForChart(List<DataPoint> L, ResizableRectangle VP)
