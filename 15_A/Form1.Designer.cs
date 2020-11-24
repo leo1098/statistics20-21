@@ -29,9 +29,11 @@ namespace _15_A
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.cdfPictureBox = new System.Windows.Forms.PictureBox();
             this.histogramPictureBox = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.cdfPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.histogramPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -51,24 +53,29 @@ namespace _15_A
             this.cdfPictureBox.BackColor = System.Drawing.Color.LightGray;
             this.cdfPictureBox.Location = new System.Drawing.Point(218, 12);
             this.cdfPictureBox.Name = "cdfPictureBox";
-            this.cdfPictureBox.Size = new System.Drawing.Size(737, 307);
+            this.cdfPictureBox.Size = new System.Drawing.Size(768, 351);
             this.cdfPictureBox.TabIndex = 1;
             this.cdfPictureBox.TabStop = false;
             // 
             // histogramPictureBox
             // 
             this.histogramPictureBox.BackColor = System.Drawing.Color.LightGray;
-            this.histogramPictureBox.Location = new System.Drawing.Point(218, 335);
+            this.histogramPictureBox.Location = new System.Drawing.Point(218, 426);
             this.histogramPictureBox.Name = "histogramPictureBox";
-            this.histogramPictureBox.Size = new System.Drawing.Size(737, 317);
+            this.histogramPictureBox.Size = new System.Drawing.Size(768, 361);
             this.histogramPictureBox.TabIndex = 2;
             this.histogramPictureBox.TabStop = false;
+            // 
+            // timer
+            // 
+            this.timer.Interval = 500;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1088, 662);
+            this.ClientSize = new System.Drawing.Size(1350, 878);
             this.Controls.Add(this.histogramPictureBox);
             this.Controls.Add(this.cdfPictureBox);
             this.Controls.Add(this.button1);
@@ -85,6 +92,7 @@ namespace _15_A
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox cdfPictureBox;
         private System.Windows.Forms.PictureBox histogramPictureBox;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

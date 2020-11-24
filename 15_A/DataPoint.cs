@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _13_A
+
+class DataPoint
 {
-    class DataPoint
+    public double X;
+    public double Y;
+
+    public DataPoint(double x, double y)
     {
-        public double X;
-        public double Y;
+        X = x;
+        Y = y;
+    }
 
-        public DataPoint(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public string ToString()
-        {
-            return $"[{X} - {Y}]";
-        }
+    public string ToString()
+    {
+        return $"[{X} - {Y}]";
     }
 }
+
