@@ -68,7 +68,7 @@ namespace _15_A
             // 
             // timer
             // 
-            this.timer.Interval = 500;
+            this.timer.Interval = 200;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // Form1

@@ -55,7 +55,7 @@ namespace _15_A
             MinX_Win = MinValueUniform;
             MinY_Win = 0;
             MaxX_Win = MaxValueUniform;
-            MaxY_Win = 50;
+            MaxY_Win = this.histogramPictureBox.Height - 70;
             ViewPort2 = new ResizableRectangle(this.histogramPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(10, 10,
                 this.histogramPictureBox.Width - 70, this.histogramPictureBox.Height - 70));
@@ -98,7 +98,7 @@ namespace _15_A
 
         }
 
-        private void drawAxis(ResizableRectangle VP, Graphics g, string Name_X, string Name_Y)
+        private void drawAxes(ResizableRectangle VP, Graphics g, string Name_X, string Name_Y)
         {
             Pen p = new Pen(Color.Black);
             p.EndCap = LineCap.ArrowAnchor;
@@ -137,7 +137,7 @@ namespace _15_A
             g1.Clear(Color.Gainsboro);
 
             // draw axis and horizontal line on 1
-            drawAxis(ViewPort1, g1, " ", "");
+            drawAxes(ViewPort1, g1, " ", "");
             Pen P = new Pen(Color.RoyalBlue);
             P.DashStyle = DashStyle.Dash;
             drawHorizontalLine("1", 1, P, ViewPort1, g1);
@@ -151,11 +151,13 @@ namespace _15_A
         {
             g2.Clear(Color.Gainsboro);
 
-            double Step = 1;
+            double Step = 0.5;
             double StartingPoint = 0;
 
-            List<Interval> SampleMeanFreqDistr = UnivariateDistribution_CountinuousVariable(SampleMeans, StartingPoint, Step);
+            List<Interval> SampleMeanFreqDistr = UnivariateDistribution_CountinuousVariable(SampleMeans, MinValueUniform, Step);
+            addPaddingIntervals(SampleMeanFreqDistr, MaxValueUniform);
 
+            drawAxes(ViewPort2, g2, "", "freq");
             drawHorizontalHistogram(0, ViewPort2, g2, SampleMeanFreqDistr);
             this.histogramPictureBox.Image = b2;
 
@@ -163,75 +165,26 @@ namespace _15_A
 
         private void drawHorizontalHistogram(double y, ResizableRectangle VP, Graphics g, List<Interval> FreqDistr)
         {
-            double Step = 0.2;
             double StartingPoint = VP.MinY_Win;
 
             // draw proportionate rectangles 
             double BarWidth = (double)VP.R.Width / FreqDistr.Count;
-            double BarMaxHeight = VP.R.Height * 0.7;
+            double BarMaxHeight = 3*VP.R.Height;
             int BarNum = 0;
             foreach (Interval I in FreqDistr)
             {
                 float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
                 RectangleF R = new RectangleF(
                     (float)(VP.R.X + (BarNum * BarWidth)),
-                    (float)(VP.R.Y + VP.R.Height - (BarMaxHeight * I.RelativeFrequency)),
+                    (float)(VP.R.Y + VP.R.Height - (BarMaxHeight * I.RelativeFrequency) - y),
                     (float)BarWidth,
                     BarHeight
                     );
-                g.DrawRectangles(Pens.Black, new[] { R });
+                g.FillRectangles(Brush.Black, new[] { R });
                 BarNum++;
             }
         }
 
-        //private void drawVerticalHistogram(int n, ResizableRectangle V)
-        //{
-        //    double Step = 0.05;
-        //    double StartingPoint = MinY_Win;
-
-
-        //    // create the dataset with the means at step n
-        //    //List<double> MeanAtStepN = new List<double>();
-        //    //for (int i = 0; i < 10000; i++)
-        //    //{
-        //    //    MeanAtStepN.Add(r.NextDouble());
-        //    //}
-        //    List<double> MeanAtStepN = Bernoullis.Select(B => B.MeanDistribution[n].Y).ToList();
-        //    List<Interval> FrequencyDistribution = new List<Interval>();
-        //    FrequencyDistribution = UnivariateDistribution_CountinuousVariable(MeanAtStepN, StartingPoint, Step);
-
-        //    // add intervals to cover all the range [0,1]
-        //    addPaddingIntervals(FrequencyDistribution, Step);
-
-        //    // invert list so the biggest comes before the smallest
-        //    List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
-
-        //    // draw proportionate rectangles 
-        //    double BarWidth = (double)V.R.Height / ReversedFrequencyDistribution.Count;
-        //    double BarMaxHeight = V.R.Width * 0.2;
-        //    int BarNum = 0;
-        //    foreach (Interval I in ReversedFrequencyDistribution)
-        //    {
-        //        float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
-        //        RectangleF R = new RectangleF(
-        //            V.viewport_X(MinX_Win + n),
-        //            (float)(V.R.Y + (BarNum * BarWidth)),
-        //            (float)BarHeight,
-        //            (float)BarWidth
-        //            );
-
-        //        SolidBrush B = new SolidBrush(Color.FromArgb(200, 253, 185, 39));
-        //        Pen pen = new Pen(Color.FromArgb(200, 85, 37, 130));
-        //        g.DrawRectangles(pen, new[] { R });
-        //        g.FillRectangle(B, R);
-        //        BarNum++;
-        //    }
-
-        //    // count how many means are inside the strip at step n
-        //    int PathsInsideStrip = MeanAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-        //    drawVerticalLine($"n = {n + 1}\npaths in strip = {PathsInsideStrip}", n, Pens.Purple);
-
-        //}
 
         private void drawHorizontalLine(string label, double y, Pen pen, ResizableRectangle VP, Graphics g)
         {
@@ -377,6 +330,21 @@ namespace _15_A
             return ListOfIntervals;
         }
 
+        private void addPaddingIntervals(List<Interval> L, double MaxValue)
+        {
+            Interval LastInterval = L[L.Count - 1];
+            while ((LastInterval.LowerInclusiveBound + LastInterval.Step) < MaxValue)
+            {
+                Interval I = new Interval
+                {
+                    LowerInclusiveBound = L[L.Count - 1].LowerInclusiveBound + LastInterval.Step,
+                    Step = LastInterval.Step
+                };
+
+                L.Add(I);
+                LastInterval = I;
+            }
+        }
 
 
     }
