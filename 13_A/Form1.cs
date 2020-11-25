@@ -60,8 +60,6 @@ namespace _13_A
             for (int i = 0; i < mBern; i++)
                 Bernoullis.Add(new Bernoulli(p, nBern, r.Next()));
 
-            for (int i = 0; i < mBern; i++)
-                Rademachers.Add(new Rademacher(nBern, r.Next()));
 
             drawChartsBern();
 
@@ -116,7 +114,7 @@ namespace _13_A
         {
             g1.Clear(Color.Gainsboro);
 
-            drawAxis(ViewPort1, g1);
+            drawAxis(ViewPort1, g1, "trials", "");
 
             drawBernoulliPaths();
 
@@ -141,6 +139,10 @@ namespace _13_A
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
+            // count how many means are inside the strip at step n
+            int PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
+            drawVerticalLine($"n = {jBern }\npaths in strip = {PathsInsideStrip}", jBern-1, Pens.Purple, ViewPort1, g1);
+
             drawVerticalHistogram(jBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
 
 
@@ -153,6 +155,11 @@ namespace _13_A
 
             // invert list so the biggest comes before the smallest
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            // count how many means are inside the strip at step n
+            PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
+            drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple, ViewPort1, g1);
+
             drawVerticalHistogram(nBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
 
 
@@ -163,13 +170,12 @@ namespace _13_A
         {
             g2.Clear(Color.Gainsboro);
 
-            drawAxis(ViewPort2, g2);
+            drawAxis(ViewPort2, g2, "num of steps", "Random Walk\ny(i+1)=y(i)+Rademacher()");
 
             drawRademacherPaths();
 
             Pen pen = new Pen(Color.Red);
             pen.DashStyle = DashStyle.DashDotDot;
-            drawHorizontalLine("0", 0, pen, ViewPort2, g2);
 
 
             double Step = 5;
@@ -197,6 +203,7 @@ namespace _13_A
 
             drawVerticalHistogram(nRade - 1, ViewPort2, g2, ReversedFrequencyDistribution);
 
+            drawHorizontalLine("0", 0, pen, ViewPort2, g2);
 
             this.rademacherPictureBox.Image = b2;
         }
@@ -221,12 +228,11 @@ namespace _13_A
         }
 
 
-        private void drawAxis(ResizableRectangle VP, Graphics g)
+        private void drawAxis(ResizableRectangle VP, Graphics g, string Name_X, string Name_Y)
         {
             Pen p = new Pen(Color.Black);
             p.EndCap = LineCap.ArrowAnchor;
-            string Name_Y = "";
-            string Name_X = "trials";
+            
 
             // X axis
             g.DrawLine(
@@ -262,16 +268,16 @@ namespace _13_A
             g.DrawLine(
                 pen,
                 VP.viewport_X(VP.MinX_Win),
-                VP.viewport_Y(VP.MinY_Win + y),
+                VP.viewport_Y(y),
                 VP.viewport_X(VP.MaxX_Win),
-                VP.viewport_Y(VP.MinY_Win + y));
+                VP.viewport_Y(y));
 
             g.DrawString(
                 label,
                 DefaultFont,
                 Brushes.Black,
                 VP.viewport_X(VP.MinX_Win) - g.MeasureString(label, DefaultFont).Width,
-                VP.viewport_Y(VP.MinY_Win + y)
+                VP.viewport_Y(y)
                 );
         }
 
@@ -318,9 +324,7 @@ namespace _13_A
                 BarNum++;
             }
 
-            // count how many means are inside the strip at step n
-            //int PathsInsideStrip = MeansAtStepN.Count(M => (M < p +eps) && (M > p - eps));
-            //drawVerticalLine($"n = {n+1}\npaths in strip = {PathsInsideStrip}", n, Pens.Purple);
+            
 
 
         }
