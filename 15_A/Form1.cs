@@ -71,6 +71,10 @@ namespace _15_A
             NumOfSampleMeans += IncreaseSampleMean;
             NumOfUnits += IncreaseN;
             //add more points to the List of Sample Means
+            this.textBox1.Clear();
+            this.textBox1.Text = NumOfUnits.ToString();
+            this.textBox2.Text = NumOfSampleMeans.ToString();
+
             SampleMeans.Clear();
             for (int i = 0; i < NumOfSampleMeans; i++)
             {
