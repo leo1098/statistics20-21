@@ -57,6 +57,7 @@
     <Compile Include="Interval.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rademacher.cs" />
     <Compile Include="ResizableRectangle.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
