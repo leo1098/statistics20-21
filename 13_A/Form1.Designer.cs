@@ -53,6 +53,9 @@ namespace _13_A
             this.numericNRade = new System.Windows.Forms.NumericUpDown();
             this.numericMRade = new System.Windows.Forms.NumericUpDown();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.bernoulliJumpPictureBox = new System.Windows.Forms.PictureBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numericLambda = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numericJBernRW = new System.Windows.Forms.NumericUpDown();
             this.bernoulliRWPictureBox = new System.Windows.Forms.PictureBox();
@@ -61,8 +64,6 @@ namespace _13_A
             this.button3 = new System.Windows.Forms.Button();
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.numericLambda = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -77,11 +78,12 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericNRade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -111,7 +113,7 @@ namespace _13_A
             this.numericNBern.Size = new System.Drawing.Size(81, 22);
             this.numericNBern.TabIndex = 3;
             this.numericNBern.Value = new decimal(new int[] {
-            300,
+            1000,
             0,
             0,
             0});
@@ -151,7 +153,7 @@ namespace _13_A
             this.numericMBern.Size = new System.Drawing.Size(81, 22);
             this.numericMBern.TabIndex = 5;
             this.numericMBern.Value = new decimal(new int[] {
-            30,
+            100,
             0,
             0,
             0});
@@ -190,13 +192,10 @@ namespace _13_A
             // 
             // bernoulliPictureBox
             // 
-            this.bernoulliPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.bernoulliPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.bernoulliPictureBox.Location = new System.Drawing.Point(23, 97);
             this.bernoulliPictureBox.Name = "bernoulliPictureBox";
-            this.bernoulliPictureBox.Size = new System.Drawing.Size(1236, 539);
+            this.bernoulliPictureBox.Size = new System.Drawing.Size(1223, 537);
             this.bernoulliPictureBox.TabIndex = 9;
             this.bernoulliPictureBox.TabStop = false;
             // 
@@ -258,7 +257,7 @@ namespace _13_A
             this.numericJBern.Size = new System.Drawing.Size(81, 22);
             this.numericJBern.TabIndex = 12;
             this.numericJBern.Value = new decimal(new int[] {
-            50,
+            540,
             0,
             0,
             0});
@@ -271,7 +270,7 @@ namespace _13_A
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1292, 706);
+            this.tabControl1.Size = new System.Drawing.Size(1380, 826);
             this.tabControl1.TabIndex = 14;
             // 
             // tabPage1
@@ -291,7 +290,7 @@ namespace _13_A
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1284, 677);
+            this.tabPage1.Size = new System.Drawing.Size(1372, 797);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Bernoulli Sample Mean";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -309,7 +308,7 @@ namespace _13_A
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1284, 677);
+            this.tabPage2.Size = new System.Drawing.Size(1372, 797);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Rademacher Random Walk";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -353,7 +352,7 @@ namespace _13_A
             this.rademacherPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.rademacherPictureBox.Location = new System.Drawing.Point(53, 112);
             this.rademacherPictureBox.Name = "rademacherPictureBox";
-            this.rademacherPictureBox.Size = new System.Drawing.Size(1198, 539);
+            this.rademacherPictureBox.Size = new System.Drawing.Size(1286, 510);
             this.rademacherPictureBox.TabIndex = 12;
             this.rademacherPictureBox.TabStop = false;
             // 
@@ -431,6 +430,7 @@ namespace _13_A
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox);
             this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.numericLambda);
             this.tabPage3.Controls.Add(this.label8);
@@ -443,10 +443,50 @@ namespace _13_A
             this.tabPage3.Controls.Add(this.numericMBernRW);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1284, 677);
+            this.tabPage3.Size = new System.Drawing.Size(1372, 797);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Bernoulli Random Walk";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // bernoulliJumpPictureBox
+            // 
+            this.bernoulliJumpPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.bernoulliJumpPictureBox.Location = new System.Drawing.Point(723, 108);
+            this.bernoulliJumpPictureBox.Name = "bernoulliJumpPictureBox";
+            this.bernoulliJumpPictureBox.Size = new System.Drawing.Size(618, 439);
+            this.bernoulliJumpPictureBox.TabIndex = 26;
+            this.bernoulliJumpPictureBox.TabStop = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(244, 74);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 17);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "lambda";
+            // 
+            // numericLambda
+            // 
+            this.numericLambda.Location = new System.Drawing.Point(304, 72);
+            this.numericLambda.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericLambda.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericLambda.Name = "numericLambda";
+            this.numericLambda.Size = new System.Drawing.Size(81, 22);
+            this.numericLambda.TabIndex = 24;
+            this.numericLambda.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
             // 
             // label8
             // 
@@ -474,20 +514,17 @@ namespace _13_A
             this.numericJBernRW.Size = new System.Drawing.Size(81, 22);
             this.numericJBernRW.TabIndex = 22;
             this.numericJBernRW.Value = new decimal(new int[] {
-            50,
+            540,
             0,
             0,
             0});
             // 
             // bernoulliRWPictureBox
             // 
-            this.bernoulliRWPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.bernoulliRWPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliRWPictureBox.Location = new System.Drawing.Point(43, 108);
+            this.bernoulliRWPictureBox.Location = new System.Drawing.Point(21, 108);
             this.bernoulliRWPictureBox.Name = "bernoulliRWPictureBox";
-            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(1198, 539);
+            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(680, 439);
             this.bernoulliRWPictureBox.TabIndex = 21;
             this.bernoulliRWPictureBox.TabStop = false;
             // 
@@ -536,7 +573,7 @@ namespace _13_A
             this.numericNBernRW.Size = new System.Drawing.Size(81, 22);
             this.numericNBernRW.TabIndex = 17;
             this.numericNBernRW.Value = new decimal(new int[] {
-            300,
+            1000,
             0,
             0,
             0});
@@ -558,38 +595,7 @@ namespace _13_A
             this.numericMBernRW.Size = new System.Drawing.Size(81, 22);
             this.numericMBernRW.TabIndex = 18;
             this.numericMBernRW.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(244, 74);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(54, 17);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "lambda";
-            // 
-            // numericLambda
-            // 
-            this.numericLambda.Location = new System.Drawing.Point(304, 72);
-            this.numericLambda.Maximum = new decimal(new int[] {
-            1215752191,
-            23,
-            0,
-            0});
-            this.numericLambda.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericLambda.Name = "numericLambda";
-            this.numericLambda.Size = new System.Drawing.Size(81, 22);
-            this.numericLambda.TabIndex = 24;
-            this.numericLambda.Value = new decimal(new int[] {
-            30,
+            600,
             0,
             0,
             0});
@@ -598,7 +604,7 @@ namespace _13_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1369, 730);
+            this.ClientSize = new System.Drawing.Size(1603, 953);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -619,11 +625,12 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -664,6 +671,7 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericMBernRW;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown numericLambda;
+        private System.Windows.Forms.PictureBox bernoulliJumpPictureBox;
     }
 }
 

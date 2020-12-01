@@ -16,14 +16,20 @@ namespace _13_A
         }
 
         string nl = Environment.NewLine;
-        Graphics g1, g2, g3;
-        Bitmap b1, b2, b3;
+        Graphics g1, g2, g3, g4;
+        Bitmap b1, b2, b3, b4;
         Random r = new Random();
-        ResizableRectangle ViewPort1, ViewPort2, ViewPort3;
+        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4;
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, mBern, eps;
         int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.TopMost = true;
+            this.WindowState = FormWindowState.Maximized;
+            //this.FormBorderStyle = FormBorderStyle.None;
+        }
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
@@ -116,13 +122,22 @@ namespace _13_A
                 return;
             }
 
+            // check on j
+            if (jBernRW > nBernRW)
+            {
+                MessageBox.Show("J cannot be bigger than n!");
+                return;
+            }
+
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
             MaxX_Win = nBernRW;
-            MaxY_Win = nBernRW*p;
-            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
+            MaxY_Win = nBernRW*p*1.3;
+            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(80, 30, 300, 300));
             ViewPort3.ModifiedRect += drawChartsBernRW;
+
+
 
 
             // creation of distributions
@@ -130,9 +145,21 @@ namespace _13_A
             for (int i = 0; i < mBernRW; i++)
                 Bernoullis.Add(new Bernoulli(p, nBernRW, r.Next()));
 
-
             drawChartsBernRW();
+
+            // set values for graphics
+            MinX_Win = 0;
+            MinY_Win = 0;
+            MaxX_Win = 300;
+            MaxY_Win = 300;
+            ViewPort4 = new ResizableRectangle(this.bernoulliJumpPictureBox, b4, g4, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(10, 10, 300, 300));
+            ViewPort4.ModifiedRect += drawJumpDistribution;
+
+            drawJumpDistribution();
+
+
         }
+
         // -------------GRAPHICS FUNCTIONS----------------
 
         private void initGraphics()
@@ -145,9 +172,13 @@ namespace _13_A
             g2 = Graphics.FromImage(b2);
             g2.SmoothingMode = SmoothingMode.HighQuality;
 
-            b3 = new Bitmap(this.rademacherPictureBox.Width, this.rademacherPictureBox.Height);
+            b3 = new Bitmap(this.bernoulliRWPictureBox.Width, this.bernoulliRWPictureBox.Height);
             g3 = Graphics.FromImage(b3);
             g3.SmoothingMode = SmoothingMode.HighQuality;
+
+            b4 = new Bitmap(this.bernoulliJumpPictureBox.Width, this.bernoulliJumpPictureBox.Height);
+            g4 = Graphics.FromImage(b4);
+            g4.SmoothingMode = SmoothingMode.HighQuality;
 
         }
 
@@ -247,13 +278,13 @@ namespace _13_A
 
         private void drawChartsBernRW()
         {
-            g3.Clear(Color.Gainsboro);
+            ViewPort3.g.Clear(Color.Gainsboro);
 
             ViewPort3.drawAxis("num of steps", "Random Walk");
 
             drawBernoulliRWPaths();
 
-            double Step = 5;
+            double Step = 3;
             double StartingPoint = ViewPort3.MinY_Win;
 
             List<double> BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[jBernRW - 1].Y).ToList();
@@ -283,6 +314,28 @@ namespace _13_A
 
             ViewPort3.drawHorizontalLine("0", 0, pen);
 
+        }
+
+        private void drawJumpDistribution()
+        {
+            ViewPort4.g.Clear(Color.Gainsboro);
+
+            ViewPort4.drawAxis("distance\nconsecutive jumps","f");
+            
+            List<double> L = new List<double>();
+            L.Clear();
+
+            foreach (Bernoulli B in Bernoullis)
+            {
+                L.AddRange(B.consecutiveJumpsList());
+            }
+
+            List<Interval> ConsecutiveJumpDistr = UnivariateDistribution_CountinuousVariable(L, 1, 1);
+
+            drawHorizontalHistogram(0, ViewPort4, ConsecutiveJumpDistr);
+
+            //g4.FillRectangle(Brushes.Black, ViewPort4.R);
+            //ViewPort4.PictureBox.Image = ViewPort4.b;
         }
 
         private void drawBernoulliPaths()
@@ -326,6 +379,34 @@ namespace _13_A
                     (float)(V.R.Y + (BarNum * BarWidth)),
                     (float)BarHeight,
                     (float)BarWidth
+                    );
+
+                SolidBrush B = new SolidBrush(Color.FromArgb(200, 253, 185, 39));
+                Pen pen = new Pen(Color.FromArgb(200, 85, 37, 130));
+                g.DrawRectangles(pen, new[] { R });
+                g.FillRectangle(B, R);                
+                BarNum++;
+            }
+
+            V.PictureBox.Image = V.b;
+        }
+
+        private void drawHorizontalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
+        {
+            // draw proportionate rectangles 
+            Graphics g = V.g;
+            double BarWidth = (double)V.R.Width / FreqDistr.Count;
+            double max = FreqDistr.Max(I => I.RelativeFrequency);
+            double BarMaxHeight = V.R.Height/FreqDistr.Max(I => I.RelativeFrequency);
+            int BarNum = 0;
+            foreach (Interval I in FreqDistr)
+            {
+                float BarHeight = (float)(BarMaxHeight * I.RelativeFrequency);
+                RectangleF R = new RectangleF(
+                    (float)(V.R.X + (BarNum * BarWidth)),
+                    (float)(V.R.Y + V.R.Height - (BarMaxHeight * I.RelativeFrequency)),
+                    (float)BarWidth + n,
+                    BarHeight
                     );
 
                 SolidBrush B = new SolidBrush(Color.FromArgb(200, 253, 185, 39));

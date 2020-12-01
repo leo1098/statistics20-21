@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace _13_A
 {
@@ -113,6 +114,34 @@ namespace _13_A
             ViewPort.g.DrawLines(pen, Points.ToArray());
             ViewPort.PictureBox.Image = ViewPort.b;
 
+        }
+
+        public List<double> consecutiveJumpsList()
+        {
+            // Returns a list of the times elapsed between consecutive jumps
+            List<double> RWValues = RandomWalk.Select(Step => Step.Y).ToList();
+
+            double PrevN = RWValues[0];
+            double delta = 0;
+            List<double> L = new List<double>();
+
+            foreach (double N in RWValues)
+            {
+                if (N == PrevN)
+                {
+                    PrevN = N;
+                    delta += 1;
+                    continue;
+                }
+                else
+                {
+                    L.Add(delta);
+                    delta = 1;
+                    PrevN = N;
+                }
+            }
+
+            return L;
         }
 
     }
