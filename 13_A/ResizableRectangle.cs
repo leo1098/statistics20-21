@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+
 
 public partial class ResizableRectangle
 {
@@ -179,4 +181,78 @@ public partial class ResizableRectangle
     {
         return (float)(R.Top + R.Height - (World_Y - MinY_Win) * (R.Height / Range_Y));
     }
+
+    public  void drawAxis(string Name_X, string Name_Y)
+    {
+        Pen p = new Pen(Color.Black);
+        p.EndCap = LineCap.ArrowAnchor;
+
+
+        // X axis
+        g.DrawLine(
+            p,
+            viewport_X(MinX_Win),
+            viewport_Y(MinY_Win),
+            viewport_X(MaxX_Win),
+            viewport_Y(MinY_Win));
+
+        g.DrawString(Name_X, SystemFonts.DefaultFont, Brushes.Black,
+            viewport_X(MaxX_Win),
+            (float)(viewport_Y(MinY_Win) + 0.05 * MaxY_Win));
+
+        // Y axis
+        g.DrawLine(
+            p,
+            viewport_X(MinX_Win),
+            viewport_Y(MinY_Win),
+            viewport_X(MinX_Win),
+            viewport_Y(MaxY_Win + 0.1)
+            );
+
+        g.DrawString(
+            Name_Y,
+            SystemFonts.DefaultFont,
+            Brushes.Black,
+            viewport_X(MinX_Win) - g.MeasureString(Name_Y, SystemFonts.DefaultFont).Width,
+            (float)(viewport_Y(MaxY_Win) + 0.05 * MaxX_Win));
+    }
+
+    public void drawHorizontalLine(string label, double y, Pen pen)
+    {
+        g.DrawLine(
+            pen,
+            viewport_X(MinX_Win),
+            viewport_Y(y),
+            viewport_X(MaxX_Win),
+            viewport_Y(y));
+
+        g.DrawString(
+            label,
+            SystemFonts.DefaultFont,
+            Brushes.Black,
+            viewport_X(MinX_Win) - g.MeasureString(label, SystemFonts.DefaultFont).Width,
+            viewport_Y(y)
+            );
+    }
+
+    public void drawVerticalLine(string label, double x, Pen pen)
+    {
+        // Y axis
+        g.DrawLine(
+            pen,
+            viewport_X(MinX_Win + x),
+            viewport_Y(MinY_Win),
+            viewport_X(MinX_Win + x),
+            viewport_Y(MaxY_Win)
+            );
+
+        g.DrawString(
+            label,
+            SystemFonts.DefaultFont,
+            Brushes.Black,
+            viewport_X(MinX_Win + x),
+            viewport_Y(MinY_Win) + g.MeasureString(label, SystemFonts.DefaultFont).Height
+            );
+    }
+
 }

@@ -114,15 +114,16 @@ namespace _13_A
         {
             g1.Clear(Color.Gainsboro);
 
-            drawAxis(ViewPort1, g1, "trials", "");
+            //drawAxis(ViewPort1, g1, "trials", "");
+            ViewPort1.drawAxis("trials", "");
 
             drawBernoulliPaths();
 
             Pen pen = new Pen(Color.Red);
             pen.DashStyle = DashStyle.DashDotDot;
-            drawHorizontalLine("p", p, pen, ViewPort1, g1);
-            drawHorizontalLine("p+eps", p + eps, Pens.Brown, ViewPort1, g1);
-            drawHorizontalLine("p-eps", p - eps, Pens.Brown, ViewPort1, g1);
+            ViewPort1.drawHorizontalLine("p", p, pen);
+            ViewPort1.drawHorizontalLine("p+eps", p + eps, Pens.Brown);
+            ViewPort1.drawHorizontalLine("p-eps", p - eps, Pens.Brown);
 
             double Step = 0.05;
             double StartingPoint = ViewPort1.MinY_Win;
@@ -141,7 +142,7 @@ namespace _13_A
 
             // count how many means are inside the strip at step n
             int PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-            drawVerticalLine($"n = {jBern }\npaths in strip = {PathsInsideStrip}", jBern-1, Pens.Purple, ViewPort1, g1);
+            ViewPort1.drawVerticalLine($"n = {jBern }\npaths in strip = {PathsInsideStrip}", jBern-1, Pens.Purple);
 
             drawVerticalHistogram(jBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
 
@@ -158,7 +159,7 @@ namespace _13_A
 
             // count how many means are inside the strip at step n
             PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-            drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple, ViewPort1, g1);
+            ViewPort2.drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple);
 
             drawVerticalHistogram(nBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
 
@@ -170,7 +171,7 @@ namespace _13_A
         {
             g2.Clear(Color.Gainsboro);
 
-            drawAxis(ViewPort2, g2, "num of steps", "Random Walk\ny(i+1)=y(i)+Rademacher()");
+            ViewPort2.drawAxis("num of steps", "Rando Walk");
 
             drawRademacherPaths();
 
@@ -203,7 +204,7 @@ namespace _13_A
 
             drawVerticalHistogram(nRade - 1, ViewPort2, g2, ReversedFrequencyDistribution);
 
-            drawHorizontalLine("0", 0, pen, ViewPort2, g2);
+            ViewPort1.drawHorizontalLine("0", 0, pen);
 
             this.rademacherPictureBox.Image = b2;
         }
@@ -225,80 +226,6 @@ namespace _13_A
                 R.drawPath(ViewPort2, g2);
                 this.rademacherPictureBox.Image = b2;
             }
-        }
-
-
-        private void drawAxis(ResizableRectangle VP, Graphics g, string Name_X, string Name_Y)
-        {
-            Pen p = new Pen(Color.Black);
-            p.EndCap = LineCap.ArrowAnchor;
-            
-
-            // X axis
-            g.DrawLine(
-                p,
-                VP.viewport_X(VP.MinX_Win),
-                VP.viewport_Y(VP.MinY_Win),
-                VP.viewport_X(VP.MaxX_Win),
-                VP.viewport_Y(VP.MinY_Win));
-
-            g.DrawString(Name_X, DefaultFont, Brushes.Black,
-                VP.viewport_X(VP.MaxX_Win),
-                (float)(VP.viewport_Y(VP.MinY_Win) + 0.05 * VP.MaxY_Win));
-
-            // Y axis
-            g.DrawLine(
-                p,
-                VP.viewport_X(VP.MinX_Win),
-                VP.viewport_Y(VP.MinY_Win),
-                VP.viewport_X(VP.MinX_Win),
-                VP.viewport_Y(VP.MaxY_Win + 0.1)
-                );
-
-            g.DrawString(
-                Name_Y,
-                DefaultFont,
-                Brushes.Black,
-                VP.viewport_X(VP.MinX_Win) - g.MeasureString(Name_Y, DefaultFont).Width,
-                (float)(VP.viewport_Y(VP.MaxY_Win) + 0.05 * VP.MaxX_Win));
-        }
-
-        private void drawHorizontalLine(string label, double y, Pen pen, ResizableRectangle VP, Graphics g)
-        {
-            g.DrawLine(
-                pen,
-                VP.viewport_X(VP.MinX_Win),
-                VP.viewport_Y(y),
-                VP.viewport_X(VP.MaxX_Win),
-                VP.viewport_Y(y));
-
-            g.DrawString(
-                label,
-                DefaultFont,
-                Brushes.Black,
-                VP.viewport_X(VP.MinX_Win) - g.MeasureString(label, DefaultFont).Width,
-                VP.viewport_Y(y)
-                );
-        }
-
-        private void drawVerticalLine(string label, double x, Pen pen, ResizableRectangle VP, Graphics g)
-        {
-            // Y axis
-            g.DrawLine(
-                pen,
-                VP.viewport_X(VP.MinX_Win + x),
-                VP.viewport_Y(VP.MinY_Win),
-                VP.viewport_X(VP.MinX_Win + x),
-                VP.viewport_Y(VP.MaxY_Win)
-                );
-
-            g.DrawString(
-                label,
-                DefaultFont,
-                Brushes.Black,
-                VP.viewport_X(VP.MinX_Win + x),
-                VP.viewport_Y(VP.MinY_Win) + g.MeasureString(label, DefaultFont).Height
-                );
         }
 
         private void drawVerticalHistogram(int n, ResizableRectangle V, Graphics g, List<Interval> FreqDistr)
