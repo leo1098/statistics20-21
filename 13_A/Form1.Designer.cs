@@ -52,6 +52,15 @@ namespace _13_A
             this.button2 = new System.Windows.Forms.Button();
             this.numericNRade = new System.Windows.Forms.NumericUpDown();
             this.numericMRade = new System.Windows.Forms.NumericUpDown();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericJBernRW = new System.Windows.Forms.NumericUpDown();
+            this.bernoulliRWPictureBox = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
+            this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -65,6 +74,11 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.rademacherPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNRade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -250,6 +264,7 @@ namespace _13_A
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -275,7 +290,7 @@ namespace _13_A
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1284, 677);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Bernoulli";
+            this.tabPage1.Text = "Bernoulli Sample Mean";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -293,7 +308,7 @@ namespace _13_A
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1284, 677);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Rademacher";
+            this.tabPage2.Text = "Rademacher Random Walk";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -411,6 +426,137 @@ namespace _13_A
             0,
             0});
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label8);
+            this.tabPage3.Controls.Add(this.numericJBernRW);
+            this.tabPage3.Controls.Add(this.bernoulliRWPictureBox);
+            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Controls.Add(this.label10);
+            this.tabPage3.Controls.Add(this.button3);
+            this.tabPage3.Controls.Add(this.numericNBernRW);
+            this.tabPage3.Controls.Add(this.numericMBernRW);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1284, 677);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Bernoulli Random Walk";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(83, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(11, 17);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "j";
+            // 
+            // numericJBernRW
+            // 
+            this.numericJBernRW.Location = new System.Drawing.Point(105, 70);
+            this.numericJBernRW.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericJBernRW.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericJBernRW.Name = "numericJBernRW";
+            this.numericJBernRW.Size = new System.Drawing.Size(81, 22);
+            this.numericJBernRW.TabIndex = 22;
+            this.numericJBernRW.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // bernoulliRWPictureBox
+            // 
+            this.bernoulliRWPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bernoulliRWPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.bernoulliRWPictureBox.Location = new System.Drawing.Point(43, 108);
+            this.bernoulliRWPictureBox.Name = "bernoulliRWPictureBox";
+            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(1198, 539);
+            this.bernoulliRWPictureBox.TabIndex = 21;
+            this.bernoulliRWPictureBox.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(78, 32);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(16, 17);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "n";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(266, 35);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(19, 17);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "m";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(641, 30);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(81, 43);
+            this.button3.TabIndex = 16;
+            this.button3.Text = "Print Chart";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // numericNBernRW
+            // 
+            this.numericNBernRW.Location = new System.Drawing.Point(105, 30);
+            this.numericNBernRW.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericNBernRW.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericNBernRW.Name = "numericNBernRW";
+            this.numericNBernRW.Size = new System.Drawing.Size(81, 22);
+            this.numericNBernRW.TabIndex = 17;
+            this.numericNBernRW.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // numericMBernRW
+            // 
+            this.numericMBernRW.Location = new System.Drawing.Point(304, 32);
+            this.numericMBernRW.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericMBernRW.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericMBernRW.Name = "numericMBernRW";
+            this.numericMBernRW.Size = new System.Drawing.Size(81, 22);
+            this.numericMBernRW.TabIndex = 18;
+            this.numericMBernRW.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -434,6 +580,12 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.rademacherPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNRade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -463,6 +615,15 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericMRade;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericJRade;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown numericJBernRW;
+        private System.Windows.Forms.PictureBox bernoulliRWPictureBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.NumericUpDown numericNBernRW;
+        private System.Windows.Forms.NumericUpDown numericMBernRW;
     }
 }
 

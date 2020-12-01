@@ -49,7 +49,7 @@ namespace _13_A
                 return -1;
         }
 
-        public void drawPath(ResizableRectangle ViewPort, Graphics g)
+        public void drawRandomWalkPath(ResizableRectangle ViewPort)
         {
             List<PointF> Points = new List<PointF>();
 
@@ -62,7 +62,9 @@ namespace _13_A
                     );
             }
 
-            g.DrawLines(pen, Points.ToArray());
+            ViewPort.g.DrawLines(pen, Points.ToArray());
+            ViewPort.PictureBox.Image = ViewPort.b;
+
         }
     }
 }

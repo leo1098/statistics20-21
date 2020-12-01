@@ -85,7 +85,7 @@ namespace _13_A
             MinY_Win = -120;
             MaxX_Win = nRade;
             MaxY_Win = 120;
-            ViewPort2 = new ResizableRectangle(this.rademacherPictureBox, b1, g1, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
+            ViewPort2 = new ResizableRectangle(this.rademacherPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
             ViewPort2.ModifiedRect += drawChartsRade;
 
 
@@ -144,7 +144,7 @@ namespace _13_A
             int PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
             ViewPort1.drawVerticalLine($"n = {jBern }\npaths in strip = {PathsInsideStrip}", jBern-1, Pens.Purple);
 
-            drawVerticalHistogram(jBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
+            drawVerticalHistogram(jBern-1, ViewPort1, ReversedFrequencyDistribution);
 
 
             // -------- histogram at time n ---------
@@ -159,19 +159,16 @@ namespace _13_A
 
             // count how many means are inside the strip at step n
             PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-            ViewPort2.drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple);
+            ViewPort1.drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple);
 
-            drawVerticalHistogram(nBern-1, ViewPort1, g1, ReversedFrequencyDistribution);
-
-
-            this.bernoulliPictureBox.Image = b1;
+            drawVerticalHistogram(nBern-1, ViewPort1, ReversedFrequencyDistribution);
         }
 
         private void drawChartsRade()
         {
             g2.Clear(Color.Gainsboro);
 
-            ViewPort2.drawAxis("num of steps", "Rando Walk");
+            ViewPort2.drawAxis("num of steps", "Random Walk");
 
             drawRademacherPaths();
 
@@ -190,7 +187,7 @@ namespace _13_A
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(jRade - 1, ViewPort2, g2, ReversedFrequencyDistribution);
+            drawVerticalHistogram(jRade - 1, ViewPort2, ReversedFrequencyDistribution);
 
 
 
@@ -202,11 +199,10 @@ namespace _13_A
             // invert list so the biggest comes before the smallest
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(nRade - 1, ViewPort2, g2, ReversedFrequencyDistribution);
+            drawVerticalHistogram(nRade - 1, ViewPort2, ReversedFrequencyDistribution);
 
-            ViewPort1.drawHorizontalLine("0", 0, pen);
+            ViewPort2.drawHorizontalLine("0", 0, pen);
 
-            this.rademacherPictureBox.Image = b2;
         }
 
         private void drawBernoulliPaths()
@@ -214,8 +210,7 @@ namespace _13_A
             //draw the path for each mean distribution
             foreach (Bernoulli B in Bernoullis)
             {
-                    B.drawPath(ViewPort1, g1);
-                    this.bernoulliPictureBox.Image = b1;
+                B.drawSampleMeanPath(ViewPort1);
             }
         }
 
@@ -223,14 +218,14 @@ namespace _13_A
         {
             foreach (Rademacher R in Rademachers)
             {
-                R.drawPath(ViewPort2, g2);
-                this.rademacherPictureBox.Image = b2;
+                R.drawRandomWalkPath(ViewPort2);
             }
         }
 
-        private void drawVerticalHistogram(int n, ResizableRectangle V, Graphics g, List<Interval> FreqDistr)
+        private void drawVerticalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
         {
             // draw proportionate rectangles 
+            Graphics g = V.g;
             double BarWidth = (double)V.R.Height / FreqDistr.Count;
             double BarMaxHeight = V.R.Width * 0.4;
             int BarNum = 0;
@@ -251,9 +246,7 @@ namespace _13_A
                 BarNum++;
             }
 
-            
-
-
+            V.PictureBox.Image = V.b;
         }
 
         private void addPaddingIntervals(List<Interval> L, double MaxValue)

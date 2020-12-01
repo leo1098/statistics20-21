@@ -233,6 +233,8 @@ public partial class ResizableRectangle
             viewport_X(MinX_Win) - g.MeasureString(label, SystemFonts.DefaultFont).Width,
             viewport_Y(y)
             );
+        PictureBox.Image = b;
+
     }
 
     public void drawVerticalLine(string label, double x, Pen pen)
@@ -253,6 +255,9 @@ public partial class ResizableRectangle
             viewport_X(MinX_Win + x),
             viewport_Y(MinY_Win) + g.MeasureString(label, SystemFonts.DefaultFont).Height
             );
+
+        PictureBox.Image = b;
+
     }
 
 }

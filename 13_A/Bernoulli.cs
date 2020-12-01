@@ -11,6 +11,7 @@ namespace _13_A
         private int n;
         public List<DataPoint> Distribution;
         public List<DataPoint> MeanDistribution;
+        public List<DataPoint> RandomWalk;
         private Pen pen;
 
         public Bernoulli(double p, int numberOfsteps, int seed)
@@ -64,8 +65,7 @@ namespace _13_A
             else return 0;
         }
 
-
-        public void drawPath(ResizableRectangle ViewPort, Graphics g)
+        public void drawSampleMeanPath(ResizableRectangle ViewPort)
         {
             List<PointF> Points = new List<PointF>();
 
@@ -78,7 +78,41 @@ namespace _13_A
                     );
             }
 
-            g.DrawLines(pen, Points.ToArray());
+            ViewPort.g.DrawLines(pen, Points.ToArray());
+            ViewPort.PictureBox.Image = ViewPort.b;
         }
+
+        private List<DataPoint> generateRandomWalk()
+        {
+            List<DataPoint> L = new List<DataPoint>();
+            double Y = 0;
+            for (int i = 0; i < n; i++)
+            {
+                Y += sample();
+                DataPoint DP = new DataPoint(i, Y);
+                L.Add(DP);
+            }
+
+            return L;
+        }
+
+        public void drawRandomWalkPath(ResizableRectangle ViewPort)
+        {
+            List<PointF> Points = new List<PointF>();
+
+            // convert datapoints in points
+            foreach (DataPoint DP in RandomWalk)
+            {
+                Points.Add(new PointF(
+                    ViewPort.viewport_X(DP.X),
+                    ViewPort.viewport_Y(DP.Y))
+                    );
+            }
+
+            ViewPort.g.DrawLines(pen, Points.ToArray());
+            ViewPort.PictureBox.Image = ViewPort.b;
+
+        }
+
     }
 }
