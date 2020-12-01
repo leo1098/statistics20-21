@@ -16,18 +16,21 @@ namespace _13_A
         }
 
         string nl = Environment.NewLine;
-        Graphics g1, g2;
-        Bitmap b1, b2;
+        Graphics g1, g2, g3;
+        Bitmap b1, b2, b3;
         Random r = new Random();
-        ResizableRectangle ViewPort1, ViewPort2;
+        ResizableRectangle ViewPort1, ViewPort2, ViewPort3;
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, mBern, eps;
-        int nBern, jBern, nRade, jRade, mRade;
+        int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
+
+
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
 
 
         // ------------ HANDLERS ------------------
+            
         private void printSimulationButton_Click(object sender, EventArgs e)
         {
             // get input values
@@ -37,8 +40,6 @@ namespace _13_A
             p = (double)this.numericP.Value;
             eps = (double)this.numericEps.Value;
             Bernoullis = new List<Bernoulli>();
-            Rademachers = new List<Rademacher>();
-
 
             // check on j
             if (jBern > nBern)
@@ -57,6 +58,7 @@ namespace _13_A
 
 
             // creation of distributions
+            Bernoullis.Clear();
             for (int i = 0; i < mBern; i++)
                 Bernoullis.Add(new Bernoulli(p, nBern, r.Next()));
 
@@ -96,6 +98,41 @@ namespace _13_A
             drawChartsRade();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // get input values
+            nBernRW = (int)this.numericNBernRW.Value;
+            jBernRW = (int)this.numericJBernRW.Value;
+            mBernRW = (int)this.numericMBernRW.Value;
+            double lambda = (double)this.numericLambda.Value;
+            p = (double)(lambda / nBernRW);
+            Bernoullis = new List<Bernoulli>();
+
+
+            // check on lambda
+            if (lambda > nBernRW)
+            {
+                MessageBox.Show("Lambda cannot be bigger than n!");
+                return;
+            }
+
+            // set values for graphics
+            MinX_Win = 0;
+            MinY_Win = 0;
+            MaxX_Win = nBernRW;
+            MaxY_Win = nBernRW*p;
+            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
+            ViewPort3.ModifiedRect += drawChartsBernRW;
+
+
+            // creation of distributions
+            Bernoullis.Clear();
+            for (int i = 0; i < mBernRW; i++)
+                Bernoullis.Add(new Bernoulli(p, nBernRW, r.Next()));
+
+
+            drawChartsBernRW();
+        }
         // -------------GRAPHICS FUNCTIONS----------------
 
         private void initGraphics()
@@ -107,6 +144,10 @@ namespace _13_A
             b2 = new Bitmap(this.rademacherPictureBox.Width, this.rademacherPictureBox.Height);
             g2 = Graphics.FromImage(b2);
             g2.SmoothingMode = SmoothingMode.HighQuality;
+
+            b3 = new Bitmap(this.rademacherPictureBox.Width, this.rademacherPictureBox.Height);
+            g3 = Graphics.FromImage(b3);
+            g3.SmoothingMode = SmoothingMode.HighQuality;
 
         }
 
@@ -172,10 +213,6 @@ namespace _13_A
 
             drawRademacherPaths();
 
-            Pen pen = new Pen(Color.Red);
-            pen.DashStyle = DashStyle.DashDotDot;
-
-
             double Step = 5;
             double StartingPoint = ViewPort2.MinY_Win;
 
@@ -201,7 +238,50 @@ namespace _13_A
 
             drawVerticalHistogram(nRade - 1, ViewPort2, ReversedFrequencyDistribution);
 
+            Pen pen = new Pen(Color.Red);
+            pen.DashStyle = DashStyle.DashDotDot;
+
             ViewPort2.drawHorizontalLine("0", 0, pen);
+
+        }
+
+        private void drawChartsBernRW()
+        {
+            g3.Clear(Color.Gainsboro);
+
+            ViewPort3.drawAxis("num of steps", "Random Walk");
+
+            drawBernoulliRWPaths();
+
+            double Step = 5;
+            double StartingPoint = ViewPort3.MinY_Win;
+
+            List<double> BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[jBernRW - 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernsRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort3.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(jBernRW - 1, ViewPort3, ReversedFrequencyDistribution);
+
+
+
+            BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[nBernRW - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernsRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort3.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(nBernRW - 1, ViewPort3, ReversedFrequencyDistribution);
+
+            Pen pen = new Pen(Color.Red);
+            pen.DashStyle = DashStyle.DashDotDot;
+
+            ViewPort3.drawHorizontalLine("0", 0, pen);
 
         }
 
@@ -211,6 +291,15 @@ namespace _13_A
             foreach (Bernoulli B in Bernoullis)
             {
                 B.drawSampleMeanPath(ViewPort1);
+            }
+        }
+
+        private void drawBernoulliRWPaths()
+        {
+            //draw the path for each mean distribution
+            foreach (Bernoulli B in Bernoullis)
+            {
+                B.drawRandomWalkPath(ViewPort3);
             }
         }
 

@@ -61,6 +61,8 @@ namespace _13_A
             this.button3 = new System.Windows.Forms.Button();
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numericLambda = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -79,6 +81,7 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -428,6 +431,8 @@ namespace _13_A
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label11);
+            this.tabPage3.Controls.Add(this.numericLambda);
             this.tabPage3.Controls.Add(this.label8);
             this.tabPage3.Controls.Add(this.numericJBernRW);
             this.tabPage3.Controls.Add(this.bernoulliRWPictureBox);
@@ -512,6 +517,7 @@ namespace _13_A
             this.button3.TabIndex = 16;
             this.button3.Text = "Print Chart";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // numericNBernRW
             // 
@@ -557,6 +563,37 @@ namespace _13_A
             0,
             0});
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(244, 74);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 17);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "lambda";
+            // 
+            // numericLambda
+            // 
+            this.numericLambda.Location = new System.Drawing.Point(304, 72);
+            this.numericLambda.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericLambda.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericLambda.Name = "numericLambda";
+            this.numericLambda.Size = new System.Drawing.Size(81, 22);
+            this.numericLambda.TabIndex = 24;
+            this.numericLambda.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -586,6 +623,7 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -624,6 +662,8 @@ namespace _13_A
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.NumericUpDown numericNBernRW;
         private System.Windows.Forms.NumericUpDown numericMBernRW;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown numericLambda;
     }
 }
 
