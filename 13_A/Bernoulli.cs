@@ -23,6 +23,7 @@ namespace _13_A
             this.n = numberOfsteps;
             this.Distribution = generateDistribution();
             this.MeanDistribution = generateMeanDistribution();
+            this.RandomWalk = generateRandomWalk();
         }
 
 

@@ -179,7 +179,7 @@ namespace _13_A
             double Step = 5;
             double StartingPoint = ViewPort2.MinY_Win;
 
-            List<double> RadesAtStepN = Rademachers.Select(R => R.ListOfValues[jRade-1].Y).ToList();
+            List<double> RadesAtStepN = Rademachers.Select(R => R.RandomWalk[jRade-1].Y).ToList();
             List<Interval> FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(RadesAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
@@ -191,7 +191,7 @@ namespace _13_A
 
 
 
-            RadesAtStepN = Rademachers.Select(R => R.ListOfValues[nRade - 1].Y).ToList();
+            RadesAtStepN = Rademachers.Select(R => R.RandomWalk[nRade - 1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(RadesAtStepN, StartingPoint, Step);
             // add intervals to cover all the range

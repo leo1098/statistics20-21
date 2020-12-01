@@ -13,18 +13,19 @@ namespace _13_A
         private Random r;
         private int n;
         private double seed;
-        public List<DataPoint> ListOfValues;
+        public List<DataPoint> RandomWalk;
         Pen pen;
+
         public Rademacher(int n, int seed)
         {
             this.r = new Random(seed);
             this.n = n;
-            ListOfValues = generateListOfValues();
+            RandomWalk = generateRandomWalkListOfValues();
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
 
         }
 
-        private List<DataPoint> generateListOfValues()
+        private List<DataPoint> generateRandomWalkListOfValues()
         {
             List<DataPoint> L = new List<DataPoint>();
             double Y = 0;
@@ -54,7 +55,7 @@ namespace _13_A
             List<PointF> Points = new List<PointF>();
 
             // convert datapoints in points
-            foreach (DataPoint DP in ListOfValues)
+            foreach (DataPoint DP in RandomWalk)
             {
                 Points.Add(new PointF(
                     ViewPort.viewport_X(DP.X),
