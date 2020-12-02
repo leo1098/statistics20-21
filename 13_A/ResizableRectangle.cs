@@ -213,13 +213,14 @@ public partial class ResizableRectangle
         //StringFormat stringFormat = new StringFormat();
         //stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
 
+
+
         g.DrawString(
             Name_Y,
             SystemFonts.DefaultFont,
             Brushes.Black,
             viewport_X(MinX_Win) - g.MeasureString(Name_Y, SystemFonts.DefaultFont).Width,
             (float)(viewport_Y(MaxY_Win) + 0.05 * MaxX_Win));
-
     }
 
     public void drawHorizontalLine(string label, double y, Pen pen)

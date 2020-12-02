@@ -53,7 +53,7 @@ namespace _13_A
             this.numericNRade = new System.Windows.Forms.NumericUpDown();
             this.numericMRade = new System.Windows.Forms.NumericUpDown();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.bernoulliJumpPictureBox = new System.Windows.Forms.PictureBox();
+            this.bernoulliJumpPictureBox1 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.numericLambda = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
@@ -64,6 +64,7 @@ namespace _13_A
             this.button3 = new System.Windows.Forms.Button();
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
+            this.bernoulliJumpPictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -78,12 +79,13 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericNRade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -430,7 +432,8 @@ namespace _13_A
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox);
+            this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox2);
+            this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox1);
             this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.numericLambda);
             this.tabPage3.Controls.Add(this.label8);
@@ -448,14 +451,14 @@ namespace _13_A
             this.tabPage3.Text = "Bernoulli Random Walk";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // bernoulliJumpPictureBox
+            // bernoulliJumpPictureBox1
             // 
-            this.bernoulliJumpPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliJumpPictureBox.Location = new System.Drawing.Point(723, 108);
-            this.bernoulliJumpPictureBox.Name = "bernoulliJumpPictureBox";
-            this.bernoulliJumpPictureBox.Size = new System.Drawing.Size(618, 439);
-            this.bernoulliJumpPictureBox.TabIndex = 26;
-            this.bernoulliJumpPictureBox.TabStop = false;
+            this.bernoulliJumpPictureBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.bernoulliJumpPictureBox1.Location = new System.Drawing.Point(723, 108);
+            this.bernoulliJumpPictureBox1.Name = "bernoulliJumpPictureBox1";
+            this.bernoulliJumpPictureBox1.Size = new System.Drawing.Size(618, 250);
+            this.bernoulliJumpPictureBox1.TabIndex = 26;
+            this.bernoulliJumpPictureBox1.TabStop = false;
             // 
             // label11
             // 
@@ -524,7 +527,7 @@ namespace _13_A
             this.bernoulliRWPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.bernoulliRWPictureBox.Location = new System.Drawing.Point(21, 108);
             this.bernoulliRWPictureBox.Name = "bernoulliRWPictureBox";
-            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(680, 439);
+            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(680, 504);
             this.bernoulliRWPictureBox.TabIndex = 21;
             this.bernoulliRWPictureBox.TabStop = false;
             // 
@@ -600,6 +603,15 @@ namespace _13_A
             0,
             0});
             // 
+            // bernoulliJumpPictureBox2
+            // 
+            this.bernoulliJumpPictureBox2.BackColor = System.Drawing.Color.Gainsboro;
+            this.bernoulliJumpPictureBox2.Location = new System.Drawing.Point(723, 364);
+            this.bernoulliJumpPictureBox2.Name = "bernoulliJumpPictureBox2";
+            this.bernoulliJumpPictureBox2.Size = new System.Drawing.Size(618, 250);
+            this.bernoulliJumpPictureBox2.TabIndex = 27;
+            this.bernoulliJumpPictureBox2.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -625,12 +637,13 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -671,7 +684,8 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericMBernRW;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown numericLambda;
-        private System.Windows.Forms.PictureBox bernoulliJumpPictureBox;
+        private System.Windows.Forms.PictureBox bernoulliJumpPictureBox1;
+        private System.Windows.Forms.PictureBox bernoulliJumpPictureBox2;
     }
 }
 

@@ -16,20 +16,15 @@ namespace _13_A
         }
 
         string nl = Environment.NewLine;
-        Graphics g1, g2, g3, g4;
-        Bitmap b1, b2, b3, b4;
+        Graphics g1, g2, g3, g4, g5;
+        Bitmap b1, b2, b3, b4, b5;
         Random r = new Random();
-        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4;
+        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4, ViewPort5;
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, mBern, eps;
         int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.TopMost = true;
-            this.WindowState = FormWindowState.Maximized;
-            //this.FormBorderStyle = FormBorderStyle.None;
-        }
+
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
@@ -152,10 +147,24 @@ namespace _13_A
             MinY_Win = 0;
             MaxX_Win = 300;
             MaxY_Win = 300;
-            ViewPort4 = new ResizableRectangle(this.bernoulliJumpPictureBox, b4, g4, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(10, 10, 300, 300));
-            ViewPort4.ModifiedRect += drawJumpDistribution;
+            ViewPort4 = new ResizableRectangle(this.bernoulliJumpPictureBox1,
+                b4, g4,
+                MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(20, 10, (float)(bernoulliJumpPictureBox1.Width*0.8), (float)(bernoulliJumpPictureBox1.Height * 0.8)));
+            ViewPort4.ModifiedRect += drawJumpDistributions;
 
-            drawJumpDistribution();
+            // set values for graphics
+            MinX_Win = 0;
+            MinY_Win = 0;
+            MaxX_Win = 300;
+            MaxY_Win = 300;
+            ViewPort5 = new ResizableRectangle(this.bernoulliJumpPictureBox2,
+                b5, g5,
+                MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(20, 10, (float)(bernoulliJumpPictureBox2.Width * 0.8), (float)(bernoulliJumpPictureBox2.Height * 0.8)));
+            ViewPort5.ModifiedRect += drawJumpDistributions;
+
+            drawJumpDistributions();
 
 
         }
@@ -176,9 +185,13 @@ namespace _13_A
             g3 = Graphics.FromImage(b3);
             g3.SmoothingMode = SmoothingMode.HighQuality;
 
-            b4 = new Bitmap(this.bernoulliJumpPictureBox.Width, this.bernoulliJumpPictureBox.Height);
+            b4 = new Bitmap(this.bernoulliJumpPictureBox1.Width, this.bernoulliJumpPictureBox1.Height);
             g4 = Graphics.FromImage(b4);
             g4.SmoothingMode = SmoothingMode.HighQuality;
+
+            b5 = new Bitmap(this.bernoulliJumpPictureBox2.Width, this.bernoulliJumpPictureBox2.Height);
+            g5 = Graphics.FromImage(b5);
+            g5.SmoothingMode = SmoothingMode.HighQuality;
 
         }
 
@@ -316,26 +329,33 @@ namespace _13_A
 
         }
 
-        private void drawJumpDistribution()
+        private void drawJumpDistributions()
         {
+            // this section will print the distribuion of distance betwee consesutive jumps (exponential)
             ViewPort4.g.Clear(Color.Gainsboro);
-
-            ViewPort4.drawAxis("distance\nconsecutive jumps","f");
-            
+            ViewPort4.drawAxis("distance","f");
+       
             List<double> L = new List<double>();
             L.Clear();
 
             foreach (Bernoulli B in Bernoullis)
-            {
-                L.AddRange(B.consecutiveJumpsList());
-            }
+                L.AddRange(B.distancesBetweenConsecutiveJumps());
 
             List<Interval> ConsecutiveJumpDistr = UnivariateDistribution_CountinuousVariable(L, 1, 1);
-
             drawHorizontalHistogram(0, ViewPort4, ConsecutiveJumpDistr);
 
-            //g4.FillRectangle(Brushes.Black, ViewPort4.R);
-            //ViewPort4.PictureBox.Image = ViewPort4.b;
+            // this section will print the distribution of the distance from each jump from the origin (uniform)
+            ViewPort5.g.Clear(Color.Gainsboro);
+            ViewPort5.drawAxis("distance", "f");
+
+            List<double> L2 = new List<double>();
+            L2.Clear();
+
+            foreach (Bernoulli B in Bernoullis)
+                L2.AddRange(B.distancesJumpsFromOrigin());
+
+            List<Interval> FromOriginJumpDistr = UnivariateDistribution_CountinuousVariable(L2, 1, 10);
+            drawHorizontalHistogram(0, ViewPort5, FromOriginJumpDistr);
         }
 
         private void drawBernoulliPaths()

@@ -28,7 +28,7 @@ namespace _13_A
         }
 
 
-        private List<DataPoint> generateMeanDistribution() 
+        private List<DataPoint> generateMeanDistribution()
         {
             List<DataPoint> MeanD = new List<DataPoint>();
             double avg = 0;
@@ -116,7 +116,7 @@ namespace _13_A
 
         }
 
-        public List<double> consecutiveJumpsList()
+        public List<double> distancesBetweenConsecutiveJumps()
         {
             // Returns a list of the times elapsed between consecutive jumps
             List<double> RWValues = RandomWalk.Select(Step => Step.Y).ToList();
@@ -144,5 +144,24 @@ namespace _13_A
             return L;
         }
 
+        public List<double> distancesJumpsFromOrigin()
+        {
+            List<double> L = new List<double>();
+            //L = RandomWalk.Where(DP => DP.Y == 1).Select(DP => DP.X).ToList();
+
+            double PrevY = RandomWalk[0].Y;
+            foreach (DataPoint DP in RandomWalk)
+            {
+                if (DP.Y == PrevY)
+                    continue;
+                else
+                {
+                    L.Add(DP.X);
+                    PrevY = DP.Y;
+                }
+            }
+
+            return L;
+        }
     }
 }
