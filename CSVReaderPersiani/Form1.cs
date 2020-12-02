@@ -825,7 +825,64 @@ namespace CSVReaderPersiani
 
             drawScatterplot();
 
+            drawQuartiles();
+
             chartPictureBox.Image = b;
+        }
+
+        private void drawQuartiles()
+        {
+            List<double> Values_X= DataSetForChart.Select(DP => DP.X).ToList();
+            List<double> Values_Y= DataSetForChart.Select(DP => DP.Y).ToList();
+
+            List<double> Quartiles_X = findQuartiles(Values_X); 
+            List<double> Quartiles_Y = findQuartiles(Values_Y);
+
+            foreach (double Q in Quartiles_Y)
+            {
+                R2.drawHorizontalLine("",Q, Pens.Red);
+            }
+
+            foreach (double Q in Quartiles_X)
+            {
+                R2.drawVerticalLine("", Q, Pens.Green);
+            }
+        }
+
+        private List<double> findQuartiles(List<double> L)
+        {
+            List<double> Quartiles = new List<double>();
+            List<double> Temp = new List<double>();
+            L.Sort();
+
+            Quartiles.Add(findMedian(L));
+            for (int i = 0; i <= L.IndexOf(L[L.Count / 2]); i++)
+                Temp.Add(L[i]);
+            Quartiles.Insert(0, findMedian(Temp));
+            Temp.Clear();
+            for (int i = L.Count / 2; i <= L.LastIndexOf(L.Last()); i++)
+                Temp.Add(L[i]);
+            Quartiles.Add(findMedian(Temp));
+            Temp.Clear();
+
+            return Quartiles;
+        }
+
+        private double findMedian (List<double> L)
+        {
+            L.Sort();
+
+            if (L.Count % 2 == 0)
+            {
+                int max = (int)Math.Ceiling((L.Count - 1) / 2.0);
+                int min = (int)Math.Floor((L.Count - 1) / 2.0);
+                return (L.ElementAt(max) + L.ElementAt(min)) / 2.0;
+            } 
+            else
+            {
+                return L.ElementAt((L.Count - 1) / 2);                
+            }
+            
         }
 
         private void drawScatterplot()
@@ -987,55 +1044,6 @@ namespace CSVReaderPersiani
             g2.SmoothingMode = SmoothingMode.AntiAlias;
         }
 
-        //private int viewport_X(double World_X)
-        //{
-        //    return (int)(ViewPort.Left + (World_X - MinX_Win) * (ViewPort.Width / Range_X));
-        //}
-
-        //private int viewport_Y(double World_Y)
-        //{
-        //    double diff1 = (World_Y - MinY_Win);
-        //    double ratio1 = (ViewPort.Height / Range_Y);
-        //    double ret = (ViewPort.Top + ViewPort.Height - diff1 * ratio1);
-        //    int castedret = (int)ret;
-        //    return castedret;
-        //}
-
-        //private void drawLinesForMean()
-        //{
-        //    // X Axis
-        //    List<double> Values_X = new List<double>();
-        //    foreach (Dictionary<string, dynamic> DataPoint in DataSet)
-        //    {
-        //        if (DataPoint[Name_X].GetType() == typeof(System.DBNull))
-        //            Values_X.Add(0.0);
-        //        else
-        //            Values_X.Add((double)DataPoint[Name_X]);
-        //    }
-        //    // compute mean
-        //    double Avg_X = viewport_X(computeOnlineMean(Values_X));
-
-        //    // Y Axis
-        //    List<double> Values_Y = new List<double>();
-        //    foreach (Dictionary<string, dynamic> DataPoint in DataSet)
-        //    {
-        //        if (DataPoint[Name_Y].GetType() == typeof(System.DBNull))
-        //            Values_Y.Add(0.0);
-        //        else
-        //            Values_Y.Add((double)DataPoint[Name_Y]);
-        //    }
-        //    // compute mean
-        //    double Avg_Y = viewport_Y(computeOnlineMean(Values_Y));
-
-        //    Point Avg_X_Point_Start = new Point((int)Avg_X, viewport_Y(MinY_Win));
-        //    Point Avg_X_Point_End = new Point((int)Avg_X, viewport_Y(MaxY_Win));
-        //    Point Avg_Y_Point_Start = new Point(viewport_X(MinX_Win), (int)Avg_Y);
-        //    Point Avg_Y_Point_End = new Point(viewport_X(MaxX_Win), (int)Avg_Y);
-
-        //    g.DrawLine(Pens.Blue, Avg_Y_Point_Start, Avg_Y_Point_End);
-        //    g.DrawLine(Pens.Blue, Avg_X_Point_Start, Avg_X_Point_End);
-        //}
-
         private void drawRugPlot()
         {
             float h = (float)(0.01 * Math.Min(MaxY_Win, MaxX_Win));
@@ -1100,57 +1108,6 @@ namespace CSVReaderPersiani
             g.DrawLine(p, StartingPoint, EndingPoint);
 
         }
-
-
-        //private void chartPictureBox_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    Click_Point_Drag = new Point(e.X, e.Y);
-
-        //    if (ViewPort.Contains(Click_Point_Drag))
-        //    {
-        //        ViewPort_MouseDown = this.ViewPort;
-
-        //        if (e.Button == MouseButtons.Left)
-        //        {
-        //            Dragging = true;
-        //        }
-        //        else if (e.Button == MouseButtons.Right)
-        //        {
-        //            Resizing = true;
-        //        }
-        //    }
-        //}
-
-        //private void chartPictureBox_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (chartPictureBox == null || chartPictureBox.Image == null)
-        //        return;
-
-        //    if (Dragging)
-        //    {
-        //        int Delta_X = e.X - Click_Point_Drag.X;
-        //        int Delta_Y = e.Y - Click_Point_Drag.Y;
-
-        //        ViewPort.X = ViewPort_MouseDown.X + Delta_X;
-        //        ViewPort.Y = ViewPort_MouseDown.Y + Delta_Y;
-        //    }
-        //    else if (Resizing)
-        //    {
-        //        int Delta_X = e.X - Click_Point_Drag.X;
-        //        int Delta_Y = e.Y - Click_Point_Drag.Y;
-
-        //        ViewPort.Width = ViewPort_MouseDown.Width + Delta_X;
-        //        ViewPort.Height = ViewPort_MouseDown.Height + Delta_Y;
-        //    }
-        //    drawCharts();
-
-        //}
-
-        //private void chartPictureBox_MouseUp(object sender, MouseEventArgs e)
-        //{
-        //    Dragging = false;
-        //    Resizing = false;
-        //}
 
 
         SizeF MaxSizeX;

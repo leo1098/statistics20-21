@@ -179,4 +179,47 @@ public partial class ResizableRectangle
     {
         return (int)(R.Top + R.Height - (World_Y - MinY_Win) * (R.Height / Range_Y));
     }
+
+    public void drawHorizontalLine(string label, double y, Pen pen)
+    {
+        g.DrawLine(
+            pen,
+            viewport_X(MinX_Win),
+            viewport_Y(y),
+            viewport_X(MaxX_Win),
+            viewport_Y(y));
+
+        g.DrawString(
+            label,
+            SystemFonts.DefaultFont,
+            Brushes.Black,
+            viewport_X(MinX_Win) - g.MeasureString(label, SystemFonts.DefaultFont).Width,
+            viewport_Y(y)
+            );
+        PictureBox.Image = b;
+
+    }
+
+    public void drawVerticalLine(string label, double x, Pen pen)
+    {
+        // Y axis
+        g.DrawLine(
+            pen,
+            viewport_X(x),
+            viewport_Y(MinY_Win),
+            viewport_X(x),
+            viewport_Y(MaxY_Win)
+            );
+
+        g.DrawString(
+            label,
+            SystemFonts.DefaultFont,
+            Brushes.Black,
+            viewport_X(MinX_Win + x),
+            viewport_Y(MinY_Win) + g.MeasureString(label, SystemFonts.DefaultFont).Height
+            );
+
+        PictureBox.Image = b;
+
+    }
 }
