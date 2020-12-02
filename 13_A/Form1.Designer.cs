@@ -65,6 +65,10 @@ namespace _13_A
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
             this.bernoulliJumpPictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -299,6 +303,7 @@ namespace _13_A
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label15);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.numericJRade);
             this.tabPage2.Controls.Add(this.rademacherPictureBox);
@@ -352,7 +357,7 @@ namespace _13_A
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rademacherPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.rademacherPictureBox.Location = new System.Drawing.Point(53, 112);
+            this.rademacherPictureBox.Location = new System.Drawing.Point(43, 128);
             this.rademacherPictureBox.Name = "rademacherPictureBox";
             this.rademacherPictureBox.Size = new System.Drawing.Size(1286, 510);
             this.rademacherPictureBox.TabIndex = 12;
@@ -432,6 +437,9 @@ namespace _13_A
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label12);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.label13);
             this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox2);
             this.tabPage3.Controls.Add(this.bernoulliJumpPictureBox1);
             this.tabPage3.Controls.Add(this.label11);
@@ -454,7 +462,7 @@ namespace _13_A
             // bernoulliJumpPictureBox1
             // 
             this.bernoulliJumpPictureBox1.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliJumpPictureBox1.Location = new System.Drawing.Point(723, 108);
+            this.bernoulliJumpPictureBox1.Location = new System.Drawing.Point(723, 161);
             this.bernoulliJumpPictureBox1.Name = "bernoulliJumpPictureBox1";
             this.bernoulliJumpPictureBox1.Size = new System.Drawing.Size(618, 250);
             this.bernoulliJumpPictureBox1.TabIndex = 26;
@@ -525,9 +533,9 @@ namespace _13_A
             // bernoulliRWPictureBox
             // 
             this.bernoulliRWPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliRWPictureBox.Location = new System.Drawing.Point(21, 108);
+            this.bernoulliRWPictureBox.Location = new System.Drawing.Point(18, 161);
             this.bernoulliRWPictureBox.Name = "bernoulliRWPictureBox";
-            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(680, 504);
+            this.bernoulliRWPictureBox.Size = new System.Drawing.Size(683, 553);
             this.bernoulliRWPictureBox.TabIndex = 21;
             this.bernoulliRWPictureBox.TabStop = false;
             // 
@@ -606,11 +614,47 @@ namespace _13_A
             // bernoulliJumpPictureBox2
             // 
             this.bernoulliJumpPictureBox2.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliJumpPictureBox2.Location = new System.Drawing.Point(723, 364);
+            this.bernoulliJumpPictureBox2.Location = new System.Drawing.Point(723, 464);
             this.bernoulliJumpPictureBox2.Name = "bernoulliJumpPictureBox2";
             this.bernoulliJumpPictureBox2.Size = new System.Drawing.Size(618, 250);
             this.bernoulliJumpPictureBox2.TabIndex = 27;
             this.bernoulliJumpPictureBox2.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(720, 141);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(329, 17);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "Distribution of distance between consecutive jumps";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(720, 444);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(267, 17);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Distribution of jump\'s distance from origin";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 141);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(283, 17);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "Random Walk: Y(t+1) = Y(t) + Be(lambda/n)";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(40, 108);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(289, 17);
+            this.label15.TabIndex = 32;
+            this.label15.Text = "Random Walk: Y(t+1) = Y(t) + Rademacher()";
             // 
             // Form1
             // 
@@ -686,6 +730,10 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericLambda;
         private System.Windows.Forms.PictureBox bernoulliJumpPictureBox1;
         private System.Windows.Forms.PictureBox bernoulliJumpPictureBox2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label15;
     }
 }
 

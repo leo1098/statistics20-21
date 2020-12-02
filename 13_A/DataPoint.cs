@@ -17,7 +17,7 @@ namespace _13_A
             Y = y;
         }
 
-        public string ToString()
+        override public string ToString()
         {
             return $"[{X} - {Y}]";
         }

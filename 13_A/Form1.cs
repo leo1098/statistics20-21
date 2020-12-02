@@ -25,7 +25,6 @@ namespace _13_A
         int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
 
 
-
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
 
@@ -129,7 +128,7 @@ namespace _13_A
             MinY_Win = 0;
             MaxX_Win = nBernRW;
             MaxY_Win = nBernRW*p*1.3;
-            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(80, 30, 300, 300));
+            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(30, 30, 430, 350));
             ViewPort3.ModifiedRect += drawChartsBernRW;
 
 
@@ -321,11 +320,6 @@ namespace _13_A
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
             drawVerticalHistogram(nBernRW - 1, ViewPort3, ReversedFrequencyDistribution);
-
-            Pen pen = new Pen(Color.Red);
-            pen.DashStyle = DashStyle.DashDotDot;
-
-            ViewPort3.drawHorizontalLine("0", 0, pen);
 
         }
 

@@ -196,9 +196,12 @@ public partial class ResizableRectangle
             viewport_X(MaxX_Win),
             viewport_Y(MinY_Win));
 
-        g.DrawString(Name_X, SystemFonts.DefaultFont, Brushes.Black,
-            viewport_X(MaxX_Win),
-            (float)(viewport_Y(MinY_Win) + 0.05 * MaxY_Win));
+        g.DrawString(
+            Name_X,
+            SystemFonts.MenuFont,
+            Brushes.DarkGreen,
+            viewport_X((MaxX_Win + MinX_Win)/2) - g.MeasureString(Name_X, SystemFonts.MenuFont).Width/2,
+            (float)(viewport_Y(MinY_Win) + g.MeasureString(Name_X, SystemFonts.DefaultFont).Height));
 
         // Y axis
         g.DrawLine(
@@ -210,17 +213,25 @@ public partial class ResizableRectangle
             );
 
 
-        //StringFormat stringFormat = new StringFormat();
-        //stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+        StringFormat stringFormat = new StringFormat();
+        stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
 
 
 
         g.DrawString(
             Name_Y,
-            SystemFonts.DefaultFont,
-            Brushes.Black,
-            viewport_X(MinX_Win) - g.MeasureString(Name_Y, SystemFonts.DefaultFont).Width,
-            (float)(viewport_Y(MaxY_Win) + 0.05 * MaxX_Win));
+            SystemFonts.CaptionFont,
+            Brushes.DarkGreen,
+            viewport_X(MinX_Win) - g.MeasureString(Name_Y, SystemFonts.DefaultFont).Height * 1.1f,
+            (float)(viewport_Y((MaxY_Win + MinY_Win) / 2) - g.MeasureString(Name_Y, SystemFonts.CaptionFont).Width/2),
+            stringFormat) ;
+
+        //g.DrawString(
+        //    Name_Y,
+        //    SystemFonts.DefaultFont,
+        //    Brushes.Black,
+        //    viewport_X(MinX_Win) - g.MeasureString(Name_Y, SystemFonts.DefaultFont).Width,
+        //    (float)(viewport_Y(MaxY_Win) + 0.05 * MaxX_Win));
     }
 
     public void drawHorizontalLine(string label, double y, Pen pen)

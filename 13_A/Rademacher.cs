@@ -12,7 +12,6 @@ namespace _13_A
 
         private Random r;
         private int n;
-        private double seed;
         public List<DataPoint> RandomWalk;
         Pen pen;
 
