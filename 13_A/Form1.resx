@@ -117,4 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Random Walk: Starting from value 0 at time 0, for each of m paths, at each new time
+compute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, where Random step(i) is 
+a Bernoulli random variable with success probability equal to λ * (1/n)</value>
+  </data>
 </root>

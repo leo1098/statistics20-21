@@ -16,22 +16,24 @@ namespace _13_A
         }
 
         string nl = Environment.NewLine;
-        Graphics g1, g2, g3, g4, g5;
-        Bitmap b1, b2, b3, b4, b5;
+        Graphics g1, g2, g3, g4, g5, g6;
+        Bitmap b1, b2, b3, b4, b5, b6;
         Random r = new Random();
-        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4, ViewPort5;
+        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4, ViewPort5, ViewPort6;
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, mBern, eps;
         int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
-
+        int nGauss, mGauss, jGauss;
+        double sigmaGauss;
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
+        List<Gaussian> Gaussians;
 
 
         // ------------ HANDLERS ------------------
             
-        private void printSimulationButton_Click(object sender, EventArgs e)
+        private void BernoulliSampleMeanButton_Click(object sender, EventArgs e)
         {
             // get input values
             nBern = (int)this.numericNBern.Value;
@@ -67,7 +69,7 @@ namespace _13_A
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void RademacherRandomWalk_Click(object sender, EventArgs e)
         {
             nRade = (int)this.numericNRade.Value;
             jRade = (int)this.numericJRade.Value;
@@ -98,7 +100,7 @@ namespace _13_A
             drawChartsRade();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void BernoulliRandomWalk_Click(object sender, EventArgs e)
         {
             // get input values
             nBernRW = (int)this.numericNBernRW.Value;
@@ -168,6 +170,42 @@ namespace _13_A
 
         }
 
+        private void GaussianRandomWalk_Click(object sender, EventArgs e)
+        {
+            nGauss = (int)this.numericNGaussian.Value;
+            jGauss = (int)this.numericJGaussian.Value;
+            mGauss = (int)this.numericMGaussian.Value;
+            sigmaGauss = (int)this.numericSigmaGaussian.Value;
+            Gaussians = new List<Gaussian>();
+
+
+            // check on j
+            if (jGauss > nGauss)
+            {
+                MessageBox.Show("J cannot be bigger than n!");
+                return;
+            }
+
+            // creation of distributions
+            for (int i = 0; i < mGauss; i++)
+                Gaussians.Add(new Gaussian(nGauss, r.Next(), sigmaGauss));
+
+            // set values for graphics
+            MinX_Win = 0;
+            //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
+            MaxX_Win = nGauss;
+            MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            ViewPort6 = new ResizableRectangle(this.gaussianPictureBox, b6, g6, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, 700, 300));
+            ViewPort6.ModifiedRect += drawChartsGauss;
+
+
+
+            drawChartsGauss();
+
+        }
+
+
         // -------------GRAPHICS FUNCTIONS----------------
 
         private void initGraphics()
@@ -191,6 +229,10 @@ namespace _13_A
             b5 = new Bitmap(this.bernoulliJumpPictureBox2.Width, this.bernoulliJumpPictureBox2.Height);
             g5 = Graphics.FromImage(b5);
             g5.SmoothingMode = SmoothingMode.HighQuality;
+
+            b6 = new Bitmap(this.gaussianPictureBox.Width, this.gaussianPictureBox.Height);
+            g6 = Graphics.FromImage(b6);
+            g6.SmoothingMode = SmoothingMode.HighQuality;
 
         }
 
@@ -323,6 +365,44 @@ namespace _13_A
 
         }
 
+        private void drawChartsGauss()
+        {
+            ViewPort6.g.Clear(Color.Gainsboro);
+
+            ViewPort6.drawAxis("num of steps", "Random Walk");
+
+            drawGaussianRWPaths();
+
+            double Step = 3;
+            double StartingPoint = ViewPort6.MinY_Win;
+
+            List<double> GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[jGauss- 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort6.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(jGauss - 1, ViewPort6, ReversedFrequencyDistribution);
+
+
+
+            GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[nGauss - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort6.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(nGauss - 1, ViewPort6, ReversedFrequencyDistribution);
+
+            ViewPort6.drawHorizontalLine("0", 0, Pens.Red);
+            ViewPort6.drawHorizontalLine($"{ViewPort6.MaxY_Win.ToString("#.##")}", ViewPort6.MaxY_Win, Pens.Red);
+        }
+
+
         private void drawJumpDistributions()
         {
             // this section will print the distribuion of distance betwee consesutive jumps (exponential)
@@ -378,12 +458,22 @@ namespace _13_A
             }
         }
 
+        private void drawGaussianRWPaths()
+        {
+            foreach (Gaussian G in Gaussians)
+            {
+                G.drawRandomWalkPath(ViewPort6);
+            }
+        }
+
         private void drawVerticalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
         {
             // draw proportionate rectangles 
             Graphics g = V.g;
             double BarWidth = (double)V.R.Height / FreqDistr.Count;
-            double BarMaxHeight = V.R.Width * 0.4;
+            double max = FreqDistr.Max(I => I.RelativeFrequency);
+            double BarMaxHeight = (V.R.Width / FreqDistr.Max(I => I.RelativeFrequency))*0.3;
+            //double BarMaxHeight = V.R.Width * 0.4;
             int BarNum = 0;
             foreach (Interval I in FreqDistr)
             {

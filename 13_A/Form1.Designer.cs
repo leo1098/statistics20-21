@@ -29,6 +29,7 @@ namespace _13_A
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.numericNBern = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@ namespace _13_A
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.numericJRade = new System.Windows.Forms.NumericUpDown();
             this.rademacherPictureBox = new System.Windows.Forms.PictureBox();
@@ -53,6 +55,11 @@ namespace _13_A
             this.numericNRade = new System.Windows.Forms.NumericUpDown();
             this.numericMRade = new System.Windows.Forms.NumericUpDown();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.bernoulliJumpPictureBox2 = new System.Windows.Forms.PictureBox();
             this.bernoulliJumpPictureBox1 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.numericLambda = new System.Windows.Forms.NumericUpDown();
@@ -64,11 +71,18 @@ namespace _13_A
             this.button3 = new System.Windows.Forms.Button();
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
-            this.bernoulliJumpPictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label20 = new System.Windows.Forms.Label();
+            this.numericSigmaGaussian = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.numericJGaussian = new System.Windows.Forms.NumericUpDown();
+            this.gaussianPictureBox = new System.Windows.Forms.PictureBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.numericNGaussian = new System.Windows.Forms.NumericUpDown();
+            this.numericMGaussian = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -83,13 +97,19 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericNRade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGaussian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJGaussian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gaussianPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNGaussian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMGaussian)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -100,7 +120,7 @@ namespace _13_A
             this.button1.TabIndex = 0;
             this.button1.Text = "Print Chart";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.printSimulationButton_Click);
+            this.button1.Click += new System.EventHandler(this.BernoulliSampleMeanButton_Click);
             // 
             // numericNBern
             // 
@@ -273,6 +293,7 @@ namespace _13_A
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -319,6 +340,15 @@ namespace _13_A
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Rademacher Random Walk";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(40, 108);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(289, 17);
+            this.label15.TabIndex = 32;
+            this.label15.Text = "Random Walk: Y(t+1) = Y(t) + Rademacher()";
             // 
             // label7
             // 
@@ -389,7 +419,7 @@ namespace _13_A
             this.button2.TabIndex = 6;
             this.button2.Text = "Print Chart";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.RademacherRandomWalk_Click);
             // 
             // numericNRade
             // 
@@ -437,6 +467,7 @@ namespace _13_A
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.richTextBox1);
             this.tabPage3.Controls.Add(this.label12);
             this.tabPage3.Controls.Add(this.label14);
             this.tabPage3.Controls.Add(this.label13);
@@ -458,6 +489,51 @@ namespace _13_A
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Bernoulli Random Walk";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(806, 18);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(430, 98);
+            this.richTextBox1.TabIndex = 32;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 141);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(283, 17);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "Random Walk: Y(t+1) = Y(t) + Be(lambda/n)";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(720, 444);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(267, 17);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Distribution of jump\'s distance from origin";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(720, 141);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(329, 17);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "Distribution of distance between consecutive jumps";
+            // 
+            // bernoulliJumpPictureBox2
+            // 
+            this.bernoulliJumpPictureBox2.BackColor = System.Drawing.Color.Gainsboro;
+            this.bernoulliJumpPictureBox2.Location = new System.Drawing.Point(723, 464);
+            this.bernoulliJumpPictureBox2.Name = "bernoulliJumpPictureBox2";
+            this.bernoulliJumpPictureBox2.Size = new System.Drawing.Size(618, 250);
+            this.bernoulliJumpPictureBox2.TabIndex = 27;
+            this.bernoulliJumpPictureBox2.TabStop = false;
             // 
             // bernoulliJumpPictureBox1
             // 
@@ -565,7 +641,7 @@ namespace _13_A
             this.button3.TabIndex = 16;
             this.button3.Text = "Print Chart";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.BernoulliRandomWalk_Click);
             // 
             // numericNBernRW
             // 
@@ -611,50 +687,180 @@ namespace _13_A
             0,
             0});
             // 
-            // bernoulliJumpPictureBox2
+            // tabPage4
             // 
-            this.bernoulliJumpPictureBox2.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliJumpPictureBox2.Location = new System.Drawing.Point(723, 464);
-            this.bernoulliJumpPictureBox2.Name = "bernoulliJumpPictureBox2";
-            this.bernoulliJumpPictureBox2.Size = new System.Drawing.Size(618, 250);
-            this.bernoulliJumpPictureBox2.TabIndex = 27;
-            this.bernoulliJumpPictureBox2.TabStop = false;
+            this.tabPage4.Controls.Add(this.label20);
+            this.tabPage4.Controls.Add(this.numericSigmaGaussian);
+            this.tabPage4.Controls.Add(this.label16);
+            this.tabPage4.Controls.Add(this.label17);
+            this.tabPage4.Controls.Add(this.numericJGaussian);
+            this.tabPage4.Controls.Add(this.gaussianPictureBox);
+            this.tabPage4.Controls.Add(this.label18);
+            this.tabPage4.Controls.Add(this.label19);
+            this.tabPage4.Controls.Add(this.button4);
+            this.tabPage4.Controls.Add(this.numericNGaussian);
+            this.tabPage4.Controls.Add(this.numericMGaussian);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1372, 797);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Gaussian Random Walk";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // label13
+            // label20
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(720, 141);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(329, 17);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "Distribution of distance between consecutive jumps";
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(250, 78);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(45, 17);
+            this.label20.TabIndex = 43;
+            this.label20.Text = "sigma";
             // 
-            // label14
+            // numericSigmaGaussian
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(720, 444);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(267, 17);
-            this.label14.TabIndex = 30;
-            this.label14.Text = "Distribution of jump\'s distance from origin";
+            this.numericSigmaGaussian.Location = new System.Drawing.Point(301, 76);
+            this.numericSigmaGaussian.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericSigmaGaussian.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericSigmaGaussian.Name = "numericSigmaGaussian";
+            this.numericSigmaGaussian.Size = new System.Drawing.Size(81, 22);
+            this.numericSigmaGaussian.TabIndex = 42;
+            this.numericSigmaGaussian.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             // 
-            // label12
+            // label16
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(15, 141);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(283, 17);
-            this.label12.TabIndex = 31;
-            this.label12.Text = "Random Walk: Y(t+1) = Y(t) + Be(lambda/n)";
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(27, 105);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(326, 17);
+            this.label16.TabIndex = 41;
+            this.label16.Text = "Random Walk: Y(t+1) = Y(t) + σ * sqrt(1/n) * N(0,1)";
             // 
-            // label15
+            // label17
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(40, 108);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(289, 17);
-            this.label15.TabIndex = 32;
-            this.label15.Text = "Random Walk: Y(t+1) = Y(t) + Rademacher()";
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(80, 78);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(11, 17);
+            this.label17.TabIndex = 40;
+            this.label17.Text = "j";
+            // 
+            // numericJGaussian
+            // 
+            this.numericJGaussian.Location = new System.Drawing.Point(102, 71);
+            this.numericJGaussian.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericJGaussian.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericJGaussian.Name = "numericJGaussian";
+            this.numericJGaussian.Size = new System.Drawing.Size(81, 22);
+            this.numericJGaussian.TabIndex = 39;
+            this.numericJGaussian.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // gaussianPictureBox
+            // 
+            this.gaussianPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gaussianPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.gaussianPictureBox.Location = new System.Drawing.Point(30, 125);
+            this.gaussianPictureBox.Name = "gaussianPictureBox";
+            this.gaussianPictureBox.Size = new System.Drawing.Size(1286, 510);
+            this.gaussianPictureBox.TabIndex = 38;
+            this.gaussianPictureBox.TabStop = false;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(75, 33);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(16, 17);
+            this.label18.TabIndex = 36;
+            this.label18.Text = "n";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(263, 36);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(19, 17);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "m";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(638, 31);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(81, 43);
+            this.button4.TabIndex = 33;
+            this.button4.Text = "Print Chart";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.GaussianRandomWalk_Click);
+            // 
+            // numericNGaussian
+            // 
+            this.numericNGaussian.Location = new System.Drawing.Point(102, 31);
+            this.numericNGaussian.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericNGaussian.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericNGaussian.Name = "numericNGaussian";
+            this.numericNGaussian.Size = new System.Drawing.Size(81, 22);
+            this.numericNGaussian.TabIndex = 34;
+            this.numericNGaussian.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // numericMGaussian
+            // 
+            this.numericMGaussian.Location = new System.Drawing.Point(301, 33);
+            this.numericMGaussian.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericMGaussian.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericMGaussian.Name = "numericMGaussian";
+            this.numericMGaussian.Size = new System.Drawing.Size(81, 22);
+            this.numericMGaussian.TabIndex = 35;
+            this.numericMGaussian.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             // 
             // Form1
             // 
@@ -681,13 +887,20 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericMRade)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bernoulliRWPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bernoulliJumpPictureBox2)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGaussian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJGaussian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gaussianPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNGaussian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMGaussian)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -734,6 +947,19 @@ namespace _13_A
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.NumericUpDown numericSigmaGaussian;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown numericJGaussian;
+        private System.Windows.Forms.PictureBox gaussianPictureBox;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.NumericUpDown numericNGaussian;
+        private System.Windows.Forms.NumericUpDown numericMGaussian;
     }
 }
 
