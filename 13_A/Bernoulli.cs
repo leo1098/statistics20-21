@@ -163,5 +163,15 @@ namespace _13_A
 
             return L;
         }
+
+        public double getMinRandomWalk()
+        {
+            return RandomWalk.Min(DP => DP.Y);
+        }
+
+        public double getMaxRandomWalk()
+        {
+            return RandomWalk.Max(DP => DP.Y);
+        }
     }
 }

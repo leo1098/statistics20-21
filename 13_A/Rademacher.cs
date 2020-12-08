@@ -66,5 +66,15 @@ namespace _13_A
             ViewPort.PictureBox.Image = ViewPort.b;
 
         }
+
+        public double getMinRandomWalk()
+        {
+            return RandomWalk.Min(DP => DP.Y);
+        }
+
+        public double getMaxRandomWalk()
+        {
+            return RandomWalk.Max(DP => DP.Y);
+        }
     }
 }

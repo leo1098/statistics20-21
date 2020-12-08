@@ -83,6 +83,8 @@ namespace _13_A
             this.button4 = new System.Windows.Forms.Button();
             this.numericNGaussian = new System.Windows.Forms.NumericUpDown();
             this.numericMGaussian = new System.Windows.Forms.NumericUpDown();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -219,7 +221,7 @@ namespace _13_A
             // bernoulliPictureBox
             // 
             this.bernoulliPictureBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.bernoulliPictureBox.Location = new System.Drawing.Point(23, 97);
+            this.bernoulliPictureBox.Location = new System.Drawing.Point(21, 116);
             this.bernoulliPictureBox.Name = "bernoulliPictureBox";
             this.bernoulliPictureBox.Size = new System.Drawing.Size(1223, 537);
             this.bernoulliPictureBox.TabIndex = 9;
@@ -324,6 +326,7 @@ namespace _13_A
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBox3);
             this.tabPage2.Controls.Add(this.label15);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.numericJRade);
@@ -376,7 +379,7 @@ namespace _13_A
             this.numericJRade.Size = new System.Drawing.Size(81, 22);
             this.numericJRade.TabIndex = 14;
             this.numericJRade.Value = new decimal(new int[] {
-            50,
+            700,
             0,
             0,
             0});
@@ -389,7 +392,7 @@ namespace _13_A
             this.rademacherPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.rademacherPictureBox.Location = new System.Drawing.Point(43, 128);
             this.rademacherPictureBox.Name = "rademacherPictureBox";
-            this.rademacherPictureBox.Size = new System.Drawing.Size(1286, 510);
+            this.rademacherPictureBox.Size = new System.Drawing.Size(1286, 633);
             this.rademacherPictureBox.TabIndex = 12;
             this.rademacherPictureBox.TabStop = false;
             // 
@@ -438,7 +441,7 @@ namespace _13_A
             this.numericNRade.Size = new System.Drawing.Size(81, 22);
             this.numericNRade.TabIndex = 7;
             this.numericNRade.Value = new decimal(new int[] {
-            300,
+            1500,
             0,
             0,
             0});
@@ -460,7 +463,7 @@ namespace _13_A
             this.numericMRade.Size = new System.Drawing.Size(81, 22);
             this.numericMRade.TabIndex = 8;
             this.numericMRade.Value = new decimal(new int[] {
-            30,
+            300,
             0,
             0,
             0});
@@ -495,7 +498,7 @@ namespace _13_A
             this.richTextBox1.Location = new System.Drawing.Point(806, 18);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(430, 98);
+            this.richTextBox1.Size = new System.Drawing.Size(525, 97);
             this.richTextBox1.TabIndex = 32;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -689,6 +692,7 @@ namespace _13_A
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.richTextBox2);
             this.tabPage4.Controls.Add(this.label20);
             this.tabPage4.Controls.Add(this.numericSigmaGaussian);
             this.tabPage4.Controls.Add(this.label16);
@@ -773,7 +777,7 @@ namespace _13_A
             this.numericJGaussian.Size = new System.Drawing.Size(81, 22);
             this.numericJGaussian.TabIndex = 39;
             this.numericJGaussian.Value = new decimal(new int[] {
-            50,
+            200,
             0,
             0,
             0});
@@ -786,7 +790,7 @@ namespace _13_A
             this.gaussianPictureBox.BackColor = System.Drawing.Color.Gainsboro;
             this.gaussianPictureBox.Location = new System.Drawing.Point(30, 125);
             this.gaussianPictureBox.Name = "gaussianPictureBox";
-            this.gaussianPictureBox.Size = new System.Drawing.Size(1286, 510);
+            this.gaussianPictureBox.Size = new System.Drawing.Size(1286, 639);
             this.gaussianPictureBox.TabIndex = 38;
             this.gaussianPictureBox.TabStop = false;
             // 
@@ -857,10 +861,32 @@ namespace _13_A
             this.numericMGaussian.Size = new System.Drawing.Size(81, 22);
             this.numericMGaussian.TabIndex = 35;
             this.numericMGaussian.Value = new decimal(new int[] {
-            30,
+            500,
             0,
             0,
             0});
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(725, 22);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Size = new System.Drawing.Size(525, 97);
+            this.richTextBox2.TabIndex = 44;
+            this.richTextBox2.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, \nat each new t" +
+    "ime compute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, \nwhere Random ste" +
+    "p(i) is: σ * sqrt(1/n) * N(0,1).";
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.Location = new System.Drawing.Point(764, 25);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.Size = new System.Drawing.Size(525, 97);
+            this.richTextBox3.TabIndex = 33;
+            this.richTextBox3.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, at each new ti" +
+    "me\ncompute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, where Random step(" +
+    "i) is \na Rademacher random variable.";
             // 
             // Form1
             // 
@@ -960,6 +986,8 @@ namespace _13_A
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.NumericUpDown numericNGaussian;
         private System.Windows.Forms.NumericUpDown numericMGaussian;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBox3;
     }
 }
 

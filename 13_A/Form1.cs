@@ -23,6 +23,7 @@ namespace _13_A
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, mBern, eps;
         int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
+
         int nGauss, mGauss, jGauss;
         double sigmaGauss;
 
@@ -46,8 +47,9 @@ namespace _13_A
             // check on j
             if (jBern > nBern)
             {
-                MessageBox.Show("J cannot be bigger than n!");
-                return;
+                this.numericJBern.Value = (int)this.numericNBern.Value / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+                jBern = nBern / 2;
             }
 
             // set values for graphics
@@ -80,22 +82,31 @@ namespace _13_A
             // check on j
             if (jRade > nRade)
             {
-                MessageBox.Show("J cannot be bigger than n!");
-                return;
+                //MessageBox.Show("J cannot be bigger than n!");
+                this.numericJRade.Value = (int)nRade / 2;
+                jRade = nRade / 2;
+            }
+
+            // creation of distributions
+            MinY_Win = MaxY_Win = 0;
+            for (int i = 0; i < mRade; i++)
+            {
+                Rademacher R = new Rademacher(nRade, r.Next());
+                if (R.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = R.getMaxRandomWalk();
+                if (R.getMinRandomWalk() <= MinY_Win) MinY_Win = R.getMinRandomWalk();
+                Rademachers.Add(R);
             }
 
             // set values for graphics
             MinX_Win = 0;
-            MinY_Win = -120;
+            //MinY_Win = -120;
             MaxX_Win = nRade;
-            MaxY_Win = 120;
-            ViewPort2 = new ResizableRectangle(this.rademacherPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
+            //MaxY_Win = 120;
+            ViewPort2 = new ResizableRectangle(this.rademacherPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, (float)(0.8 * this.gaussianPictureBox.Width), (float)(0.8 * this.gaussianPictureBox.Height)));
             ViewPort2.ModifiedRect += drawChartsRade;
 
 
-            // creation of distributions
-            for (int i = 0; i < mRade; i++)
-                Rademachers.Add(new Rademacher(nRade, r.Next()));
 
             drawChartsRade();
         }
@@ -114,32 +125,42 @@ namespace _13_A
             // check on lambda
             if (lambda > nBernRW)
             {
-                MessageBox.Show("Lambda cannot be bigger than n!");
-                return;
+                this.numericLambda.Value = (int)(nBernRW*0.65);
+                lambda = nBernRW * 0.65;
+                p = (double)(lambda / nBernRW);
+                //MessageBox.Show("Lambda cannot be bigger than n!");
+
             }
 
             // check on j
             if (jBernRW > nBernRW)
             {
-                MessageBox.Show("J cannot be bigger than n!");
-                return;
+                this.numericJBernRW.Value = (int)nBernRW / 2;
+                jBernRW = nBernRW / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+            }
+
+            // creation of distributions
+            MaxY_Win = 0;
+            Bernoullis.Clear();
+            for (int i = 0; i < mBernRW; i++)
+            {
+                Bernoulli B = new Bernoulli(p, nBernRW, r.Next());
+                if (B.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = B.getMaxRandomWalk();
+                Bernoullis.Add(B);
             }
 
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
             MaxX_Win = nBernRW;
-            MaxY_Win = nBernRW*p*1.3;
+            //MaxY_Win = nBernRW*p*1.3;
             ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(30, 30, 430, 350));
             ViewPort3.ModifiedRect += drawChartsBernRW;
 
 
 
 
-            // creation of distributions
-            Bernoullis.Clear();
-            for (int i = 0; i < mBernRW; i++)
-                Bernoullis.Add(new Bernoulli(p, nBernRW, r.Next()));
 
             drawChartsBernRW();
 
@@ -182,21 +203,28 @@ namespace _13_A
             // check on j
             if (jGauss > nGauss)
             {
-                MessageBox.Show("J cannot be bigger than n!");
-                return;
+                this.numericJGaussian.Value = (int)nGauss / 2;
+                jGauss = nGauss / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
             }
 
             // creation of distributions
+            MinY_Win = MaxY_Win = 0;
             for (int i = 0; i < mGauss; i++)
-                Gaussians.Add(new Gaussian(nGauss, r.Next(), sigmaGauss));
+            {
+                Gaussian G = new Gaussian(nGauss, r.Next(), sigmaGauss);
+                if (G.getMinRandomWalk() <= MinY_Win) MinY_Win = G.getMinRandomWalk();
+                if (G.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = G.getMaxRandomWalk();
+                Gaussians.Add(G);
+            }
 
             // set values for graphics
             MinX_Win = 0;
             //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
             MaxX_Win = nGauss;
-            MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
             ViewPort6 = new ResizableRectangle(this.gaussianPictureBox, b6, g6, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
-                new RectangleF(50, 45, 700, 300));
+                new RectangleF(50, 45, (float)(0.8 * this.gaussianPictureBox.Width), (float)(0.8 * this.gaussianPictureBox.Height)));
             ViewPort6.ModifiedRect += drawChartsGauss;
 
 
@@ -399,9 +427,9 @@ namespace _13_A
             drawVerticalHistogram(nGauss - 1, ViewPort6, ReversedFrequencyDistribution);
 
             ViewPort6.drawHorizontalLine("0", 0, Pens.Red);
-            ViewPort6.drawHorizontalLine($"{ViewPort6.MaxY_Win.ToString("#.##")}", ViewPort6.MaxY_Win, Pens.Red);
+            ViewPort6.drawHorizontalLine($"{ViewPort6.MaxY_Win.ToString("#.##")}", ViewPort6.MaxY_Win, Pens.Tan);
+            ViewPort6.drawHorizontalLine($"{ViewPort6.MinY_Win.ToString("#.##")}", ViewPort6.MinY_Win, Pens.Tan);
         }
-
 
         private void drawJumpDistributions()
         {
@@ -472,7 +500,7 @@ namespace _13_A
             Graphics g = V.g;
             double BarWidth = (double)V.R.Height / FreqDistr.Count;
             double max = FreqDistr.Max(I => I.RelativeFrequency);
-            double BarMaxHeight = (V.R.Width / FreqDistr.Max(I => I.RelativeFrequency))*0.3;
+            double BarMaxHeight = (V.R.Width / FreqDistr.Max(I => I.RelativeFrequency))*0.23;
             //double BarMaxHeight = V.R.Width * 0.4;
             int BarNum = 0;
             foreach (Interval I in FreqDistr)
@@ -540,7 +568,7 @@ namespace _13_A
         }
 
 
-        // -------------STATS FUNCTIONS----------------
+        // ------------- STATS FUNCTIONS ----------------
         private List<Interval> UnivariateDistribution_CountinuousVariable(List<double> L, double StartingPoint, double Step)
         {
 
@@ -627,6 +655,9 @@ namespace _13_A
 
             return ListOfIntervals;
         }
+
+        // ------------- USEFUL STUFF ------------------
+
 
 
 
