@@ -1195,5 +1195,38 @@ namespace CSVReaderPersiani
             }
             return M;
         }
+
+
+        private List<List<Interval>> generateDatasetMatrixInterval()
+        {
+            List<List<Interval>> M = new List<List<Interval>>();
+            // matrix instantiation
+            int LengthOfRows = FrequencyDistributionX.Count();
+            for (int i = 0; i < FrequencyDistributionY.Count(); i++)
+            {
+                M.Add(new List<Interval>());
+                for (int j = 0; j < FrequencyDistributionX.Count(); j++)
+                    M[i].Add(new Interval());
+            }
+
+            // matrix population
+            foreach (DataPointForChart DP in DataSetForChart)
+            {
+                for (int i = 0; i < FrequencyDistributionX.Count(); i++)
+                {
+                    if (FrequencyDistributionX[i].containsValue(DP.X))
+                    {
+                        for (int j = 0; j < FrequencyDistributionY.Count(); j++)
+                        {
+                            if (FrequencyDistributionY[j].containsValue(DP.Y))
+                            {
+                                M[j][i].Count += 1;
+                            }
+                        }
+                    }
+                }
+            }
+            return M;
+        }
     }
 }
