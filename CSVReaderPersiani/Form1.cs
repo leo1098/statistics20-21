@@ -1123,7 +1123,12 @@ namespace CSVReaderPersiani
             // g2.FillRectangle(Brushes.Red, R.R);
             int x;
             int y;
-            List<List<int>> Matrix = generateDatasetMatrix();
+            bool relFreq = false;
+            //List<List<int>> Matrix = generateDatasetMatrix();
+            List<List<Interval>> M = generateDatasetMatrixInterval();
+
+            if (this.relativeOrCountCheck.Checked == true)
+                relFreq = true;
 
             // draw header for X
             for (x = 1; x <= FrequencyDistributionX.Count; x++)
@@ -1146,11 +1151,19 @@ namespace CSVReaderPersiani
                 for (x = 1; x <= FrequencyDistributionX.Count; x++)
                 {
                     // joint frequency
-                    g2.DrawString(Matrix[y - 1][x - 1].ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                    //g2.DrawString(Matrix[y - 1][x - 1].ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                    if (relFreq)
+                        g2.DrawString(M[y - 1][x - 1].RelativeFrequency.ToString("#.##"), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                    else
+                        g2.DrawString(M[y - 1][x - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
                 }
 
+                
                 // Marginal for Y (rightmost column)
-                g2.DrawString(FrequencyDistributionY[y - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                if (relFreq)
+                    g2.DrawString(FrequencyDistributionY[y - 1].RelativeFrequency.ToString("#.##"), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
+                else
+                    g2.DrawString(FrequencyDistributionY[y - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
             }
             g2.DrawString("Mar X", DefaultFont, Brushes.Indigo, R.viewport_X(0), R.viewport_Y(R.MinY_Win - MaxSize.Height));
             g2.DrawLine(Pens.Black, R.viewport_X(0), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height), R.viewport_X(R.MaxX_Win), R.viewport_Y(R.MaxY_Win - y * MaxSize.Height));
@@ -1159,11 +1172,16 @@ namespace CSVReaderPersiani
             for (x = 1; x <= FrequencyDistributionX.Count; x++)
             {
                 // Marginal for X (lowermost row)
-                g2.DrawString(FrequencyDistributionX[x - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+                if (relFreq)
+                    g2.DrawString(FrequencyDistributionX[x - 1].RelativeFrequency.ToString("#.##"), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+                else
+                    g2.DrawString(FrequencyDistributionX[x - 1].Count.ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
             }
 
-
-            g2.DrawString(DataSetForChart.Count().ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+            if (relFreq)
+                g2.DrawString("1", DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
+            else
+                g2.DrawString(DataSetForChart.Count().ToString(), DefaultFont, Brushes.Black, R.viewport_X(x * MaxSize.Width), R.viewport_Y(R.MinY_Win - MaxSize.Height));
 
             pictureBox1.Image = b2;
         }
@@ -1202,6 +1220,7 @@ namespace CSVReaderPersiani
             List<List<Interval>> M = new List<List<Interval>>();
             // matrix instantiation
             int LengthOfRows = FrequencyDistributionX.Count();
+            int tot = 0;
             for (int i = 0; i < FrequencyDistributionY.Count(); i++)
             {
                 M.Add(new List<Interval>());
@@ -1221,11 +1240,17 @@ namespace CSVReaderPersiani
                             if (FrequencyDistributionY[j].containsValue(DP.Y))
                             {
                                 M[j][i].Count += 1;
+                                tot += 1;
                             }
                         }
                     }
                 }
             }
+
+            for (int i = 0; i < M.Count(); i++)
+                for (int j = 0; j < M[0].Count(); j++)
+                    M[i][j].RelativeFrequency = M[i][j].Count / (double)tot;
+
             return M;
         }
     }

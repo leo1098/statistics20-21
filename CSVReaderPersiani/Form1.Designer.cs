@@ -70,6 +70,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.correlationTextBox = new System.Windows.Forms.RichTextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -82,8 +84,7 @@
             this.stepX = new System.Windows.Forms.NumericUpDown();
             this.printChartButton = new System.Windows.Forms.Button();
             this.chartPictureBox = new System.Windows.Forms.PictureBox();
-            this.correlationTextBox = new System.Windows.Forms.RichTextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.relativeOrCountCheck = new System.Windows.Forms.CheckBox();
             this.tabPage4.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStep)).BeginInit();
@@ -577,6 +578,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.relativeOrCountCheck);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.correlationTextBox);
             this.groupBox6.Controls.Add(this.groupBox8);
@@ -588,6 +590,24 @@
             this.groupBox6.TabIndex = 36;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Select two fields and print chart";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 491);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(161, 17);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "Coefficient of correlation";
+            // 
+            // correlationTextBox
+            // 
+            this.correlationTextBox.Location = new System.Drawing.Point(18, 514);
+            this.correlationTextBox.Name = "correlationTextBox";
+            this.correlationTextBox.ReadOnly = true;
+            this.correlationTextBox.Size = new System.Drawing.Size(77, 47);
+            this.correlationTextBox.TabIndex = 42;
+            this.correlationTextBox.Text = "";
             // 
             // groupBox8
             // 
@@ -735,23 +755,15 @@
             this.chartPictureBox.TabIndex = 32;
             this.chartPictureBox.TabStop = false;
             // 
-            // correlationTextBox
+            // relativeOrCountCheck
             // 
-            this.correlationTextBox.Location = new System.Drawing.Point(18, 484);
-            this.correlationTextBox.Name = "correlationTextBox";
-            this.correlationTextBox.ReadOnly = true;
-            this.correlationTextBox.Size = new System.Drawing.Size(77, 47);
-            this.correlationTextBox.TabIndex = 42;
-            this.correlationTextBox.Text = "";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 461);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(161, 17);
-            this.label9.TabIndex = 43;
-            this.label9.Text = "Coefficient of correlation";
+            this.relativeOrCountCheck.AutoSize = true;
+            this.relativeOrCountCheck.Location = new System.Drawing.Point(14, 442);
+            this.relativeOrCountCheck.Name = "relativeOrCountCheck";
+            this.relativeOrCountCheck.Size = new System.Drawing.Size(173, 21);
+            this.relativeOrCountCheck.TabIndex = 44;
+            this.relativeOrCountCheck.Text = "Rel. freq. in cont. table";
+            this.relativeOrCountCheck.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -851,6 +863,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RichTextBox correlationTextBox;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox relativeOrCountCheck;
     }
 }
 
