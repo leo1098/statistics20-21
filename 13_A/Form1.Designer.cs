@@ -1067,9 +1067,9 @@ namespace _13_A
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(64, 110);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(436, 17);
+            this.label25.Size = new System.Drawing.Size(340, 17);
             this.label25.TabIndex = 55;
-            this.label25.Text = "Random Walk: Y(t+1) = Y(t)*exp( 1/n*(mu - ½σ²)  +  σ * sqrt(1/n) * Z)";
+            this.label25.Text = "Y(t+1) = Y(t)*exp( 1/n*(mu - ½σ²)  +  σ * sqrt(1/n) * Z)";
             // 
             // label26
             // 
@@ -1309,9 +1309,9 @@ namespace _13_A
             this.label31.AutoSize = true;
             this.label31.Location = new System.Drawing.Point(64, 106);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(348, 17);
+            this.label31.Size = new System.Drawing.Size(252, 17);
             this.label31.TabIndex = 69;
-            this.label31.Text = "Random Walk: dY = k( eq - Y(t))*dt  +  σ * sqrt(1/n) * Z";
+            this.label31.Text = "dY = k( eq - Y(t))*dt  +  σ * sqrt(1/n) * Z";
             // 
             // label32
             // 

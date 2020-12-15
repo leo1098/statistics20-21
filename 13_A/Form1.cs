@@ -513,14 +513,13 @@ namespace _13_A
             ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
         }
 
-
         private void drawChartsGBM()
         {
             ViewPort.g.Clear(Color.Gainsboro);
 
-            ViewPort.drawAxis("num of steps", "Random Walk");
+            ViewPort.drawAxis("num of steps", "");
 
-            drawGBMRWPaths();
+            drawGBMPaths();
 
             double Step = ViewPort.MaxY_Win / 30;
             double StartingPoint = ViewPort.MinY_Win;
@@ -556,7 +555,7 @@ namespace _13_A
         {
             ViewPort.g.Clear(Color.Gainsboro);
 
-            ViewPort.drawAxis("num of steps", "Random Walk");
+            ViewPort.drawAxis("num of steps", " ");
 
             drawVasicekPaths();
 
@@ -592,7 +591,6 @@ namespace _13_A
             ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
             ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
         }
-
 
         private void drawJumpDistributions1()
         {
@@ -661,7 +659,7 @@ namespace _13_A
             }
         }
 
-        private void drawGBMRWPaths()
+        private void drawGBMPaths()
         {
             foreach (GBM G in GBMs)
             {
