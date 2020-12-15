@@ -12,59 +12,60 @@ namespace _13_A
         public Form1()
         {
             InitializeComponent();
-            initGraphics();
         }
 
         string nl = Environment.NewLine;
-        Graphics g1, g2, g3, g4, g5, g6;
-        Bitmap b1, b2, b3, b4, b5, b6;
+        Graphics g;
+        Bitmap b;
         Random r = new Random();
-        ResizableRectangle ViewPort1, ViewPort2, ViewPort3, ViewPort4, ViewPort5, ViewPort6;
+        ResizableRectangle ViewPort;
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
-        double p, mBern, eps;
-        int nBern, jBern, nRade, jRade, mRade, nBernRW, mBernRW, jBernRW;
-
-        int nGauss, mGauss, jGauss;
-        double sigmaGauss;
+        double p, eps;
+        int n, j, m, drift, eq, k;
+        double sigma;
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
         List<Gaussian> Gaussians;
+        List<GBM> GBMs;
+        List<Vasicek> Vasiceks;
 
 
         // ------------ HANDLERS ------------------
             
         private void BernoulliSampleMeanButton_Click(object sender, EventArgs e)
         {
+            initGraphics(this.bernoulliPictureBox);
+
             // get input values
-            nBern = (int)this.numericNBern.Value;
-            jBern = (int)this.numericJBern.Value;
-            mBern = (double)this.numericMBern.Value;
+            n = (int)this.numericNBern.Value;
+            j = (int)this.numericJBern.Value;
+            m = (int)this.numericMBern.Value;
             p = (double)this.numericP.Value;
             eps = (double)this.numericEps.Value;
             Bernoullis = new List<Bernoulli>();
 
             // check on j
-            if (jBern > nBern)
+            if (j > n)
             {
                 this.numericJBern.Value = (int)this.numericNBern.Value / 2;
                 //MessageBox.Show("J cannot be bigger than n!");
-                jBern = nBern / 2;
+                j = n / 2;
             }
 
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
-            MaxX_Win = nBern;
+            MaxX_Win = n;
             MaxY_Win = 1;
-            ViewPort1 = new ResizableRectangle(this.bernoulliPictureBox, b1, g1, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
-            ViewPort1.ModifiedRect += drawChartsBern;
+            ViewPort = new ResizableRectangle(this.bernoulliPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(50, 45, 700, 300));
+            ViewPort.ModifiedRect += drawChartsBern;
 
 
             // creation of distributions
             Bernoullis.Clear();
-            for (int i = 0; i < mBern; i++)
-                Bernoullis.Add(new Bernoulli(p, nBern, r.Next()));
+            for (int i = 0; i < m; i++)
+                Bernoullis.Add(new Bernoulli(p, n, r.Next()));
 
 
             drawChartsBern();
@@ -73,25 +74,27 @@ namespace _13_A
 
         private void RademacherRandomWalk_Click(object sender, EventArgs e)
         {
-            nRade = (int)this.numericNRade.Value;
-            jRade = (int)this.numericJRade.Value;
-            mRade = (int)this.numericMRade.Value;
+            initGraphics(this.rademacherPictureBox);
+
+            n = (int)this.numericNRade.Value;
+            j = (int)this.numericJRade.Value;
+            m = (int)this.numericMRade.Value;
             Rademachers = new List<Rademacher>();
 
 
             // check on j
-            if (jRade > nRade)
+            if (j > n)
             {
                 //MessageBox.Show("J cannot be bigger than n!");
-                this.numericJRade.Value = (int)nRade / 2;
-                jRade = nRade / 2;
+                this.numericJRade.Value = (int)n / 2;
+                j = n / 2;
             }
 
             // creation of distributions
             MinY_Win = MaxY_Win = 0;
-            for (int i = 0; i < mRade; i++)
+            for (int i = 0; i < m; i++)
             {
-                Rademacher R = new Rademacher(nRade, r.Next());
+                Rademacher R = new Rademacher(n, r.Next());
                 if (R.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = R.getMaxRandomWalk();
                 if (R.getMinRandomWalk() <= MinY_Win) MinY_Win = R.getMinRandomWalk();
                 Rademachers.Add(R);
@@ -100,11 +103,11 @@ namespace _13_A
             // set values for graphics
             MinX_Win = 0;
             //MinY_Win = -120;
-            MaxX_Win = nRade;
+            MaxX_Win = n;
             //MaxY_Win = 120;
-            ViewPort2 = new ResizableRectangle(this.rademacherPictureBox, b2, g2, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+            ViewPort = new ResizableRectangle(this.rademacherPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(50, 45, (float)(0.8 * this.gaussianPictureBox.Width), (float)(0.8 * this.gaussianPictureBox.Height)));
-            ViewPort2.ModifiedRect += drawChartsRade;
+            ViewPort.ModifiedRect += drawChartsRade;
 
 
 
@@ -113,39 +116,42 @@ namespace _13_A
 
         private void BernoulliRandomWalk_Click(object sender, EventArgs e)
         {
+            initGraphics(this.bernoulliRWPictureBox);
+
+
             // get input values
-            nBernRW = (int)this.numericNBernRW.Value;
-            jBernRW = (int)this.numericJBernRW.Value;
-            mBernRW = (int)this.numericMBernRW.Value;
+            n = (int)this.numericNBernRW.Value;
+            j = (int)this.numericJBernRW.Value;
+            m = (int)this.numericMBernRW.Value;
             double lambda = (double)this.numericLambda.Value;
-            p = (double)(lambda / nBernRW);
+            p = (double)(lambda / n);
             Bernoullis = new List<Bernoulli>();
 
 
             // check on lambda
-            if (lambda > nBernRW)
+            if (lambda > n)
             {
-                this.numericLambda.Value = (int)(nBernRW*0.65);
-                lambda = nBernRW * 0.65;
-                p = (double)(lambda / nBernRW);
+                this.numericLambda.Value = (int)(n*0.65);
+                lambda = n * 0.65;
+                p = (double)(lambda / n);
                 //MessageBox.Show("Lambda cannot be bigger than n!");
 
             }
 
             // check on j
-            if (jBernRW > nBernRW)
+            if (j > n)
             {
-                this.numericJBernRW.Value = (int)nBernRW / 2;
-                jBernRW = nBernRW / 2;
+                this.numericJBernRW.Value = (int)n / 2;
+                j = n / 2;
                 //MessageBox.Show("J cannot be bigger than n!");
             }
 
             // creation of distributions
             MaxY_Win = 0;
             Bernoullis.Clear();
-            for (int i = 0; i < mBernRW; i++)
+            for (int i = 0; i < m; i++)
             {
-                Bernoulli B = new Bernoulli(p, nBernRW, r.Next());
+                Bernoulli B = new Bernoulli(p, n, r.Next());
                 if (B.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = B.getMaxRandomWalk();
                 Bernoullis.Add(B);
             }
@@ -153,66 +159,71 @@ namespace _13_A
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
-            MaxX_Win = nBernRW;
+            MaxX_Win = n;
             //MaxY_Win = nBernRW*p*1.3;
-            ViewPort3 = new ResizableRectangle(this.bernoulliRWPictureBox, b3, g3, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(30, 30, 430, 350));
-            ViewPort3.ModifiedRect += drawChartsBernRW;
-
-
-
-
+            ViewPort = new ResizableRectangle(this.bernoulliRWPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win, new RectangleF(30, 30, 430, 350));
+            ViewPort.ModifiedRect += drawChartsBernRW;
 
             drawChartsBernRW();
 
+
+
+            initGraphics(this.bernoulliJumpPictureBox1);
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
             MaxX_Win = 300;
             MaxY_Win = 300;
-            ViewPort4 = new ResizableRectangle(this.bernoulliJumpPictureBox1,
-                b4, g4,
+            ViewPort = new ResizableRectangle(this.bernoulliJumpPictureBox1,
+                b, g,
                 MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(20, 10, (float)(bernoulliJumpPictureBox1.Width*0.8), (float)(bernoulliJumpPictureBox1.Height * 0.8)));
-            ViewPort4.ModifiedRect += drawJumpDistributions;
+            ViewPort.ModifiedRect += drawJumpDistributions1;
 
+            drawJumpDistributions1();
+
+            initGraphics(this.bernoulliJumpPictureBox2);
             // set values for graphics
             MinX_Win = 0;
             MinY_Win = 0;
             MaxX_Win = 300;
             MaxY_Win = 300;
-            ViewPort5 = new ResizableRectangle(this.bernoulliJumpPictureBox2,
-                b5, g5,
+            ViewPort = new ResizableRectangle(this.bernoulliJumpPictureBox2,
+                b, g,
                 MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(20, 10, (float)(bernoulliJumpPictureBox2.Width * 0.8), (float)(bernoulliJumpPictureBox2.Height * 0.8)));
-            ViewPort5.ModifiedRect += drawJumpDistributions;
+            ViewPort.ModifiedRect += drawJumpDistributions2;
 
-            drawJumpDistributions();
+            drawJumpDistributions2();
 
 
         }
 
         private void GaussianRandomWalk_Click(object sender, EventArgs e)
         {
-            nGauss = (int)this.numericNGaussian.Value;
-            jGauss = (int)this.numericJGaussian.Value;
-            mGauss = (int)this.numericMGaussian.Value;
-            sigmaGauss = (int)this.numericSigmaGaussian.Value;
+            initGraphics(this.gaussianPictureBox);
+
+            n = (int)this.numericNGaussian.Value;
+            j = (int)this.numericJGaussian.Value;
+            m = (int)this.numericMGaussian.Value;
+            sigma = (int)this.numericSigmaGaussian.Value;
+            int drift = (int)this.numericDriftGaussian.Value;
             Gaussians = new List<Gaussian>();
 
 
             // check on j
-            if (jGauss > nGauss)
+            if (j > n)
             {
-                this.numericJGaussian.Value = (int)nGauss / 2;
-                jGauss = nGauss / 2;
+                this.numericJGaussian.Value = (int)n / 2;
+                j = n / 2;
                 //MessageBox.Show("J cannot be bigger than n!");
             }
 
             // creation of distributions
             MinY_Win = MaxY_Win = 0;
-            for (int i = 0; i < mGauss; i++)
+            for (int i = 0; i < m; i++)
             {
-                Gaussian G = new Gaussian(nGauss, r.Next(), sigmaGauss);
+                Gaussian G = new Gaussian(n, r.Next(), sigma, drift);
                 if (G.getMinRandomWalk() <= MinY_Win) MinY_Win = G.getMinRandomWalk();
                 if (G.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = G.getMaxRandomWalk();
                 Gaussians.Add(G);
@@ -221,11 +232,11 @@ namespace _13_A
             // set values for graphics
             MinX_Win = 0;
             //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
-            MaxX_Win = nGauss;
+            MaxX_Win = n;
             //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
-            ViewPort6 = new ResizableRectangle(this.gaussianPictureBox, b6, g6, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+            ViewPort = new ResizableRectangle(this.gaussianPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
                 new RectangleF(50, 45, (float)(0.8 * this.gaussianPictureBox.Width), (float)(0.8 * this.gaussianPictureBox.Height)));
-            ViewPort6.ModifiedRect += drawChartsGauss;
+            ViewPort.ModifiedRect += drawChartsGauss;
 
 
 
@@ -233,59 +244,130 @@ namespace _13_A
 
         }
 
+        private void GBMRandomWalk_Click(object sender, EventArgs e)
+        {
+            initGraphics(this.GBMPictureBox);
+
+
+            n = (int)this.numericNGBM.Value;
+            j = (int)this.numericJGBM.Value;
+            m = (int)this.numericMGBM.Value;
+            sigma = (double)this.numericSigmaGBM.Value;
+            drift = (int)this.numericDriftGBM.Value;
+            GBMs = new List<GBM>();
+
+
+            // check on j
+            if (j > n)
+            {
+                this.numericJGaussian.Value = (int)n / 2;
+                j = n / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+            }
+
+            // creation of distributions
+            MinY_Win = MaxY_Win = 0;
+            for (int i = 0; i < m; i++)
+            {
+                GBM G = new GBM(n, sigma, drift);
+                if (G.getMinRandomWalk() <= MinY_Win) MinY_Win = G.getMinRandomWalk();
+                if (G.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = G.getMaxRandomWalk();
+                GBMs.Add(G);
+            }
+
+            // set values for graphics
+            MinX_Win = 0;
+            //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
+            MaxX_Win = n;
+            //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            ViewPort = new ResizableRectangle(this.GBMPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, (float)(0.8 * this.GBMPictureBox.Width), (float)(0.8 * this.GBMPictureBox.Height)));
+            ViewPort.ModifiedRect += drawChartsGBM;
+
+
+
+            drawChartsGBM();
+        }
+
+        private void Vasicek_Click(object sender, EventArgs e)
+        {
+            initGraphics(this.VasicekPictureBox);
+
+
+            n = (int)this.numericNVasicek.Value;
+            j = (int)this.numericJVasicek.Value;
+            m = (int)this.numericMVasicek.Value;
+            sigma = (double)this.numericSigmaVasicek.Value;
+            eq = (int)this.numericPVasicek.Value;
+            k = (int)this.numericKVasicek.Value;
+            Vasiceks = new List<Vasicek>();
+
+
+            // check on j
+            if (j > n)
+            {
+                this.numericJVasicek.Value = (int)n / 2;
+                j = n / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+            }
+
+            // creation of distributions
+            MinY_Win = MaxY_Win = 0;
+            for (int i = 0; i < m; i++)
+            {
+                Vasicek V = new Vasicek(n, sigma, eq, k);
+                if (V.getMinRandomWalk() <= MinY_Win) MinY_Win = V.getMinRandomWalk();
+                if (V.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = V.getMaxRandomWalk();
+                Vasiceks.Add(V);
+            }
+
+            // set values for graphics
+            MinX_Win = 0;
+            //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
+            MaxX_Win = n;
+            //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            ViewPort = new ResizableRectangle(this.VasicekPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, (float)(0.8 * this.VasicekPictureBox.Width), (float)(0.8 * this.VasicekPictureBox.Height)));
+            ViewPort.ModifiedRect += drawChartsVasicek;
+
+
+
+            drawChartsVasicek();
+        }
+
+
 
         // -------------GRAPHICS FUNCTIONS----------------
 
-        private void initGraphics()
+        private void initGraphics(PictureBox P)
         {
-            b1 = new Bitmap(this.bernoulliPictureBox.Width, this.bernoulliPictureBox.Height);
-            g1 = Graphics.FromImage(b1);
-            g1.SmoothingMode = SmoothingMode.HighQuality;
-
-            b2 = new Bitmap(this.rademacherPictureBox.Width, this.rademacherPictureBox.Height);
-            g2 = Graphics.FromImage(b2);
-            g2.SmoothingMode = SmoothingMode.HighQuality;
-
-            b3 = new Bitmap(this.bernoulliRWPictureBox.Width, this.bernoulliRWPictureBox.Height);
-            g3 = Graphics.FromImage(b3);
-            g3.SmoothingMode = SmoothingMode.HighQuality;
-
-            b4 = new Bitmap(this.bernoulliJumpPictureBox1.Width, this.bernoulliJumpPictureBox1.Height);
-            g4 = Graphics.FromImage(b4);
-            g4.SmoothingMode = SmoothingMode.HighQuality;
-
-            b5 = new Bitmap(this.bernoulliJumpPictureBox2.Width, this.bernoulliJumpPictureBox2.Height);
-            g5 = Graphics.FromImage(b5);
-            g5.SmoothingMode = SmoothingMode.HighQuality;
-
-            b6 = new Bitmap(this.gaussianPictureBox.Width, this.gaussianPictureBox.Height);
-            g6 = Graphics.FromImage(b6);
-            g6.SmoothingMode = SmoothingMode.HighQuality;
-
+            b = new Bitmap(P.Width, P.Height);
+            g = Graphics.FromImage(b);
+            g.SmoothingMode = SmoothingMode.HighQuality;
         }
 
         private void drawChartsBern()
         {
-            g1.Clear(Color.Gainsboro);
+            g.Clear(Color.Gainsboro);
 
             //drawAxis(ViewPort1, g1, "trials", "");
-            ViewPort1.drawAxis("trials", "");
+            ViewPort.drawAxis("trials", "");
 
             drawBernoulliPaths();
 
             Pen pen = new Pen(Color.Red);
             pen.DashStyle = DashStyle.DashDotDot;
-            ViewPort1.drawHorizontalLine("p", p, pen);
-            ViewPort1.drawHorizontalLine("p+eps", p + eps, Pens.Brown);
-            ViewPort1.drawHorizontalLine("p-eps", p - eps, Pens.Brown);
+            ViewPort.drawHorizontalLine("p", p, pen);
+            ViewPort.drawHorizontalLine("p+eps", p + eps, Pens.Brown);
+            ViewPort.drawHorizontalLine("p-eps", p - eps, Pens.Brown);
 
             double Step = 0.05;
-            double StartingPoint = ViewPort1.MinY_Win;
+            double StartingPoint = ViewPort.MinY_Win;
 
             List<double> BernAtStepN = new List<double>();
             List<Interval> FrequencyDistribution = new List<Interval>();
             // -------- histogram at time j ---------
-            BernAtStepN = Bernoullis.Select(B => B.MeanDistribution[jBern -1].Y).ToList();
+            BernAtStepN = Bernoullis.Select(B => B.MeanDistribution[j -1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernAtStepN, StartingPoint, Step);
             // add intervals to cover all the range [0,1]
@@ -296,13 +378,13 @@ namespace _13_A
 
             // count how many means are inside the strip at step n
             int PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-            ViewPort1.drawVerticalLine($"n = {jBern }\npaths in strip = {PathsInsideStrip}", jBern-1, Pens.Purple);
+            ViewPort.drawVerticalLine($"n = {j }\npaths in strip = {PathsInsideStrip}", j-1, Pens.Purple);
 
-            drawVerticalHistogram(jBern-1, ViewPort1, ReversedFrequencyDistribution);
+            drawVerticalHistogram(j-1, ViewPort, ReversedFrequencyDistribution);
 
 
             // -------- histogram at time n ---------
-            BernAtStepN = Bernoullis.Select(B => B.MeanDistribution[nBern -1].Y).ToList();
+            BernAtStepN = Bernoullis.Select(B => B.MeanDistribution[n -1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernAtStepN, StartingPoint, Step);
             // add intervals to cover all the range [0,1]
@@ -313,129 +395,210 @@ namespace _13_A
 
             // count how many means are inside the strip at step n
             PathsInsideStrip = BernAtStepN.Count(M => (M < p + eps) && (M > p - eps));
-            ViewPort1.drawVerticalLine($"n = {nBern}\npaths in strip = {PathsInsideStrip}", nBern - 1, Pens.Purple);
+            ViewPort.drawVerticalLine($"n = {n}\npaths in strip = {PathsInsideStrip}", n - 1, Pens.Purple);
 
-            drawVerticalHistogram(nBern-1, ViewPort1, ReversedFrequencyDistribution);
+            drawVerticalHistogram(n-1, ViewPort, ReversedFrequencyDistribution);
         }
 
         private void drawChartsRade()
         {
-            g2.Clear(Color.Gainsboro);
+            g.Clear(Color.Gainsboro);
 
-            ViewPort2.drawAxis("num of steps", "Random Walk");
+            ViewPort.drawAxis("num of steps", "Random Walk");
 
             drawRademacherPaths();
 
             double Step = 5;
-            double StartingPoint = ViewPort2.MinY_Win;
+            double StartingPoint = ViewPort.MinY_Win;
 
-            List<double> RadesAtStepN = Rademachers.Select(R => R.RandomWalk[jRade-1].Y).ToList();
+            List<double> RadesAtStepN = Rademachers.Select(R => R.RandomWalk[j-1].Y).ToList();
             List<Interval> FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(RadesAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort2.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(jRade - 1, ViewPort2, ReversedFrequencyDistribution);
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
 
 
 
-            RadesAtStepN = Rademachers.Select(R => R.RandomWalk[nRade - 1].Y).ToList();
+            RadesAtStepN = Rademachers.Select(R => R.RandomWalk[n - 1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(RadesAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort2.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(nRade - 1, ViewPort2, ReversedFrequencyDistribution);
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
 
             Pen pen = new Pen(Color.Red);
             pen.DashStyle = DashStyle.DashDotDot;
 
-            ViewPort2.drawHorizontalLine("0", 0, pen);
+            ViewPort.drawHorizontalLine("0", 0, pen);
 
         }
 
         private void drawChartsBernRW()
         {
-            ViewPort3.g.Clear(Color.Gainsboro);
+            ViewPort.g.Clear(Color.Gainsboro);
 
-            ViewPort3.drawAxis("num of steps", "Random Walk");
+            ViewPort.drawAxis("num of steps", "Random Walk");
 
             drawBernoulliRWPaths();
 
             double Step = 3;
-            double StartingPoint = ViewPort3.MinY_Win;
+            double StartingPoint = ViewPort.MinY_Win;
 
-            List<double> BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[jBernRW - 1].Y).ToList();
+            List<double> BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[j - 1].Y).ToList();
             List<Interval> FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernsRWAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort3.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(jBernRW - 1, ViewPort3, ReversedFrequencyDistribution);
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
 
 
 
-            BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[nBernRW - 1].Y).ToList();
+            BernsRWAtStepN = Bernoullis.Select(B => B.RandomWalk[n - 1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(BernsRWAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort3.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(nBernRW - 1, ViewPort3, ReversedFrequencyDistribution);
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
 
         }
 
         private void drawChartsGauss()
         {
-            ViewPort6.g.Clear(Color.Gainsboro);
+            ViewPort.g.Clear(Color.Gainsboro);
 
-            ViewPort6.drawAxis("num of steps", "Random Walk");
+            ViewPort.drawAxis("num of steps", "Random Walk");
 
             drawGaussianRWPaths();
 
-            double Step = 3;
-            double StartingPoint = ViewPort6.MinY_Win;
+            double Step = ViewPort.MaxY_Win/30;
+            double StartingPoint = ViewPort.MinY_Win;
 
-            List<double> GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[jGauss- 1].Y).ToList();
+            List<double> GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[j- 1].Y).ToList();
             List<Interval> FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort6.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(jGauss - 1, ViewPort6, ReversedFrequencyDistribution);
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
 
 
 
-            GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[nGauss - 1].Y).ToList();
+            GaussianRWAtStepN = Gaussians.Select(G => G.RandomWalk[n - 1].Y).ToList();
             FrequencyDistribution = new List<Interval>();
             FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
             // add intervals to cover all the range
-            addPaddingIntervals(FrequencyDistribution, ViewPort6.MaxY_Win);
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
             // invert list so the biggest comes before the smallest
             ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
 
-            drawVerticalHistogram(nGauss - 1, ViewPort6, ReversedFrequencyDistribution);
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
 
-            ViewPort6.drawHorizontalLine("0", 0, Pens.Red);
-            ViewPort6.drawHorizontalLine($"{ViewPort6.MaxY_Win.ToString("#.##")}", ViewPort6.MaxY_Win, Pens.Tan);
-            ViewPort6.drawHorizontalLine($"{ViewPort6.MinY_Win.ToString("#.##")}", ViewPort6.MinY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine("0", 0, Pens.Red);
+            ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
         }
 
-        private void drawJumpDistributions()
+
+        private void drawChartsGBM()
+        {
+            ViewPort.g.Clear(Color.Gainsboro);
+
+            ViewPort.drawAxis("num of steps", "Random Walk");
+
+            drawGBMRWPaths();
+
+            double Step = ViewPort.MaxY_Win / 30;
+            double StartingPoint = ViewPort.MinY_Win;
+
+            List<double> GaussianRWAtStepN = GBMs.Select(G => G.RandomWalk[j - 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
+
+
+
+            GaussianRWAtStepN = GBMs.Select(G => G.RandomWalk[n - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(GaussianRWAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
+
+            ViewPort.drawHorizontalLine("0", 0, Pens.Red);
+            ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
+        }
+
+        private void drawChartsVasicek()
+        {
+            ViewPort.g.Clear(Color.Gainsboro);
+
+            ViewPort.drawAxis("num of steps", "Random Walk");
+
+            drawVasicekPaths();
+
+            double Step = ViewPort.MaxY_Win / 30;
+            double StartingPoint = ViewPort.MinY_Win;
+
+            List<double> VasiceksAtStepN = Vasiceks.Select(V => V.RandomWalk[j - 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(VasiceksAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
+
+
+
+            VasiceksAtStepN = Vasiceks.Select(V => V.RandomWalk[n - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(VasiceksAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
+
+            ViewPort.drawHorizontalLine($"eq", eq, Pens.Red);
+
+            //Vasiceks[0].drawBoundaries(ViewPort);
+
+            ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
+        }
+
+
+        private void drawJumpDistributions1()
         {
             // this section will print the distribuion of distance betwee consesutive jumps (exponential)
-            ViewPort4.g.Clear(Color.Gainsboro);
-            ViewPort4.drawAxis("distance","f");
+            ViewPort.g.Clear(Color.Gainsboro);
+            ViewPort.drawAxis("distance","f");
        
             List<double> L = new List<double>();
             L.Clear();
@@ -444,11 +607,14 @@ namespace _13_A
                 L.AddRange(B.distancesBetweenConsecutiveJumps());
 
             List<Interval> ConsecutiveJumpDistr = UnivariateDistribution_CountinuousVariable(L, 1, 1);
-            drawHorizontalHistogram(0, ViewPort4, ConsecutiveJumpDistr);
+            drawHorizontalHistogram(0, ViewPort, ConsecutiveJumpDistr);
+        }
 
+        private void drawJumpDistributions2()
+        {
             // this section will print the distribution of the distance from each jump from the origin (uniform)
-            ViewPort5.g.Clear(Color.Gainsboro);
-            ViewPort5.drawAxis("distance", "f");
+            ViewPort.g.Clear(Color.Gainsboro);
+            ViewPort.drawAxis("distance", "f");
 
             List<double> L2 = new List<double>();
             L2.Clear();
@@ -457,7 +623,7 @@ namespace _13_A
                 L2.AddRange(B.distancesJumpsFromOrigin());
 
             List<Interval> FromOriginJumpDistr = UnivariateDistribution_CountinuousVariable(L2, 1, 10);
-            drawHorizontalHistogram(0, ViewPort5, FromOriginJumpDistr);
+            drawHorizontalHistogram(0, ViewPort, FromOriginJumpDistr);
         }
 
         private void drawBernoulliPaths()
@@ -465,7 +631,7 @@ namespace _13_A
             //draw the path for each mean distribution
             foreach (Bernoulli B in Bernoullis)
             {
-                B.drawSampleMeanPath(ViewPort1);
+                B.drawSampleMeanPath(ViewPort);
             }
         }
 
@@ -474,15 +640,16 @@ namespace _13_A
             //draw the path for each mean distribution
             foreach (Bernoulli B in Bernoullis)
             {
-                B.drawRandomWalkPath(ViewPort3);
+                B.drawRandomWalkPath(ViewPort);
             }
         }
+
 
         private void drawRademacherPaths()
         {
             foreach (Rademacher R in Rademachers)
             {
-                R.drawRandomWalkPath(ViewPort2);
+                R.drawRandomWalkPath(ViewPort);
             }
         }
 
@@ -490,15 +657,33 @@ namespace _13_A
         {
             foreach (Gaussian G in Gaussians)
             {
-                G.drawRandomWalkPath(ViewPort6);
+                G.drawRandomWalkPath(ViewPort);
             }
         }
+
+        private void drawGBMRWPaths()
+        {
+            foreach (GBM G in GBMs)
+            {
+                G.drawRandomWalkPath(ViewPort);
+            }
+        }
+
+        private void drawVasicekPaths()
+        {
+            foreach (Vasicek V in Vasiceks)
+            {
+                V.drawRandomWalkPath(ViewPort);
+            }
+        }
+
+
 
         private void drawVerticalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
         {
             // draw proportionate rectangles 
             Graphics g = V.g;
-            double BarWidth = (double)V.R.Height / FreqDistr.Count;
+            double BarWidth = (double)V.R.Height /FreqDistr.Count;
             double max = FreqDistr.Max(I => I.RelativeFrequency);
             double BarMaxHeight = (V.R.Width / FreqDistr.Max(I => I.RelativeFrequency))*0.23;
             //double BarMaxHeight = V.R.Width * 0.4;

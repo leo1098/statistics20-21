@@ -54,12 +54,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GBM.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="Gaussian.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rademacher.cs" />
     <Compile Include="ResizableRectangle.cs" />
+    <Compile Include="Vasicek.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

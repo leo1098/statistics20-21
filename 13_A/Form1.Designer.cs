@@ -33,7 +33,6 @@ namespace _13_A
             this.button1 = new System.Windows.Forms.Button();
             this.numericNBern = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label0 = new System.Windows.Forms.Label();
             this.numericMBern = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.numericP = new System.Windows.Forms.NumericUpDown();
@@ -44,18 +43,20 @@ namespace _13_A
             this.numericJBern = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label21 = new System.Windows.Forms.Label();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.numericJRade = new System.Windows.Forms.NumericUpDown();
             this.rademacherPictureBox = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.numericNRade = new System.Windows.Forms.NumericUpDown();
             this.numericMRade = new System.Windows.Forms.NumericUpDown();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -68,11 +69,12 @@ namespace _13_A
             this.numericJBernRW = new System.Windows.Forms.NumericUpDown();
             this.bernoulliRWPictureBox = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.numericDriftGaussian = new System.Windows.Forms.NumericUpDown();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.numericSigmaGaussian = new System.Windows.Forms.NumericUpDown();
@@ -85,6 +87,36 @@ namespace _13_A
             this.button4 = new System.Windows.Forms.Button();
             this.numericNGaussian = new System.Windows.Forms.NumericUpDown();
             this.numericMGaussian = new System.Windows.Forms.NumericUpDown();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label23 = new System.Windows.Forms.Label();
+            this.numericDriftGBM = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.numericSigmaGBM = new System.Windows.Forms.NumericUpDown();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.numericJGBM = new System.Windows.Forms.NumericUpDown();
+            this.GBMPictureBox = new System.Windows.Forms.PictureBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.numericNGBM = new System.Windows.Forms.NumericUpDown();
+            this.numericMGBM = new System.Windows.Forms.NumericUpDown();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label35 = new System.Windows.Forms.Label();
+            this.numericKVasicek = new System.Windows.Forms.NumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
+            this.numericPVasicek = new System.Windows.Forms.NumericUpDown();
+            this.label30 = new System.Windows.Forms.Label();
+            this.numericSigmaVasicek = new System.Windows.Forms.NumericUpDown();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.numericJVasicek = new System.Windows.Forms.NumericUpDown();
+            this.VasicekPictureBox = new System.Windows.Forms.PictureBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
+            this.numericNVasicek = new System.Windows.Forms.NumericUpDown();
+            this.numericMVasicek = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -107,11 +139,27 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericNBernRW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDriftGaussian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGaussian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJGaussian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gaussianPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNGaussian)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMGaussian)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDriftGBM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGBM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJGBM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GBMPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNGBM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMGBM)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericKVasicek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericPVasicek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaVasicek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJVasicek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VasicekPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNVasicek)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMVasicek)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -155,18 +203,9 @@ namespace _13_A
             this.label1.TabIndex = 4;
             this.label1.Text = "n";
             // 
-            // label0
-            // 
-            this.label0.AutoSize = true;
-            this.label0.Location = new System.Drawing.Point(243, 24);
-            this.label0.Name = "label0";
-            this.label0.Size = new System.Drawing.Size(19, 17);
-            this.label0.TabIndex = 6;
-            this.label0.Text = "m";
-            // 
             // numericMBern
             // 
-            this.numericMBern.Location = new System.Drawing.Point(265, 24);
+            this.numericMBern.Location = new System.Drawing.Point(277, 22);
             this.numericMBern.Maximum = new decimal(new int[] {
             1215752191,
             23,
@@ -296,6 +335,8 @@ namespace _13_A
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(25, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -304,6 +345,7 @@ namespace _13_A
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.bernoulliPictureBox);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.button1);
@@ -313,7 +355,6 @@ namespace _13_A
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.numericEps);
             this.tabPage1.Controls.Add(this.numericMBern);
-            this.tabPage1.Controls.Add(this.label0);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.numericP);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
@@ -324,15 +365,24 @@ namespace _13_A
             this.tabPage1.Text = "Bernoulli Sample Mean";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(179, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 17);
+            this.label6.TabIndex = 38;
+            this.label6.Text = "Num of paths";
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label21);
             this.tabPage2.Controls.Add(this.richTextBox3);
             this.tabPage2.Controls.Add(this.label15);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.numericJRade);
             this.tabPage2.Controls.Add(this.rademacherPictureBox);
             this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.numericNRade);
             this.tabPage2.Controls.Add(this.numericMRade);
@@ -343,6 +393,15 @@ namespace _13_A
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Rademacher Random Walk";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(237, 36);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(92, 17);
+            this.label21.TabIndex = 38;
+            this.label21.Text = "Num of paths";
             // 
             // richTextBox3
             // 
@@ -416,15 +475,6 @@ namespace _13_A
             this.label5.TabIndex = 10;
             this.label5.Text = "n";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(276, 39);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 17);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "m";
-            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(651, 34);
@@ -459,7 +509,7 @@ namespace _13_A
             // 
             // numericMRade
             // 
-            this.numericMRade.Location = new System.Drawing.Point(314, 36);
+            this.numericMRade.Location = new System.Drawing.Point(335, 36);
             this.numericMRade.Maximum = new decimal(new int[] {
             1215752191,
             23,
@@ -481,6 +531,7 @@ namespace _13_A
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.richTextBox1);
             this.tabPage3.Controls.Add(this.label12);
             this.tabPage3.Controls.Add(this.label14);
@@ -493,7 +544,6 @@ namespace _13_A
             this.tabPage3.Controls.Add(this.numericJBernRW);
             this.tabPage3.Controls.Add(this.bernoulliRWPictureBox);
             this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.button3);
             this.tabPage3.Controls.Add(this.numericNBernRW);
             this.tabPage3.Controls.Add(this.numericMBernRW);
@@ -503,6 +553,15 @@ namespace _13_A
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Bernoulli Random Walk";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(206, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(92, 17);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Num of paths";
             // 
             // richTextBox1
             // 
@@ -638,15 +697,6 @@ namespace _13_A
             this.label9.TabIndex = 19;
             this.label9.Text = "n";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(266, 35);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 17);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "m";
-            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(641, 30);
@@ -703,6 +753,8 @@ namespace _13_A
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label22);
+            this.tabPage4.Controls.Add(this.numericDriftGaussian);
             this.tabPage4.Controls.Add(this.richTextBox2);
             this.tabPage4.Controls.Add(this.label20);
             this.tabPage4.Controls.Add(this.numericSigmaGaussian);
@@ -722,6 +774,37 @@ namespace _13_A
             this.tabPage4.Text = "Standard Brownian Motion";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(464, 54);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(32, 17);
+            this.label22.TabIndex = 46;
+            this.label22.Text = "drift";
+            // 
+            // numericDriftGaussian
+            // 
+            this.numericDriftGaussian.Location = new System.Drawing.Point(502, 52);
+            this.numericDriftGaussian.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericDriftGaussian.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
+            this.numericDriftGaussian.Name = "numericDriftGaussian";
+            this.numericDriftGaussian.Size = new System.Drawing.Size(81, 22);
+            this.numericDriftGaussian.TabIndex = 45;
+            this.numericDriftGaussian.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
             // richTextBox2
             // 
             this.richTextBox2.Location = new System.Drawing.Point(725, 22);
@@ -736,15 +819,15 @@ namespace _13_A
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(250, 78);
+            this.label20.Location = new System.Drawing.Point(265, 81);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(45, 17);
+            this.label20.Size = new System.Drawing.Size(54, 17);
             this.label20.TabIndex = 43;
-            this.label20.Text = "sigma";
+            this.label20.Text = "std dev";
             // 
             // numericSigmaGaussian
             // 
-            this.numericSigmaGaussian.Location = new System.Drawing.Point(301, 76);
+            this.numericSigmaGaussian.Location = new System.Drawing.Point(325, 76);
             this.numericSigmaGaussian.Maximum = new decimal(new int[] {
             1215752191,
             23,
@@ -754,7 +837,7 @@ namespace _13_A
             1,
             0,
             0,
-            0});
+            589824});
             this.numericSigmaGaussian.Name = "numericSigmaGaussian";
             this.numericSigmaGaussian.Size = new System.Drawing.Size(81, 22);
             this.numericSigmaGaussian.TabIndex = 42;
@@ -767,7 +850,7 @@ namespace _13_A
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(27, 105);
+            this.label16.Location = new System.Drawing.Point(51, 105);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(326, 17);
             this.label16.TabIndex = 41;
@@ -828,11 +911,11 @@ namespace _13_A
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(263, 36);
+            this.label19.Location = new System.Drawing.Point(227, 33);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(19, 17);
+            this.label19.Size = new System.Drawing.Size(92, 17);
             this.label19.TabIndex = 37;
-            this.label19.Text = "m";
+            this.label19.Text = "Num of paths";
             // 
             // button4
             // 
@@ -868,7 +951,7 @@ namespace _13_A
             // 
             // numericMGaussian
             // 
-            this.numericMGaussian.Location = new System.Drawing.Point(301, 33);
+            this.numericMGaussian.Location = new System.Drawing.Point(325, 31);
             this.numericMGaussian.Maximum = new decimal(new int[] {
             1215752191,
             23,
@@ -883,6 +966,463 @@ namespace _13_A
             this.numericMGaussian.Size = new System.Drawing.Size(81, 22);
             this.numericMGaussian.TabIndex = 35;
             this.numericMGaussian.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.label23);
+            this.tabPage5.Controls.Add(this.numericDriftGBM);
+            this.tabPage5.Controls.Add(this.label24);
+            this.tabPage5.Controls.Add(this.numericSigmaGBM);
+            this.tabPage5.Controls.Add(this.label25);
+            this.tabPage5.Controls.Add(this.label26);
+            this.tabPage5.Controls.Add(this.numericJGBM);
+            this.tabPage5.Controls.Add(this.GBMPictureBox);
+            this.tabPage5.Controls.Add(this.label27);
+            this.tabPage5.Controls.Add(this.label28);
+            this.tabPage5.Controls.Add(this.button5);
+            this.tabPage5.Controls.Add(this.numericNGBM);
+            this.tabPage5.Controls.Add(this.numericMGBM);
+            this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1372, 797);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Geometric Brownian Motion";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(477, 59);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(32, 17);
+            this.label23.TabIndex = 60;
+            this.label23.Text = "drift";
+            // 
+            // numericDriftGBM
+            // 
+            this.numericDriftGBM.DecimalPlaces = 2;
+            this.numericDriftGBM.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericDriftGBM.Location = new System.Drawing.Point(515, 57);
+            this.numericDriftGBM.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericDriftGBM.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
+            this.numericDriftGBM.Name = "numericDriftGBM";
+            this.numericDriftGBM.Size = new System.Drawing.Size(81, 22);
+            this.numericDriftGBM.TabIndex = 59;
+            this.numericDriftGBM.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            65536});
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(278, 86);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(54, 17);
+            this.label24.TabIndex = 57;
+            this.label24.Text = "std dev";
+            // 
+            // numericSigmaGBM
+            // 
+            this.numericSigmaGBM.DecimalPlaces = 2;
+            this.numericSigmaGBM.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericSigmaGBM.Location = new System.Drawing.Point(338, 81);
+            this.numericSigmaGBM.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericSigmaGBM.Name = "numericSigmaGBM";
+            this.numericSigmaGBM.Size = new System.Drawing.Size(81, 22);
+            this.numericSigmaGBM.TabIndex = 56;
+            this.numericSigmaGBM.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            65536});
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(64, 110);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(436, 17);
+            this.label25.TabIndex = 55;
+            this.label25.Text = "Random Walk: Y(t+1) = Y(t)*exp( 1/n*(mu - ½σ²)  +  σ * sqrt(1/n) * Z)";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(93, 83);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(11, 17);
+            this.label26.TabIndex = 54;
+            this.label26.Text = "j";
+            // 
+            // numericJGBM
+            // 
+            this.numericJGBM.Location = new System.Drawing.Point(115, 76);
+            this.numericJGBM.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericJGBM.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericJGBM.Name = "numericJGBM";
+            this.numericJGBM.Size = new System.Drawing.Size(81, 22);
+            this.numericJGBM.TabIndex = 53;
+            this.numericJGBM.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // GBMPictureBox
+            // 
+            this.GBMPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GBMPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.GBMPictureBox.Location = new System.Drawing.Point(43, 130);
+            this.GBMPictureBox.Name = "GBMPictureBox";
+            this.GBMPictureBox.Size = new System.Drawing.Size(1286, 639);
+            this.GBMPictureBox.TabIndex = 52;
+            this.GBMPictureBox.TabStop = false;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(88, 38);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(16, 17);
+            this.label27.TabIndex = 50;
+            this.label27.Text = "n";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(240, 38);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(92, 17);
+            this.label28.TabIndex = 51;
+            this.label28.Text = "Num of paths";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(651, 36);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(81, 43);
+            this.button5.TabIndex = 47;
+            this.button5.Text = "Print Chart";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.GBMRandomWalk_Click);
+            // 
+            // numericNGBM
+            // 
+            this.numericNGBM.Location = new System.Drawing.Point(115, 36);
+            this.numericNGBM.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericNGBM.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericNGBM.Name = "numericNGBM";
+            this.numericNGBM.Size = new System.Drawing.Size(81, 22);
+            this.numericNGBM.TabIndex = 48;
+            this.numericNGBM.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // numericMGBM
+            // 
+            this.numericMGBM.Location = new System.Drawing.Point(338, 36);
+            this.numericMGBM.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericMGBM.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericMGBM.Name = "numericMGBM";
+            this.numericMGBM.Size = new System.Drawing.Size(81, 22);
+            this.numericMGBM.TabIndex = 49;
+            this.numericMGBM.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.label35);
+            this.tabPage6.Controls.Add(this.numericKVasicek);
+            this.tabPage6.Controls.Add(this.label29);
+            this.tabPage6.Controls.Add(this.numericPVasicek);
+            this.tabPage6.Controls.Add(this.label30);
+            this.tabPage6.Controls.Add(this.numericSigmaVasicek);
+            this.tabPage6.Controls.Add(this.label31);
+            this.tabPage6.Controls.Add(this.label32);
+            this.tabPage6.Controls.Add(this.numericJVasicek);
+            this.tabPage6.Controls.Add(this.VasicekPictureBox);
+            this.tabPage6.Controls.Add(this.label33);
+            this.tabPage6.Controls.Add(this.label34);
+            this.tabPage6.Controls.Add(this.button6);
+            this.tabPage6.Controls.Add(this.numericNVasicek);
+            this.tabPage6.Controls.Add(this.numericMVasicek);
+            this.tabPage6.Location = new System.Drawing.Point(4, 25);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1372, 797);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Vasicek Process";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(515, 74);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(15, 17);
+            this.label35.TabIndex = 75;
+            this.label35.Text = "k";
+            // 
+            // numericKVasicek
+            // 
+            this.numericKVasicek.Location = new System.Drawing.Point(536, 72);
+            this.numericKVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericKVasicek.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
+            this.numericKVasicek.Name = "numericKVasicek";
+            this.numericKVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericKVasicek.TabIndex = 74;
+            this.numericKVasicek.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(471, 36);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(59, 17);
+            this.label29.TabIndex = 73;
+            this.label29.Text = "eq point";
+            // 
+            // numericPVasicek
+            // 
+            this.numericPVasicek.Location = new System.Drawing.Point(536, 34);
+            this.numericPVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericPVasicek.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
+            this.numericPVasicek.Name = "numericPVasicek";
+            this.numericPVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericPVasicek.TabIndex = 72;
+            this.numericPVasicek.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(278, 82);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(54, 17);
+            this.label30.TabIndex = 71;
+            this.label30.Text = "std dev";
+            // 
+            // numericSigmaVasicek
+            // 
+            this.numericSigmaVasicek.DecimalPlaces = 2;
+            this.numericSigmaVasicek.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericSigmaVasicek.Location = new System.Drawing.Point(338, 77);
+            this.numericSigmaVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericSigmaVasicek.Name = "numericSigmaVasicek";
+            this.numericSigmaVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericSigmaVasicek.TabIndex = 70;
+            this.numericSigmaVasicek.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(64, 106);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(348, 17);
+            this.label31.TabIndex = 69;
+            this.label31.Text = "Random Walk: dY = k( eq - Y(t))*dt  +  σ * sqrt(1/n) * Z";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(93, 79);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(11, 17);
+            this.label32.TabIndex = 68;
+            this.label32.Text = "j";
+            // 
+            // numericJVasicek
+            // 
+            this.numericJVasicek.Location = new System.Drawing.Point(115, 72);
+            this.numericJVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericJVasicek.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericJVasicek.Name = "numericJVasicek";
+            this.numericJVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericJVasicek.TabIndex = 67;
+            this.numericJVasicek.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // VasicekPictureBox
+            // 
+            this.VasicekPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VasicekPictureBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.VasicekPictureBox.Location = new System.Drawing.Point(43, 126);
+            this.VasicekPictureBox.Name = "VasicekPictureBox";
+            this.VasicekPictureBox.Size = new System.Drawing.Size(1286, 639);
+            this.VasicekPictureBox.TabIndex = 66;
+            this.VasicekPictureBox.TabStop = false;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(88, 34);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(16, 17);
+            this.label33.TabIndex = 64;
+            this.label33.Text = "n";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(240, 34);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(92, 17);
+            this.label34.TabIndex = 65;
+            this.label34.Text = "Num of paths";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(651, 32);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(81, 43);
+            this.button6.TabIndex = 61;
+            this.button6.Text = "Print Chart";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.Vasicek_Click);
+            // 
+            // numericNVasicek
+            // 
+            this.numericNVasicek.Location = new System.Drawing.Point(115, 32);
+            this.numericNVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericNVasicek.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericNVasicek.Name = "numericNVasicek";
+            this.numericNVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericNVasicek.TabIndex = 62;
+            this.numericNVasicek.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // numericMVasicek
+            // 
+            this.numericMVasicek.Location = new System.Drawing.Point(338, 32);
+            this.numericMVasicek.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericMVasicek.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericMVasicek.Name = "numericMVasicek";
+            this.numericMVasicek.Size = new System.Drawing.Size(81, 22);
+            this.numericMVasicek.TabIndex = 63;
+            this.numericMVasicek.Value = new decimal(new int[] {
             500,
             0,
             0,
@@ -922,11 +1462,29 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericMBernRW)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDriftGaussian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGaussian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJGaussian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gaussianPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNGaussian)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMGaussian)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDriftGBM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaGBM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJGBM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GBMPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNGBM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMGBM)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericKVasicek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericPVasicek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaVasicek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJVasicek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VasicekPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericNVasicek)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMVasicek)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -936,7 +1494,6 @@ namespace _13_A
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericNBern;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label0;
         private System.Windows.Forms.NumericUpDown numericMBern;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericP;
@@ -950,7 +1507,6 @@ namespace _13_A
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.PictureBox rademacherPictureBox;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.NumericUpDown numericNRade;
         private System.Windows.Forms.NumericUpDown numericMRade;
@@ -961,7 +1517,6 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericJBernRW;
         private System.Windows.Forms.PictureBox bernoulliRWPictureBox;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.NumericUpDown numericNBernRW;
         private System.Windows.Forms.NumericUpDown numericMBernRW;
@@ -988,6 +1543,41 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericMGaussian;
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown numericDriftGaussian;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown numericDriftGBM;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.NumericUpDown numericSigmaGBM;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.NumericUpDown numericJGBM;
+        private System.Windows.Forms.PictureBox GBMPictureBox;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.NumericUpDown numericNGBM;
+        private System.Windows.Forms.NumericUpDown numericMGBM;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.NumericUpDown numericPVasicek;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.NumericUpDown numericSigmaVasicek;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.NumericUpDown numericJVasicek;
+        private System.Windows.Forms.PictureBox VasicekPictureBox;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.NumericUpDown numericNVasicek;
+        private System.Windows.Forms.NumericUpDown numericMVasicek;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.NumericUpDown numericKVasicek;
     }
 }
 

@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace _13_A
 {
-    // this class represent a normal N(0,1)
-    class Gaussian
+    class Vasicek
     {
-        private Random r;
-        private int n, drift;
-        private double stddev;
+        private Random r = new Random(Guid.NewGuid().GetHashCode());
+        private int n;
+        private double stddev, equilibrium, k;
         public List<DataPoint> RandomWalk;
         Pen pen;
 
-        public Gaussian(int n, int seed, double sigma, int drift)
+        public Vasicek(int n, double stddev, double equilibrium, double k)
         {
-            this.r = new Random(seed);
             this.n = n;
-            this.drift = drift;
-            this.stddev = sigma;
+            this.stddev = stddev;
+            this.equilibrium = equilibrium;
+            this.k = k;
             RandomWalk = generateRandomWalkListOfValues();
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
         }
@@ -46,8 +45,8 @@ namespace _13_A
 
             for (int i = 0; i < n; i++)
             {
-                Y += stddev * Math.Sqrt((double)1 / n) * sample(0, 1);
-                DataPoint DP = new DataPoint(i, Y + drift * i);
+                Y += (double)1/n *(equilibrium - Y)*k + stddev* Math.Sqrt((double)1 / n) * sample(0, 1);
+                DataPoint DP = new DataPoint(i, Y);
                 L.Add(DP);
             }
 
@@ -70,6 +69,45 @@ namespace _13_A
             ViewPort.g.DrawLines(pen, Points.ToArray());
             ViewPort.PictureBox.Image = ViewPort.b;
 
+        }
+
+        public void drawBoundaries(ResizableRectangle ViewPort)
+        {
+            List<PointF> ExpectedValue = new List<PointF>();
+            List<PointF> PositiveSD = new List<PointF>();
+            List<PointF> NegativeSD = new List<PointF>();
+
+            
+            for (int i = 0; i < n; i++)
+            {
+                ExpectedValue.Add(new PointF(
+                    ViewPort.viewport_X(i),
+                    ViewPort.viewport_Y(expectedValue(i))));
+                
+                PositiveSD.Add(new PointF(
+                    ViewPort.viewport_X(i),
+                    ViewPort.viewport_Y(expectedValue(i) + standardDev(i))));
+
+                NegativeSD.Add(new PointF(
+                    ViewPort.viewport_X(i),
+                    ViewPort.viewport_Y(expectedValue(i) - standardDev(i))));
+            }
+
+            ViewPort.g.DrawLines(Pens.Black, ExpectedValue.ToArray());
+            ViewPort.g.DrawLines(Pens.Black, PositiveSD.ToArray());
+            ViewPort.g.DrawLines(Pens.Black, NegativeSD.ToArray());
+            ViewPort.PictureBox.Image = ViewPort.b;
+
+        }
+
+        private double expectedValue(double t)
+        {
+            return equilibrium + (0 - equilibrium) * Math.Exp(-k * t);
+        }
+
+        private double standardDev(double t)
+        {
+            return 2 * Math.Sqrt(stddev*stddev/(2*k)*(1 - Math.Exp(-2*k*t)));
         }
 
         public double getMinRandomWalk()

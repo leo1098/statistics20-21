@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace _13_A
 {
-    // this class represent a normal N(0,1)
-    class Gaussian
+    class GBM
     {
-        private Random r;
-        private int n, drift;
-        private double stddev;
+        private Random r = new Random(Guid.NewGuid().GetHashCode());
+        private int n;
+        private double stddev, drift;
         public List<DataPoint> RandomWalk;
         Pen pen;
 
-        public Gaussian(int n, int seed, double sigma, int drift)
+        public GBM(int n,  double stddev, double drift)
         {
-            this.r = new Random(seed);
             this.n = n;
+            this.stddev = stddev;
             this.drift = drift;
-            this.stddev = sigma;
             RandomWalk = generateRandomWalkListOfValues();
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
         }
@@ -42,12 +40,13 @@ namespace _13_A
         {
             // P(t) = P(t-1) + Random step(t) where Random step(t) is: σ * sqrt(1/n) * N(0,1)
             List<DataPoint> L = new List<DataPoint>();
-            double Y = 0;
+            double Y = 100;
 
             for (int i = 0; i < n; i++)
             {
-                Y += stddev * Math.Sqrt((double)1 / n) * sample(0, 1);
-                DataPoint DP = new DataPoint(i, Y + drift * i);
+                Y *= Math.Exp((double)1 / n * (drift - 0.5 * stddev * stddev) + stddev * Math.Sqrt((double)1 / n) * sample(0, 1));
+                //Y += (double)1/n *(10 - Y)*1 + stddev* Math.Sqrt((double)1 / n) * sample(0, 1);
+                DataPoint DP = new DataPoint(i, Y);
                 L.Add(DP);
             }
 
