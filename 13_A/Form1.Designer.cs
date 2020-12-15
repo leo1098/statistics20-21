@@ -45,6 +45,7 @@ namespace _13_A
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.numericJRade = new System.Windows.Forms.NumericUpDown();
@@ -72,6 +73,7 @@ namespace _13_A
             this.numericNBernRW = new System.Windows.Forms.NumericUpDown();
             this.numericMBernRW = new System.Windows.Forms.NumericUpDown();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.numericSigmaGaussian = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
@@ -83,8 +85,6 @@ namespace _13_A
             this.button4 = new System.Windows.Forms.Button();
             this.numericNGaussian = new System.Windows.Forms.NumericUpDown();
             this.numericMGaussian = new System.Windows.Forms.NumericUpDown();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -343,6 +343,17 @@ namespace _13_A
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Rademacher Random Walk";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.Location = new System.Drawing.Point(764, 25);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.Size = new System.Drawing.Size(525, 97);
+            this.richTextBox3.TabIndex = 33;
+            this.richTextBox3.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, at each new ti" +
+    "me\ncompute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, where Random step(" +
+    "i) is \na Rademacher random variable.";
             // 
             // label15
             // 
@@ -708,8 +719,19 @@ namespace _13_A
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1372, 797);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Gaussian Random Walk";
+            this.tabPage4.Text = "Standard Brownian Motion";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(725, 22);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Size = new System.Drawing.Size(525, 97);
+            this.richTextBox2.TabIndex = 44;
+            this.richTextBox2.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, \nat each new t" +
+    "ime compute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, \nwhere Random ste" +
+    "p(i) is: σ * sqrt(1/n) * N(0,1).";
             // 
             // label20
             // 
@@ -865,28 +887,6 @@ namespace _13_A
             0,
             0,
             0});
-            // 
-            // richTextBox2
-            // 
-            this.richTextBox2.Location = new System.Drawing.Point(725, 22);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(525, 97);
-            this.richTextBox2.TabIndex = 44;
-            this.richTextBox2.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, \nat each new t" +
-    "ime compute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, \nwhere Random ste" +
-    "p(i) is: σ * sqrt(1/n) * N(0,1).";
-            // 
-            // richTextBox3
-            // 
-            this.richTextBox3.Location = new System.Drawing.Point(764, 25);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(525, 97);
-            this.richTextBox3.TabIndex = 33;
-            this.richTextBox3.Text = "Random Walk: Starting from value 0 at time 0, for each of m paths, at each new ti" +
-    "me\ncompute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, where Random step(" +
-    "i) is \na Rademacher random variable.";
             // 
             // Form1
             // 

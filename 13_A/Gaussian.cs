@@ -33,9 +33,8 @@ namespace _13_A
             double x2 = 1 - r.NextDouble();
 
             double y1 = Math.Sqrt(-2.0 * Math.Log(x1)) * Math.Cos(2.0 * Math.PI * x2);
-            //return y1 * stddev + mean;
-            // stdev = 1, mean = 0
-            return y1;
+            return y1 * stddev + mean;
+            //return y1;
         }
 
         private List<DataPoint> generateRandomWalkListOfValues()
