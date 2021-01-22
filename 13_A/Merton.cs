@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace _13_A
 {
-    class Vasicek
+    class Merton
     {
         private Random r = new Random(Guid.NewGuid().GetHashCode());
         private int n;
-        private double stddev, equilibrium, k;
+        private double stddev, lambda, mean;
         public List<DataPoint> RandomWalk;
         Pen pen;
 
-        public Vasicek(int n, double stddev, double equilibrium, double k)
+        public Merton(int n, double stddev, double lambda, double mean)
         {
             this.n = n;
             this.stddev = stddev;
-            this.equilibrium = equilibrium;
-            this.k = k;
+            this.lambda = lambda;
+            this.mean = mean;
             RandomWalk = generateRandomWalkListOfValues();
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
         }
@@ -37,6 +37,29 @@ namespace _13_A
             //return y1;
         }
 
+        public double sampleLogNormal(double mean, double stddev)
+        {
+            
+            return Math.Exp(mean + stddev * sampleNormal(0,1));
+        }
+
+        public double samplePoisson(int t)
+        {
+            return (Math.Pow(lambda, t) * Math.Exp(-lambda)) / factorial(t);
+        }
+
+        public double jumpSize(int t)
+        {
+            double sum = 0;
+            double n = samplePoisson(t);
+            for (int i = 0; i<n; i++)
+            {
+                sum += (sampleLogNormal(0, 1) - 1);
+            }
+
+            return sum;
+        }
+
         private List<DataPoint> generateRandomWalkListOfValues()
         {
             // P(t) = P(t-1) + Random step(t) where Random step(t) is: σ * sqrt(1/n) * N(0,1)
@@ -45,7 +68,7 @@ namespace _13_A
 
             for (int i = 0; i < n; i++)
             {
-                Y += (double)1/n *(equilibrium - Y)*k + stddev* Math.Sqrt((double)1 / n) * sampleNormal(0, 1);
+                Y = Y*(mean*1/n + stddev*Math.Sqrt(1/n)*sampleNormal(0,1) + jumpSize(i));
                 DataPoint DP = new DataPoint(i, Y);
                 L.Add(DP);
             }
@@ -71,44 +94,6 @@ namespace _13_A
 
         }
 
-        public void drawBoundaries(ResizableRectangle ViewPort)
-        {
-            List<PointF> ExpectedValue = new List<PointF>();
-            List<PointF> PositiveSD = new List<PointF>();
-            List<PointF> NegativeSD = new List<PointF>();
-
-            
-            for (int i = 0; i < n; i++)
-            {
-                ExpectedValue.Add(new PointF(
-                    ViewPort.viewport_X(i),
-                    ViewPort.viewport_Y(expectedValue(i))));
-                
-                PositiveSD.Add(new PointF(
-                    ViewPort.viewport_X(i),
-                    ViewPort.viewport_Y(expectedValue(i) + standardDev(i))));
-
-                NegativeSD.Add(new PointF(
-                    ViewPort.viewport_X(i),
-                    ViewPort.viewport_Y(expectedValue(i) - standardDev(i))));
-            }
-
-            ViewPort.g.DrawLines(Pens.Black, ExpectedValue.ToArray());
-            ViewPort.g.DrawLines(Pens.Black, PositiveSD.ToArray());
-            ViewPort.g.DrawLines(Pens.Black, NegativeSD.ToArray());
-            ViewPort.PictureBox.Image = ViewPort.b;
-
-        }
-
-        private double expectedValue(double t)
-        {
-            return equilibrium + (0 - equilibrium) * Math.Exp(-k * t);
-        }
-
-        private double standardDev(double t)
-        {
-            return 2 * Math.Sqrt(stddev*stddev/(2*k)*(1 - Math.Exp(-2*k*t)));
-        }
 
         public double getMinRandomWalk()
         {
@@ -118,6 +103,17 @@ namespace _13_A
         public double getMaxRandomWalk()
         {
             return RandomWalk.Max(DP => DP.Y);
+        }
+
+        public int factorial(int num)
+        {
+            Console.WriteLine(num);
+            int f = 1;
+            for (int i = 1; i <= num; i++)
+                f = f * i;
+
+            return f;
+
         }
     }
 }

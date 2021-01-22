@@ -22,13 +22,14 @@ namespace _13_A
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, eps;
         int n, j, m, drift, eq, k;
-        double sigma;
+        double sigma, mu, psi;
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
         List<Gaussian> Gaussians;
         List<GBM> GBMs;
         List<Vasicek> Vasiceks;
+        List<Heston> Hestons;
 
 
         // ------------ HANDLERS ------------------
@@ -335,6 +336,52 @@ namespace _13_A
             drawChartsVasicek();
         }
 
+        private void Heston_click(object sender, EventArgs e)
+        {
+            initGraphics(this.HestonPictureBox);
+
+
+            n = (int)this.numericNHeston.Value;
+            j = (int)this.numericJHeston.Value;
+            m = (int)this.numericMHeston.Value;
+            mu = (double)this.numericMuHeston.Value;
+            double k = (double)this.numericKHeston.Value;
+            double eq = (double)this.numericEqHeston.Value;
+            psi = (double)this.numericPsiHeston.Value;
+            Hestons = new List<Heston>();
+
+
+            // check on j
+            if (j > n)
+            {
+                this.numericJHeston.Value = (int)n / 2;
+                j = n / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+            }
+
+            // creation of distributions
+            MinY_Win = MaxY_Win = 0;
+            for (int i = 0; i < m; i++)
+            {
+                Heston H = new Heston(n, mu, k, eq, psi);
+                if (H.getMinRandomWalk() <= MinY_Win) MinY_Win = H.getMinRandomWalk();
+                if (H.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = H.getMaxRandomWalk();
+                Hestons.Add(H);
+            }
+
+            // set values for graphics
+            MinX_Win = 0;
+            //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
+            MaxX_Win = n;
+            //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            ViewPort = new ResizableRectangle(this.HestonPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, (float)(0.8 * this.HestonPictureBox.Width), (float)(0.8 * this.HestonPictureBox.Height)));
+            ViewPort.ModifiedRect += drawChartsHeston;
+
+            drawChartsHeston();
+        }
+
+
 
 
         // -------------GRAPHICS FUNCTIONS----------------
@@ -592,6 +639,47 @@ namespace _13_A
             ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
         }
 
+        private void drawChartsHeston()
+        {
+            ViewPort.g.Clear(Color.Gainsboro);
+
+            ViewPort.drawAxis("num of steps", " ");
+
+            drawHestonPaths();
+
+            double Step = ViewPort.MaxY_Win / 30;
+            double StartingPoint = ViewPort.MinY_Win;
+
+            List<double> HestonsAtStepN = Hestons.Select(V => V.RandomWalk[j - 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(HestonsAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
+
+
+
+            HestonsAtStepN = Hestons.Select(V => V.RandomWalk[n - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(HestonsAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
+
+            ViewPort.drawHorizontalLine($"eq", eq, Pens.Red);
+
+            //Vasiceks[0].drawBoundaries(ViewPort);
+
+            ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
+        }
+
         private void drawJumpDistributions1()
         {
             // this section will print the distribuion of distance betwee consesutive jumps (exponential)
@@ -632,6 +720,7 @@ namespace _13_A
                 B.drawSampleMeanPath(ViewPort);
             }
         }
+
 
         private void drawBernoulliRWPaths()
         {
@@ -675,7 +764,13 @@ namespace _13_A
             }
         }
 
-
+        private void drawHestonPaths()
+        {
+            foreach(Heston H in Hestons)
+            {
+                H.drawRandomWalkPath(ViewPort);
+            }
+        }
 
         private void drawVerticalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
         {
