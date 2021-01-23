@@ -29,6 +29,7 @@ namespace _13_A
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.numericNBern = new System.Windows.Forms.NumericUpDown();
@@ -42,6 +43,7 @@ namespace _13_A
             this.label4 = new System.Windows.Forms.Label();
             this.numericJBern = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -118,6 +120,7 @@ namespace _13_A
             this.numericNVasicek = new System.Windows.Forms.NumericUpDown();
             this.numericMVasicek = new System.Windows.Forms.NumericUpDown();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.numericPsiHeston = new System.Windows.Forms.NumericUpDown();
             this.label36 = new System.Windows.Forms.Label();
@@ -134,7 +137,15 @@ namespace _13_A
             this.button7 = new System.Windows.Forms.Button();
             this.numericNHeston = new System.Windows.Forms.NumericUpDown();
             this.numericMHeston = new System.Windows.Forms.NumericUpDown();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.histogramPictureBox = new System.Windows.Forms.PictureBox();
+            this.cdfPictureBox = new System.Windows.Forms.PictureBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -142,6 +153,7 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericEps)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBern)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericJRade)).BeginInit();
@@ -187,6 +199,8 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.HestonPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNHeston)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMHeston)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdfPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -369,6 +383,7 @@ namespace _13_A
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -382,6 +397,23 @@ namespace _13_A
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1035, 671);
             this.tabControl1.TabIndex = 14;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.label39);
+            this.tabPage8.Controls.Add(this.label44);
+            this.tabPage8.Controls.Add(this.textBox2);
+            this.tabPage8.Controls.Add(this.textBox1);
+            this.tabPage8.Controls.Add(this.button8);
+            this.tabPage8.Controls.Add(this.histogramPictureBox);
+            this.tabPage8.Controls.Add(this.cdfPictureBox);
+            this.tabPage8.Controls.Add(this.button9);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(1027, 645);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "Glivenko-Cantelli";
+            this.tabPage8.UseVisualStyleBackColor = true;
             // 
             // tabPage1
             // 
@@ -1569,6 +1601,17 @@ namespace _13_A
             this.tabPage7.Text = "Heston\'s Model";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // richTextBox4
+            // 
+            this.richTextBox4.Location = new System.Drawing.Point(643, 12);
+            this.richTextBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.Size = new System.Drawing.Size(370, 80);
+            this.richTextBox4.TabIndex = 93;
+            this.richTextBox4.Text = "SDE for asset:\ndSt = μ*St*dt + √Vt*St*dWt\n\nSDE for Volatility:\ndVt = k(eq - Vt)dt" +
+    " + ξ*√Vt*dWt";
+            // 
             // label43
             // 
             this.label43.AutoSize = true;
@@ -1828,16 +1871,89 @@ namespace _13_A
             0,
             0});
             // 
-            // richTextBox4
+            // label39
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(643, 12);
-            this.richTextBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(370, 80);
-            this.richTextBox4.TabIndex = 93;
-            this.richTextBox4.Text = "SDE for asset:\ndSt = μ*St*dt + √Vt*St*dWt\n\nSDE for Volatility:\ndVt = k(eq - Vt)dt" +
-    " + ξ*√Vt*dWt";
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(70, 208);
+            this.label39.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(15, 13);
+            this.label39.TabIndex = 15;
+            this.label39.Text = "m";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(72, 157);
+            this.label44.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(13, 13);
+            this.label44.TabIndex = 14;
+            this.label44.Text = "n";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(101, 204);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(76, 20);
+            this.textBox2.TabIndex = 13;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(101, 157);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(76, 20);
+            this.textBox1.TabIndex = 12;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(65, 91);
+            this.button8.Margin = new System.Windows.Forms.Padding(2);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(86, 41);
+            this.button8.TabIndex = 11;
+            this.button8.Text = "Stop Simulation";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.StopTimer_Click);
+            // 
+            // histogramPictureBox
+            // 
+            this.histogramPictureBox.BackColor = System.Drawing.Color.LightGray;
+            this.histogramPictureBox.Location = new System.Drawing.Point(219, 348);
+            this.histogramPictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.histogramPictureBox.Name = "histogramPictureBox";
+            this.histogramPictureBox.Size = new System.Drawing.Size(576, 293);
+            this.histogramPictureBox.TabIndex = 10;
+            this.histogramPictureBox.TabStop = false;
+            // 
+            // cdfPictureBox
+            // 
+            this.cdfPictureBox.BackColor = System.Drawing.Color.LightGray;
+            this.cdfPictureBox.Location = new System.Drawing.Point(219, 12);
+            this.cdfPictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.cdfPictureBox.Name = "cdfPictureBox";
+            this.cdfPictureBox.Size = new System.Drawing.Size(576, 285);
+            this.cdfPictureBox.TabIndex = 9;
+            this.cdfPictureBox.TabStop = false;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(64, 22);
+            this.button9.Margin = new System.Windows.Forms.Padding(2);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(87, 37);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "Start Simulation";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Uniform_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // Form1
             // 
@@ -1855,6 +1971,8 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericEps)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericJBern)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
+            this.tabPage8.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -1907,6 +2025,8 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.HestonPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNHeston)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMHeston)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdfPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2018,6 +2138,16 @@ namespace _13_A
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown numericPsiHeston;
         private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.PictureBox histogramPictureBox;
+        private System.Windows.Forms.PictureBox cdfPictureBox;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

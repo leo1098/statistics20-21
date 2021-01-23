@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rademacher.cs" />
     <Compile Include="ResizableRectangle.cs" />
+    <Compile Include="UniformDistribution.cs" />
     <Compile Include="Vasicek.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -200,7 +200,6 @@ namespace _15_A
             }
         }
 
-
         private void drawHorizontalLine(string label, double y, Pen pen, ResizableRectangle VP, Graphics g)
         {
             g.DrawLine(

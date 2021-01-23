@@ -31,9 +31,21 @@ namespace _13_A
         List<Vasicek> Vasiceks;
         List<Heston> Hestons;
 
+        // ---------- FOR UNIFORM SIMULATION -----------
+        List<DataPoint> DataPointsForCDF;
+        ResizableRectangle ViewPort1, ViewPort2;
+        int NumOfSampleMeans = 100;
+        int IncreaseSampleMean = 100;
+        int IncreaseN = 10;
+        int NumOfUnits = 5;
+        int MinValueUniform = 1;
+        int MaxValueUniform = 10;
+        UniformDistribution U;
+        List<double> SampleMeans = new List<double>();
+
 
         // ------------ HANDLERS ------------------
-            
+
         private void BernoulliSampleMeanButton_Click(object sender, EventArgs e)
         {
             initGraphics(this.bernoulliPictureBox);
@@ -381,6 +393,77 @@ namespace _13_A
             drawChartsHeston();
         }
 
+        private void Uniform_Click(object sender, EventArgs e)
+        {
+            initGraphics(this.cdfPictureBox);
+            // create Distribution
+            U = new UniformDistribution(1, 10, r.Next());
+
+            // init viewports
+            MinX_Win = 1;
+            MinY_Win = 0;
+            MaxX_Win = 50;
+            MaxY_Win = 1;
+            ViewPort1 = new ResizableRectangle(this.cdfPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(10, 10,
+                this.cdfPictureBox.Width - 70, this.cdfPictureBox.Height - 70));
+            ViewPort1.ModifiedRect += drawCDF;
+
+            //drawCDF();
+
+
+            initGraphics(this.histogramPictureBox);
+
+            MinX_Win = 1;
+            MinY_Win = 0;
+            MaxX_Win = 10;
+            MaxY_Win = this.histogramPictureBox.Height - 70;
+            ViewPort2 = new ResizableRectangle(this.histogramPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(10, 10,
+                this.histogramPictureBox.Width - 70, this.histogramPictureBox.Height - 70));
+            ViewPort2.ModifiedRect += drawHistogram;
+
+            //drawHistogram();
+
+            // Start the timer for simulation
+            this.timer1.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            NumOfSampleMeans += IncreaseSampleMean;
+            NumOfUnits += IncreaseN;
+            //add more points to the List of Sample Means
+            this.textBox1.Clear();
+            this.textBox1.Text = NumOfUnits.ToString();
+            this.textBox2.Text = NumOfSampleMeans.ToString();
+
+            SampleMeans.Clear();
+            for (int i = 0; i < NumOfSampleMeans; i++)
+            {
+                List<double> Sample = U.createlistOfPoints(NumOfUnits);
+                SampleMeans.Add(Math.Sqrt(NumOfUnits) * (Sample.Average() - 5));
+            }
+            ViewPort1.MinX_Win = SampleMeans.Min();
+            ViewPort1.MaxX_Win = SampleMeans.Max();
+            //ViewPort1.MaxX_Win = Math.Sqrt(NumOfUnits) * Sample.Average();
+            ViewPort1.Range_X = ViewPort1.MaxX_Win - ViewPort1.MinX_Win;
+
+            //List<double> Sample = U.sampleFromUniform(NumOfSamples);
+
+            //SampleMeans.Add(Sample.Average());
+
+            // to draw the CDF, i sort the list of sample means and then use it as
+            // X component. The Y, on the other hand, is a list of equispaced
+            // doubles ranging from 0 to 1, where each delta is 1/NumOfSampleMeans
+            SampleMeans.Sort();
+            DataPointsForCDF = createListOfDataPoints(SampleMeans, createListOfEquispacedDoubles(SampleMeans.Count()));
+            //initGraphics(this.cdfPictureBox);
+            drawCDF();
+
+            //initGraphics(this.histogramPictureBox);
+            drawHistogram();
+        }
 
 
 
@@ -721,7 +804,6 @@ namespace _13_A
             }
         }
 
-
         private void drawBernoulliRWPaths()
         {
             //draw the path for each mean distribution
@@ -730,7 +812,6 @@ namespace _13_A
                 B.drawRandomWalkPath(ViewPort);
             }
         }
-
 
         private void drawRademacherPaths()
         {
@@ -746,6 +827,11 @@ namespace _13_A
             {
                 G.drawRandomWalkPath(ViewPort);
             }
+        }
+
+        private void StopTimer_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void drawGBMPaths()
@@ -770,6 +856,37 @@ namespace _13_A
             {
                 H.drawRandomWalkPath(ViewPort);
             }
+        }
+
+        private void drawCDF()
+        {
+            ViewPort1.g.Clear(Color.Gainsboro);
+
+            // draw axis and horizontal line on 1
+            ViewPort1.drawAxis(" ", "");
+            Pen P = new Pen(Color.RoyalBlue);
+            P.DashStyle = DashStyle.Dash;
+            ViewPort1.drawHorizontalLine("1", 1, P);
+
+              ViewPort1.g.DrawLines(Pens.Red, createListOfPointsForChart(DataPointsForCDF, ViewPort1).ToArray());
+
+            this.cdfPictureBox.Image = ViewPort1.b;
+        }
+
+        private void drawHistogram()
+        {
+            ViewPort2.g.Clear(Color.Gainsboro);
+
+            double Step = 1;
+            double StartingPoint = 0;
+
+            List<Interval> SampleMeanFreqDistr = UnivariateDistribution_CountinuousVariable(SampleMeans, MinValueUniform, Step);
+            addPaddingIntervals(SampleMeanFreqDistr, MaxValueUniform);
+
+            ViewPort2.drawAxis("", "freq");
+            drawHorizontalHistogram(0, ViewPort2, SampleMeanFreqDistr);
+            this.histogramPictureBox.Image = ViewPort2.b;
+
         }
 
         private void drawVerticalHistogram(int n, ResizableRectangle V, List<Interval> FreqDistr)
@@ -829,21 +946,6 @@ namespace _13_A
             V.PictureBox.Image = V.b;
         }
 
-        private void addPaddingIntervals(List<Interval> L, double MaxValue)
-        {
-            Interval LastInterval = L[L.Count - 1];
-            while ((LastInterval.LowerInclusiveBound + LastInterval.Step) < MaxValue)
-            {
-                Interval I = new Interval
-                {
-                    LowerInclusiveBound = L[L.Count - 1].LowerInclusiveBound + LastInterval.Step,
-                    Step = LastInterval.Step
-                };
-
-                L.Add(I);
-                LastInterval = I;
-            }
-        }
 
 
         // ------------- STATS FUNCTIONS ----------------
@@ -936,7 +1038,58 @@ namespace _13_A
 
         // ------------- USEFUL STUFF ------------------
 
+        private void addPaddingIntervals(List<Interval> L, double MaxValue)
+        {
+            Interval LastInterval = L[L.Count - 1];
+            while ((LastInterval.LowerInclusiveBound + LastInterval.Step) < MaxValue)
+            {
+                Interval I = new Interval
+                {
+                    LowerInclusiveBound = L[L.Count - 1].LowerInclusiveBound + LastInterval.Step,
+                    Step = LastInterval.Step
+                };
 
+                L.Add(I);
+                LastInterval = I;
+            }
+        }
+
+        private List<double> createListOfEquispacedDoubles(int M)
+        {
+            List<double> L = new List<double>();
+            for (int i = 0; i < M; i++)
+            {
+                L.Add(i / (double)M);
+            }
+
+            return L;
+        }
+
+        private List<PointF> createListOfPointsForChart(List<DataPoint> L, ResizableRectangle VP)
+        {
+            List<PointF> Points = new List<PointF>();
+
+            foreach (DataPoint DP in L)
+            {
+                Points.Add(new PointF(
+                    (float)VP.viewport_X(DP.X),
+                    (float)VP.viewport_Y(DP.Y)));
+            }
+
+            return Points;
+        }
+
+        private List<DataPoint> createListOfDataPoints(List<double> X, List<double> Y)
+        {
+            List<DataPoint> Points = new List<DataPoint>();
+
+            for (int j = 0; j < X.Count(); j++)
+            {
+                Points.Add(new DataPoint(X[j], Y[j]));
+            }
+
+            return Points;
+        }
 
 
     }

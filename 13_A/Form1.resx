@@ -122,4 +122,7 @@
 compute Y(t+1) = Y(t) + Random step(i), for i = 1, ..., n, where Random step(i) is 
 a Bernoulli random variable with success probability equal to λ * (1/n)</value>
   </data>
+  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
