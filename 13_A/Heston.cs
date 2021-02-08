@@ -15,6 +15,8 @@ namespace _13_A
         public List<DataPoint> RandomWalk;
         Pen pen;
 
+        double lambda = 0.3;
+
         public Heston(int n, double mu, double k, double equilibrium, double volOfVol)
         {
             this.n = n;
@@ -43,19 +45,24 @@ namespace _13_A
             // P(t) = P(t-1) + Random step(t) where Random step(t) is: σ * sqrt(1/n) * N(0,1)
             List<DataPoint> L = new List<DataPoint>();
             double Y = 1;
-            double vol=0;
+            double vol = 0;
 
             for (int i = 0; i < n; i++)
             {
                 //Y += Y * (mu * (double)1/n + Math.Sqrt(vol) * Math.Sqrt(1 / n) * sampleNormal(0, 1));
-                Y *= Math.Exp((double)1/n * (mu - 0.5 * vol) + Math.Sqrt(Math.Abs(vol)) * Math.Sqrt((double)1 / n) * sampleNormal(0, 1));
-                vol += (double)1/n * (equilibrium - vol)*k + volOfVol*Math.Sqrt(vol)*Math.Sqrt((double)1/n) * sampleNormal(0, 1);
+                Y *= Math.Exp((double)1 / n * (mu - 0.5 * vol) + Math.Sqrt(Math.Abs(vol)) * Math.Sqrt((double)1 / n) * sampleNormal(0, 1));
+                vol += (double)1 / n * (equilibrium - vol) * k + volOfVol * Math.Sqrt(vol) * Math.Sqrt((double)1 / n) * sampleNormal(0, 1);
                 DataPoint DP = new DataPoint(i, Y);
                 L.Add(DP);
             }
 
             return L;
         }
+
+
+
+
+
 
         public void drawRandomWalkPath(ResizableRectangle ViewPort)
         {
@@ -85,5 +92,7 @@ namespace _13_A
         {
             return RandomWalk.Max(DP => DP.Y);
         }
+
+
     }
 }

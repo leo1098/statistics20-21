@@ -22,13 +22,14 @@ namespace _13_A
         double MinX_Win, MinY_Win, MaxX_Win, MaxY_Win;
         double p, eps;
         int n, j, m, drift, eq, k;
-        double sigma, mu, psi;
+        double sigma, mu, psi, sigmaJump, muJump, lambda;
 
         List<Bernoulli> Bernoullis;
         List<Rademacher> Rademachers;
         List<Gaussian> Gaussians;
         List<GBM> GBMs;
         List<Vasicek> Vasiceks;
+        List<Merton> Mertons;
         List<Heston> Hestons;
 
         // ---------- FOR UNIFORM SIMULATION -----------
@@ -391,6 +392,52 @@ namespace _13_A
             ViewPort.ModifiedRect += drawChartsHeston;
 
             drawChartsHeston();
+        }
+
+        private void Meron_Click(object sender, EventArgs e)
+        {
+            initGraphics(this.MertonPictureBox);
+
+
+            n = (int)this.numericNMerton.Value;
+            j = (int)this.numericJMerton.Value;
+            m = (int)this.numericMMerton.Value;
+            mu = (double)this.numericMuMerton.Value;
+            sigma = (double)this.numericSigmaMerton.Value;
+            muJump = (double)this.numericMuJumpMerton.Value;
+            sigmaJump = (double)this.numericSigmaJumpMerton.Value;
+            lambda = (double)this.numericLambdaMerton.Value;
+            Mertons = new List<Merton>();
+
+
+            // check on j
+            if (j > n)
+            {
+                this.numericJMerton.Value = (int)n / 2;
+                j = n / 2;
+                //MessageBox.Show("J cannot be bigger than n!");
+            }
+
+            // creation of distributions
+            MinY_Win = MaxY_Win = 0;
+            for (int i = 0; i < m; i++)
+            {
+                Merton M = new Merton(n, sigma, mu, muJump, lambda, sigmaJump);
+                if (M.getMinRandomWalk() <= MinY_Win) MinY_Win = M.getMinRandomWalk();
+                if (M.getMaxRandomWalk() >= MaxY_Win) MaxY_Win = M.getMaxRandomWalk();
+                Mertons.Add(M);
+            }
+
+            // set values for graphics
+            MinX_Win = 0;
+            //MinY_Win = -sigmaGauss * Math.Sqrt(1/ (double)nGauss) * sigmaGauss ;
+            MaxX_Win = n;
+            //MaxY_Win = sigmaGauss * Math.Sqrt(1 / (double)nGauss)  * sigmaGauss;
+            ViewPort = new ResizableRectangle(this.MertonPictureBox, b, g, MinX_Win, MinY_Win, MaxX_Win, MaxY_Win,
+                new RectangleF(50, 45, (float)(0.8 * this.MertonPictureBox.Width), (float)(0.8 * this.MertonPictureBox.Height)));
+            ViewPort.ModifiedRect += drawChartsMerton;
+
+            drawChartsMerton();
         }
 
         private void Uniform_Click(object sender, EventArgs e)
@@ -763,6 +810,48 @@ namespace _13_A
             ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
         }
 
+        private void drawChartsMerton()
+        {
+            ViewPort.g.Clear(Color.Gainsboro);
+
+            ViewPort.drawAxis("num of steps", " ");
+
+            drawMertonPaths();
+
+            double Step = ViewPort.MaxY_Win / 30;
+            double StartingPoint = ViewPort.MinY_Win;
+
+            List<double> MertonsAtStepN = Mertons.Select(V => V.RandomWalk[j - 1].Y).ToList();
+            List<Interval> FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(MertonsAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            List<Interval> ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(j - 1, ViewPort, ReversedFrequencyDistribution);
+
+
+
+            MertonsAtStepN = Mertons.Select(V => V.RandomWalk[n - 1].Y).ToList();
+            FrequencyDistribution = new List<Interval>();
+            FrequencyDistribution = UnivariateDistribution_CountinuousVariable(MertonsAtStepN, StartingPoint, Step);
+            // add intervals to cover all the range
+            addPaddingIntervals(FrequencyDistribution, ViewPort.MaxY_Win);
+            // invert list so the biggest comes before the smallest
+            ReversedFrequencyDistribution = Enumerable.Reverse(FrequencyDistribution).ToList();
+
+            drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
+
+            ViewPort.drawHorizontalLine("0", 0, Pens.Transparent);
+
+            //Vasiceks[0].drawBoundaries(ViewPort);
+
+            ViewPort.drawHorizontalLine($"{ViewPort.MaxY_Win.ToString("#.##")}", ViewPort.MaxY_Win, Pens.Tan);
+            ViewPort.drawHorizontalLine($"{ViewPort.MinY_Win.ToString("#.##")}", ViewPort.MinY_Win, Pens.Tan);
+        }
+
+
         private void drawJumpDistributions1()
         {
             // this section will print the distribuion of distance betwee consesutive jumps (exponential)
@@ -834,6 +923,7 @@ namespace _13_A
 
         }
 
+
         private void drawGBMPaths()
         {
             foreach (GBM G in GBMs)
@@ -855,6 +945,14 @@ namespace _13_A
             foreach(Heston H in Hestons)
             {
                 H.drawRandomWalkPath(ViewPort);
+            }
+        }
+
+        private void drawMertonPaths()
+        {
+            foreach (Merton M in Mertons)
+            {
+                M.drawRandomWalkPath(ViewPort);
             }
         }
 
