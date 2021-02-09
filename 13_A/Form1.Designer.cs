@@ -2093,10 +2093,10 @@ namespace _13_A
             this.numericLambdaMerton.Size = new System.Drawing.Size(61, 20);
             this.numericLambdaMerton.TabIndex = 111;
             this.numericLambdaMerton.Value = new decimal(new int[] {
-            8,
+            12,
             0,
             0,
-            0});
+            196608});
             // 
             // richTextBox5
             // 
@@ -2138,7 +2138,7 @@ namespace _13_A
             this.numericSigmaJumpMerton.Size = new System.Drawing.Size(61, 20);
             this.numericSigmaJumpMerton.TabIndex = 106;
             this.numericSigmaJumpMerton.Value = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -2171,6 +2171,11 @@ namespace _13_A
             this.numericMuJumpMerton.Name = "numericMuJumpMerton";
             this.numericMuJumpMerton.Size = new System.Drawing.Size(61, 20);
             this.numericMuJumpMerton.TabIndex = 104;
+            this.numericMuJumpMerton.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            65536});
             // 
             // label48
             // 
@@ -2197,6 +2202,11 @@ namespace _13_A
             23,
             0,
             0});
+            this.numericMuMerton.Minimum = new decimal(new int[] {
+            -727379969,
+            232,
+            0,
+            -2147483648});
             this.numericMuMerton.Name = "numericMuMerton";
             this.numericMuMerton.Size = new System.Drawing.Size(61, 20);
             this.numericMuMerton.TabIndex = 102;
@@ -2248,7 +2258,7 @@ namespace _13_A
             this.MertonPictureBox.Location = new System.Drawing.Point(23, 107);
             this.MertonPictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.MertonPictureBox.Name = "MertonPictureBox";
-            this.MertonPictureBox.Size = new System.Drawing.Size(964, 519);
+            this.MertonPictureBox.Size = new System.Drawing.Size(982, 519);
             this.MertonPictureBox.TabIndex = 99;
             this.MertonPictureBox.TabStop = false;
             // 

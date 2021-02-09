@@ -75,7 +75,9 @@ namespace _13_A
                 Nt = GetPoisson(lambdaJ);
                 for (int j = 0; j < Nt; j++)
                 {
-                    J += sampleGaussian(muJ, stddevJ);
+                    double num = sampleGaussian(muJ, stddevJ);
+                    J += Math.Exp(num) - 1;
+
                 }
 
                 //if (Nt > 0)
