@@ -44,6 +44,7 @@ namespace _13_A
             this.numericJBern = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.button11 = new System.Windows.Forms.Button();
             this.label39 = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -146,6 +147,8 @@ namespace _13_A
             this.numericNHeston = new System.Windows.Forms.NumericUpDown();
             this.numericMHeston = new System.Windows.Forms.NumericUpDown();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.label53 = new System.Windows.Forms.Label();
+            this.numericSigmaMerton = new System.Windows.Forms.NumericUpDown();
             this.label45 = new System.Windows.Forms.Label();
             this.numericLambdaMerton = new System.Windows.Forms.NumericUpDown();
             this.richTextBox5 = new System.Windows.Forms.RichTextBox();
@@ -164,8 +167,6 @@ namespace _13_A
             this.numericNMerton = new System.Windows.Forms.NumericUpDown();
             this.numericMMerton = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.numericSigmaMerton = new System.Windows.Forms.NumericUpDown();
-            this.label53 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericNBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMBern)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericP)).BeginInit();
@@ -222,6 +223,7 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericNHeston)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMHeston)).BeginInit();
             this.tabPage9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaMerton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambdaMerton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSigmaJumpMerton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMuJumpMerton)).BeginInit();
@@ -230,7 +232,6 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.MertonPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNMerton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMMerton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaMerton)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -431,6 +432,7 @@ namespace _13_A
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.button11);
             this.tabPage8.Controls.Add(this.label39);
             this.tabPage8.Controls.Add(this.label44);
             this.tabPage8.Controls.Add(this.textBox2);
@@ -446,10 +448,21 @@ namespace _13_A
             this.tabPage8.Text = "Glivenko-Cantelli";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(65, 161);
+            this.button11.Margin = new System.Windows.Forms.Padding(2);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(86, 41);
+            this.button11.TabIndex = 16;
+            this.button11.Text = "Reset Simulation";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(70, 208);
+            this.label39.Location = new System.Drawing.Point(70, 278);
             this.label39.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(15, 13);
@@ -459,7 +472,7 @@ namespace _13_A
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(72, 157);
+            this.label44.Location = new System.Drawing.Point(72, 227);
             this.label44.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(13, 13);
@@ -468,7 +481,7 @@ namespace _13_A
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(101, 204);
+            this.textBox2.Location = new System.Drawing.Point(101, 274);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
@@ -477,7 +490,7 @@ namespace _13_A
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(101, 157);
+            this.textBox1.Location = new System.Drawing.Point(101, 227);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -1000,6 +1013,12 @@ namespace _13_A
             // 
             // numericDriftGaussian
             // 
+            this.numericDriftGaussian.DecimalPlaces = 2;
+            this.numericDriftGaussian.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numericDriftGaussian.Location = new System.Drawing.Point(376, 42);
             this.numericDriftGaussian.Margin = new System.Windows.Forms.Padding(2);
             this.numericDriftGaussian.Maximum = new decimal(new int[] {
@@ -2011,6 +2030,40 @@ namespace _13_A
             this.tabPage9.Text = "Merton\'s Model";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(177, 62);
+            this.label53.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(14, 13);
+            this.label53.TabIndex = 115;
+            this.label53.Text = "σ";
+            // 
+            // numericSigmaMerton
+            // 
+            this.numericSigmaMerton.DecimalPlaces = 2;
+            this.numericSigmaMerton.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericSigmaMerton.Location = new System.Drawing.Point(224, 57);
+            this.numericSigmaMerton.Margin = new System.Windows.Forms.Padding(2);
+            this.numericSigmaMerton.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
+            this.numericSigmaMerton.Name = "numericSigmaMerton";
+            this.numericSigmaMerton.Size = new System.Drawing.Size(61, 20);
+            this.numericSigmaMerton.TabIndex = 113;
+            this.numericSigmaMerton.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            65536});
+            // 
             // label45
             // 
             this.label45.AutoSize = true;
@@ -2228,7 +2281,7 @@ namespace _13_A
             this.button10.TabIndex = 94;
             this.button10.Text = "Print Chart";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.Meron_Click);
+            this.button10.Click += new System.EventHandler(this.Merton_Click);
             // 
             // numericNMerton
             // 
@@ -2279,40 +2332,6 @@ namespace _13_A
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // numericSigmaMerton
-            // 
-            this.numericSigmaMerton.DecimalPlaces = 2;
-            this.numericSigmaMerton.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.numericSigmaMerton.Location = new System.Drawing.Point(224, 57);
-            this.numericSigmaMerton.Margin = new System.Windows.Forms.Padding(2);
-            this.numericSigmaMerton.Maximum = new decimal(new int[] {
-            1215752191,
-            23,
-            0,
-            0});
-            this.numericSigmaMerton.Name = "numericSigmaMerton";
-            this.numericSigmaMerton.Size = new System.Drawing.Size(61, 20);
-            this.numericSigmaMerton.TabIndex = 113;
-            this.numericSigmaMerton.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            65536});
-            // 
-            // label53
-            // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(177, 62);
-            this.label53.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(14, 13);
-            this.label53.TabIndex = 115;
-            this.label53.Text = "σ";
             // 
             // Form1
             // 
@@ -2388,6 +2407,7 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.numericMHeston)).EndInit();
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaMerton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLambdaMerton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSigmaJumpMerton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMuJumpMerton)).EndInit();
@@ -2396,7 +2416,6 @@ namespace _13_A
             ((System.ComponentModel.ISupportInitialize)(this.MertonPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNMerton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericMMerton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericSigmaMerton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2538,6 +2557,7 @@ namespace _13_A
         private System.Windows.Forms.NumericUpDown numericMMerton;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.NumericUpDown numericSigmaMerton;
+        private System.Windows.Forms.Button button11;
     }
 }
 

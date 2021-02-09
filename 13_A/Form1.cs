@@ -394,7 +394,7 @@ namespace _13_A
             drawChartsHeston();
         }
 
-        private void Meron_Click(object sender, EventArgs e)
+        private void Merton_Click(object sender, EventArgs e)
         {
             initGraphics(this.MertonPictureBox);
 
@@ -512,6 +512,21 @@ namespace _13_A
             drawHistogram();
         }
 
+        private void StopTimer_Click(object sender, EventArgs e)
+        {
+            this.timer1.Stop();
+            
+        }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            this.timer1.Dispose();
+            NumOfSampleMeans = 100;
+            NumOfUnits = 5;
+            //add more points to the List of Sample Means
+            this.textBox1.Clear();
+            this.textBox1.Text = NumOfUnits.ToString();
+            this.textBox2.Text = NumOfSampleMeans.ToString();
+        }
 
 
         // -------------GRAPHICS FUNCTIONS----------------
@@ -902,6 +917,7 @@ namespace _13_A
             }
         }
 
+
         private void drawRademacherPaths()
         {
             foreach (Rademacher R in Rademachers)
@@ -918,10 +934,6 @@ namespace _13_A
             }
         }
 
-        private void StopTimer_Click(object sender, EventArgs e)
-        {
-
-        }
 
 
         private void drawGBMPaths()

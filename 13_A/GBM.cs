@@ -24,7 +24,7 @@ namespace _13_A
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
         }
 
-        public double sample(double mean, double stddev)
+        public double sampleGaussian(double mean, double stddev)
         {
             // The method requires sampling from a uniform random of (0,1]
             // but Random.NextDouble() returns a sample of [0,1).
@@ -41,11 +41,11 @@ namespace _13_A
             // P(t) = P(t-1) + Random step(t) where Random step(t) is: σ * sqrt(1/n) * N(0,1)
             List<DataPoint> L = new List<DataPoint>();
             double Y = 100;
-
+            double dt = (double)1 / n;
             for (int i = 0; i < n; i++)
             {
-                Y *= Math.Exp((double)1 / n * (drift - 0.5 * stddev * stddev) + stddev * Math.Sqrt((double)1 / n) * sample(0, 1));
-                //Y += (double)1/n *(10 - Y)*1 + stddev* Math.Sqrt((double)1 / n) * sample(0, 1);
+                //Y *= Math.Exp((double)1 / n * (drift - 0.5 * stddev * stddev) + stddev * Math.Sqrt((double)1 / n) * sample(0, 1));
+                Y += sampleGaussian(Y*drift*dt, Y*stddev*stddev*Math.Sqrt(dt));
                 DataPoint DP = new DataPoint(i, Y);
                 L.Add(DP);
             }

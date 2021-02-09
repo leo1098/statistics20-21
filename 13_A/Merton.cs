@@ -27,7 +27,7 @@ namespace _13_A
             this.pen = new Pen(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
         }
 
-        public double sampleNormal(double mean, double stddev)
+        public double sampleGaussian(double mean, double stddev)
         {
             // The method requires sampling from a uniform random of (0,1]
             // but Random.NextDouble() returns a sample of [0,1).
@@ -64,6 +64,7 @@ namespace _13_A
             double Y = 1;
             double Nt;
             double J;
+            double dt = (double)1 / n;
 
             for (int i = 0; i < n; i++)
             {
@@ -74,7 +75,7 @@ namespace _13_A
                 Nt = GetPoisson(lambdaJ);
                 for (int j = 0; j < Nt; j++)
                 {
-                    J += sampleNormal(muJ, stddevJ);
+                    J += sampleGaussian(muJ, stddevJ);
                 }
 
                 //if (Nt > 0)
@@ -82,8 +83,9 @@ namespace _13_A
                 //    J = sampleNormal(0, 1);
                 //}
 
-                Y *= Math.Exp((double)1 / n * (mu - 0.5 * Math.Pow(stddev, 2)) + stddev * Math.Sqrt((double)1 / n) * sampleNormal(0, 1));
-                Y += J; // aggiunta del salto
+                //Y *= Math.Exp((double)1 / n * (mu - 0.5 * Math.Pow(stddev, 2)) + stddev * Math.Sqrt((double)1 / n) * sampleNormal(0, 1));
+                Y += sampleGaussian(Y*dt*mu, Y*Math.Sqrt(dt)*stddev*stddev) + J;
+                //Y += J; // aggiunta del salto
                 Console.WriteLine(J);
                 //Y = Y * mu * (double)(1 / n) + Y * Std_dev * Math.Sqrt((double)1 / n) * sampleNormal(0, 1);
                 DataPoint bivDP = new DataPoint(i, Y);
@@ -116,7 +118,7 @@ namespace _13_A
             do
             {
                 k++;
-                p *= sampleNormal(0, 1);
+                p *= sampleGaussian(0, 1);
             }
             while (p > L);
             return k - 1;
@@ -138,12 +140,12 @@ namespace _13_A
 
             for (; ; )
             {
-                double u = sampleNormal(0, 1);
+                double u = sampleGaussian(0, 1);
                 double x = (alpha - Math.Log((1.0 - u) / u)) / beta;
                 int n = (int)Math.Floor(x + 0.5);
                 if (n < 0)
                     continue;
-                double v = sampleNormal(0, 1);
+                double v = sampleGaussian(0, 1);
                 double y = alpha - beta * x;
                 double temp = 1.0 + Math.Exp(y);
                 double lhs = y + Math.Log(v / (temp * temp));
