@@ -788,7 +788,7 @@ namespace _13_A
         {
             ViewPort.g.Clear(Color.Gainsboro);
 
-            ViewPort.drawAxis("num of steps", " ");
+            ViewPort.drawAxis("num of steps", "asset price");
 
             drawHestonPaths();
 
@@ -817,7 +817,7 @@ namespace _13_A
 
             drawVerticalHistogram(n - 1, ViewPort, ReversedFrequencyDistribution);
 
-            ViewPort.drawHorizontalLine($"eq", eq, Pens.Red);
+            ViewPort.drawHorizontalLine("0", 0, Pens.Red);
 
             //Vasiceks[0].drawBoundaries(ViewPort);
 

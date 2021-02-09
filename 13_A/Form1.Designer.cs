@@ -1748,9 +1748,9 @@ namespace _13_A
             this.label43.Location = new System.Drawing.Point(502, 29);
             this.label43.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(72, 13);
+            this.label43.Size = new System.Drawing.Size(66, 13);
             this.label43.TabIndex = 92;
-            this.label43.Text = "psi (vol of vol)";
+            this.label43.Text = "xi (vol of vol)";
             // 
             // numericPsiHeston
             // 
@@ -1774,7 +1774,7 @@ namespace _13_A
             2,
             0,
             0,
-            0});
+            65536});
             // 
             // label36
             // 
@@ -1808,7 +1808,7 @@ namespace _13_A
             8,
             0,
             0,
-            0});
+            65536});
             // 
             // label37
             // 
@@ -1839,7 +1839,7 @@ namespace _13_A
             this.numericKHeston.Size = new System.Drawing.Size(61, 20);
             this.numericKHeston.TabIndex = 87;
             this.numericKHeston.Value = new decimal(new int[] {
-            7,
+            2,
             0,
             0,
             0});
@@ -1873,10 +1873,10 @@ namespace _13_A
             this.numericMuHeston.Size = new System.Drawing.Size(61, 20);
             this.numericMuHeston.TabIndex = 85;
             this.numericMuHeston.Value = new decimal(new int[] {
-            3,
+            11,
             0,
             0,
-            0});
+            65536});
             // 
             // label40
             // 
