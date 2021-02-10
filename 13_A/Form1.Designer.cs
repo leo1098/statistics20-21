@@ -427,7 +427,7 @@ namespace _13_A
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1035, 671);
+            this.tabControl1.Size = new System.Drawing.Size(1185, 671);
             this.tabControl1.TabIndex = 14;
             // 
             // tabPage8
@@ -2025,7 +2025,7 @@ namespace _13_A
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1027, 645);
+            this.tabPage9.Size = new System.Drawing.Size(1177, 645);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "Merton\'s Model";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -2042,7 +2042,7 @@ namespace _13_A
             // 
             // numericSigmaMerton
             // 
-            this.numericSigmaMerton.DecimalPlaces = 2;
+            this.numericSigmaMerton.DecimalPlaces = 3;
             this.numericSigmaMerton.Increment = new decimal(new int[] {
             1,
             0,
@@ -2059,7 +2059,7 @@ namespace _13_A
             this.numericSigmaMerton.Size = new System.Drawing.Size(61, 20);
             this.numericSigmaMerton.TabIndex = 113;
             this.numericSigmaMerton.Value = new decimal(new int[] {
-            6,
+            2,
             0,
             0,
             65536});
@@ -2093,10 +2093,10 @@ namespace _13_A
             this.numericLambdaMerton.Size = new System.Drawing.Size(61, 20);
             this.numericLambdaMerton.TabIndex = 111;
             this.numericLambdaMerton.Value = new decimal(new int[] {
-            12,
+            5,
             0,
             0,
-            196608});
+            131072});
             // 
             // richTextBox5
             // 
@@ -2106,8 +2106,7 @@ namespace _13_A
             this.richTextBox5.ReadOnly = true;
             this.richTextBox5.Size = new System.Drawing.Size(370, 80);
             this.richTextBox5.TabIndex = 110;
-            this.richTextBox5.Text = "SDE for asset:\ndSt = μ*St*dt + √Vt*St*dWt\n\nSDE for Volatility:\ndVt = k(eq - Vt)dt" +
-    " + ξ*√Vt*dWt";
+            this.richTextBox5.Text = "SDE:\n\ndXt = Xt*μ*dt  + Xt*σ*dWt + XtdJt";
             // 
             // label46
             // 
@@ -2121,7 +2120,7 @@ namespace _13_A
             // 
             // numericSigmaJumpMerton
             // 
-            this.numericSigmaJumpMerton.DecimalPlaces = 1;
+            this.numericSigmaJumpMerton.DecimalPlaces = 3;
             this.numericSigmaJumpMerton.Location = new System.Drawing.Point(393, 63);
             this.numericSigmaJumpMerton.Margin = new System.Windows.Forms.Padding(2);
             this.numericSigmaJumpMerton.Maximum = new decimal(new int[] {
@@ -2138,10 +2137,10 @@ namespace _13_A
             this.numericSigmaJumpMerton.Size = new System.Drawing.Size(61, 20);
             this.numericSigmaJumpMerton.TabIndex = 106;
             this.numericSigmaJumpMerton.Value = new decimal(new int[] {
-            2,
+            5,
             0,
             0,
-            0});
+            131072});
             // 
             // label47
             // 
@@ -2155,7 +2154,7 @@ namespace _13_A
             // 
             // numericMuJumpMerton
             // 
-            this.numericMuJumpMerton.DecimalPlaces = 1;
+            this.numericMuJumpMerton.DecimalPlaces = 3;
             this.numericMuJumpMerton.Location = new System.Drawing.Point(393, 33);
             this.numericMuJumpMerton.Margin = new System.Windows.Forms.Padding(2);
             this.numericMuJumpMerton.Maximum = new decimal(new int[] {
@@ -2172,10 +2171,10 @@ namespace _13_A
             this.numericMuJumpMerton.Size = new System.Drawing.Size(61, 20);
             this.numericMuJumpMerton.TabIndex = 104;
             this.numericMuJumpMerton.Value = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
-            65536});
+            196608});
             // 
             // label48
             // 
@@ -2189,7 +2188,7 @@ namespace _13_A
             // 
             // numericMuMerton
             // 
-            this.numericMuMerton.DecimalPlaces = 2;
+            this.numericMuMerton.DecimalPlaces = 3;
             this.numericMuMerton.Increment = new decimal(new int[] {
             1,
             0,
@@ -2211,10 +2210,10 @@ namespace _13_A
             this.numericMuMerton.Size = new System.Drawing.Size(61, 20);
             this.numericMuMerton.TabIndex = 102;
             this.numericMuMerton.Value = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
-            65536});
+            131072});
             // 
             // label49
             // 
@@ -2258,7 +2257,7 @@ namespace _13_A
             this.MertonPictureBox.Location = new System.Drawing.Point(23, 107);
             this.MertonPictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.MertonPictureBox.Name = "MertonPictureBox";
-            this.MertonPictureBox.Size = new System.Drawing.Size(982, 519);
+            this.MertonPictureBox.Size = new System.Drawing.Size(1132, 519);
             this.MertonPictureBox.TabIndex = 99;
             this.MertonPictureBox.TabStop = false;
             // 
@@ -2311,7 +2310,7 @@ namespace _13_A
             this.numericNMerton.Size = new System.Drawing.Size(61, 20);
             this.numericNMerton.TabIndex = 95;
             this.numericNMerton.Value = new decimal(new int[] {
-            300,
+            500,
             0,
             0,
             0});
@@ -2347,7 +2346,7 @@ namespace _13_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1202, 774);
+            this.ClientSize = new System.Drawing.Size(1241, 774);
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";

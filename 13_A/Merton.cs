@@ -69,8 +69,6 @@ namespace _13_A
             for (int i = 0; i < n; i++)
             {
                 J = 0;
-                // Y(t+1) = Y(t)*exp((μ - 1/2*σ²)*(1/n)  +  σ * sqrt(1/n) * Z(t) + J)
-                // Console.WriteLine(Math.Pow(Std_dev, 2) * ((double)1 / (2 * n)));
 
                 Nt = GetPoisson(lambdaJ);
                 for (int j = 0; j < Nt; j++)
@@ -80,16 +78,10 @@ namespace _13_A
 
                 }
 
-                //if (Nt > 0)
-                //{
-                //    J = sampleNormal(0, 1);
-                //}
-
+                
                 //Y *= Math.Exp((double)1 / n * (mu - 0.5 * Math.Pow(stddev, 2)) + stddev * Math.Sqrt((double)1 / n) * sampleNormal(0, 1));
-                Y += sampleGaussian(Y*dt*mu, Y*Math.Sqrt(dt)*stddev*stddev) + J;
-                //Y += J; // aggiunta del salto
+                Y += sampleGaussian(Y*dt*mu, Y*Math.Sqrt(dt)*stddev*stddev) + Y*J;
                 Console.WriteLine(J);
-                //Y = Y * mu * (double)(1 / n) + Y * Std_dev * Math.Sqrt((double)1 / n) * sampleNormal(0, 1);
                 DataPoint bivDP = new DataPoint(i, Y);
                 L.Add(bivDP);
             }
